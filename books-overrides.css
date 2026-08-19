@@ -1,0 +1,160 @@
+.book-cover-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  box-shadow: 11px 14px 18px rgba(0, 0, 0, .16);
+}
+
+.books-page .book-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: start;
+}
+
+.books-page .book-item,
+.books-page .book-item > a {
+  align-self: start;
+}
+
+.books-page .book-item {
+  position: relative;
+}
+
+.books-page .published-book .meta { color: #397d62; }
+.books-page .upcoming-book .meta { color: #956447; }
+
+.books-page .book-item:not(:nth-child(5n)):not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -15px;
+  bottom: 0;
+  width: 1px;
+  background: var(--line);
+}
+
+.books-page .book-item > a {
+  display: block;
+  margin-top: 0;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+@media (max-width: 920px) and (min-width: 761px) {
+  .books-page .book-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .books-page .book-item::after { display: none; }
+  .books-page .book-item:nth-child(odd):not(:last-child)::after { display: block; }
+}
+
+.books-page .books-hero > div {
+  position: relative;
+  display: grid;
+  place-content: center;
+  overflow: hidden;
+  padding: 0 clamp(30px, 4vw, 62px);
+}
+
+.books-page .books-hero > div::before {
+  content: "";
+  position: absolute;
+  left: -510px;
+  top: 50%;
+  width: 810px;
+  height: 810px;
+  border-radius: 50%;
+  background: #b8bb71;
+  transform: translateY(-50%);
+}
+
+.books-page .books-hero .service-kicker,
+.books-page .books-hero p:last-child {
+  display: none;
+}
+
+.books-page .books-hero h1 {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0;
+  padding: 5px 0;
+  border-top: 1px solid #171714;
+  border-bottom: 1px solid #171714;
+  font: 400 clamp(37px, 5.4vw, 85px)/.9 var(--sans);
+  letter-spacing: -.07em;
+  white-space: nowrap;
+}
+
+.books-page .books-hero h1 span {
+  display: block;
+  transform: translateY(-3px);
+}
+
+.books-page .publishing-link {
+  display: inline-block;
+  margin-top: 30px;
+  padding-bottom: 0;
+  border-bottom: 0;
+  color: #17221d;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.books-page .publishing-link span { margin-left: 14px; }
+
+.books-page .publishing-cta {
+  width:min(1210px,calc(100% - 44px));
+  margin:60px auto 0;
+}
+
+.books-page .publishing-cta > a {
+  display:block;
+  border:0;
+  padding:clamp(38px,4.5vw,58px) clamp(26px,6vw,72px);
+  background:#68764d;
+  color:#fff;
+  text-align:center;
+  text-decoration:none !important;
+  transition:background .25s ease;
+}
+
+.books-page .publishing-cta > a:hover,
+.books-page .publishing-cta > a:focus-visible { background:#758458; outline:none; }
+.books-page .publishing-cta p { margin:0; border:0; color:rgba(255,255,255,.76); font:10px/1.5 var(--mono); letter-spacing:.14em; text-decoration:none !important; }
+.books-page .publishing-cta h2 { margin:18px 0 0; border:0; color:#fff; font:400 clamp(25px,3.2vw,44px)/1.36 var(--serif); letter-spacing:-.08em; text-decoration:none !important; }
+.books-page .publishing-cta h2 span { display:inline-block; margin:0 .28em; }
+
+.books-philosophy { width: min(1120px, calc(100% - 44px)); margin: 0 auto; padding: 100px 0 85px; }
+.books-philosophy > h2 { margin: 0 0 48px; font: 400 clamp(35px, 4.8vw, 68px)/1.35 var(--serif); letter-spacing: -.1em; }
+.philosophy-list { border-top: 1px solid #cfcfc5; }
+.philosophy-list article { display: grid; grid-template-columns: minmax(170px, .7fr) minmax(280px, 1.3fr); gap: 30px; padding: 31px 0; border-bottom: 1px solid #cfcfc5; }
+.philosophy-list h3 { margin: 0; font: 700 16px/1.55 var(--serif); letter-spacing: -.06em; }
+.philosophy-list p { margin: 0 0 10px; color: #5c665f; font-size: 13px; line-height: 1.9; word-break: keep-all; }
+.philosophy-list strong { display: block; font: 400 14px/1.8 var(--serif); letter-spacing: -.04em; word-break: keep-all; }
+
+@media (max-width: 760px) {
+  .books-page .book-grid { grid-template-columns: 1fr; }
+  .books-page .book-item::after { display: none; }
+  .books-philosophy { padding: 70px 0 55px; }
+  .books-philosophy > h2 { margin-bottom: 32px; font-size: 37px; }
+  .philosophy-list article { grid-template-columns: 1fr; gap: 13px; padding: 26px 0; }
+}
+
+@media (max-width: 760px) {
+  .books-page .books-hero > div {
+    min-height: 290px;
+  }
+
+  .books-page .books-hero > div::before {
+    left: -58vw;
+    width: 115vw;
+    height: 115vw;
+  }
+
+  .books-page .books-hero h1 {
+    font-size: 39px;
+  }
+
+  .books-page .publishing-cta { margin-top:42px; }
+  .books-page .publishing-cta > a { padding:34px 20px 38px; }
+  .books-page .publishing-cta h2 { margin-top:15px; font-size:26px; }
+}

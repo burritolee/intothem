@@ -1,0 +1,132 @@
+.book-detail-hero { display: grid; grid-template-columns: minmax(240px, .8fr) minmax(320px, 1.2fr); gap: clamp(42px, 8vw, 130px); align-items: center; width: min(980px, calc(100% - 44px)); margin: 0 auto; padding: 105px 0 120px; }
+.book-detail-hero img { width: min(100%, 330px); justify-self: center; box-shadow: 15px 19px 30px rgba(0, 0, 0, .18); }
+.book-detail-hero h1 { margin: 20px 0 25px; font: 400 clamp(48px, 6vw, 86px)/1.06 var(--serif); letter-spacing: -.11em; }
+.book-detail-hero h1 em { color: #b8bb71; font-style: normal; }
+.book-detail-hero div > p:last-of-type { margin: 0; color: #59635c; font: 400 16px/1.8 var(--serif); }
+.book-detail-hero a { display: inline-block; margin-top: 32px; color: inherit; font-size: 12px; text-decoration: none; }
+.book-detail-hero a span { margin-left: 12px; }
+.book-detail-content { width: min(830px, calc(100% - 44px)); margin: 0 auto; padding: 0 0 130px; }
+.book-detail-content article { padding: 50px 0; border-top: 1px solid var(--line); }
+.book-detail-content article:last-child { border-bottom: 1px solid var(--line); }
+.book-detail-content h2 { margin: 0 0 25px; font: 400 clamp(28px, 3.5vw, 45px)/1.35 var(--serif); letter-spacing: -.08em; word-break: keep-all; }
+.book-detail-content p { max-width: 690px; margin: 0 0 17px; color: #4f5a52; font-size: 15px; line-height: 2; word-break: keep-all; }
+.book-detail-content p:last-child { margin-bottom: 0; }
+.book-detail-content blockquote { max-width: 650px; margin: 29px 0; padding: 20px 0 20px 24px; border-left: 3px solid #b8bb71; font: 400 18px/1.8 var(--serif); letter-spacing: -.04em; word-break: keep-all; }
+.book-spread { margin: 36px 0 42px; }
+.book-spread img { display: block; width: 100%; border: 1px solid #e6e5df; box-shadow: 0 12px 26px rgba(34, 37, 29, .09); }
+.book-spread figcaption { margin-top: 11px; color: #788078; font-size: 11px; letter-spacing: .02em; }
+.map-spread { max-width: 600px; margin-left: auto; margin-right: auto; }
+@media (max-width: 700px) { .book-detail-hero { grid-template-columns: 1fr; gap: 45px; padding: 65px 0 75px; } .book-detail-hero img { width: min(68%, 280px); } .book-detail-content { padding-bottom: 75px; } .book-detail-content article { padding: 36px 0; } .book-detail-content p { font-size: 14px; } }
+
+/* 오선지에 쓰는 시 */
+.poem-detail-page { background: #faf8ef; }
+.poem-hero { padding-top: 90px; }
+.poem-hero img { width: min(100%, 345px); }
+.poem-hero h1 { margin-bottom: 14px; }
+.poem-hero .poem-subtitle { margin: 0 0 9px; color: #778345; font: 400 14px/1.6 Georgia, serif; letter-spacing: .015em; }
+.poem-opening { padding: clamp(70px, 9vw, 125px) 22px; background: linear-gradient(135deg, #d9e56d, #8ea557 56%, #486b38); color: #fff; text-align: center; }
+.poem-opening p { margin: 0; font: 400 clamp(25px, 3.5vw, 48px)/1.65 var(--serif); letter-spacing: -.07em; word-break: keep-all; }
+.detail-number { margin-bottom: 12px !important; color: #8a9166 !important; font: 10px/1.5 var(--mono) !important; letter-spacing: .13em; }
+.season-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin-top: 35px; background: var(--line); border: 1px solid var(--line); }
+.season-grid section { padding: 30px; background: #faf8ef; }
+.season-grid span { color: #8a9166; font: italic 12px/1.5 Georgia, serif; }
+.season-grid h3 { margin: 10px 0 13px; font: 700 18px/1.5 var(--serif); letter-spacing: -.05em; }
+.season-grid p { margin: 0; font-size: 13px; line-height: 1.85; }
+.poem-excerpt blockquote { max-width: none; margin: 25px 0 0; padding: 35px clamp(25px, 5vw, 55px); border: 0; background: #eef0cf; color: #3c4935; font-size: clamp(17px, 2.2vw, 22px); line-height: 2; }
+.book-toc { margin-top: 25px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.book-toc summary { display: flex; justify-content: space-between; align-items: center; padding: 20px 3px; cursor: pointer; list-style: none; font: 700 14px/1.5 var(--serif); }
+.book-toc summary::-webkit-details-marker { display: none; }
+.book-toc summary span { font: 300 22px/1 var(--sans); transition: transform .2s ease; }
+.book-toc[open] summary span { transform: rotate(45deg); }
+.toc-columns { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 40px; padding: 12px 3px 32px; border-top: 1px solid var(--line); }
+.toc-columns section { padding: 24px 0; border-bottom: 1px solid var(--line); }
+.toc-columns h3 { margin: 0 0 11px; color: #78834e; font: italic 16px/1.5 Georgia, serif; }
+.toc-columns p { margin: 0; font-size: 12px; line-height: 1.9; }
+.toc-columns strong { color: var(--ink); font: 700 13px/1.8 var(--serif); }
+.book-info { margin: 28px 0 0; border-top: 1px solid var(--line); }
+.book-info div { display: grid; grid-template-columns: 120px 1fr; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+.book-info dt { color: #7a8279; }
+.book-info dd { margin: 0; }
+.isbn-number { margin-right: 16px; font-family: var(--mono); letter-spacing: .03em; }
+.isbn-check { color: #68764d; font-weight: 700; text-underline-offset: 4px; }
+.isbn-check span { margin-left: 6px; font-weight: 400; }
+.book-contact { display: inline-block; margin-top: 32px; padding: 15px 24px; background: #68764d; color: #fff; font-size: 12px; text-decoration: none; }
+.book-contact span { margin-left: 20px; }
+@media (max-width: 700px) {
+  .poem-hero { padding-top: 60px; }
+  .season-grid, .toc-columns { grid-template-columns: 1fr; }
+  .season-grid section { padding: 24px 22px; }
+  .book-info div { grid-template-columns: 90px 1fr; }
+}
+
+/* 당신의 찐막 들려주세요 */
+.jjinmak-detail-page { background: #faf7f1; }
+.jjinmak-hero img { width: min(100%, 345px); }
+.jjinmak-hero h1 { font-size: clamp(45px, 5.6vw, 78px); }
+.jjinmak-opening { padding: clamp(75px, 10vw, 135px) 22px; background: #26342d; color: #fff; text-align: center; }
+.jjinmak-opening .detail-number { color: #d1aa68 !important; }
+.jjinmak-opening h2 { margin: 18px auto 0; font: 400 clamp(26px, 3.8vw, 50px)/1.65 var(--serif); letter-spacing: -.08em; word-break: keep-all; }
+.jjinmak-detail-page .detail-number { color: #9a6a49 !important; }
+.qa-list { margin-top: 38px; border-top: 1px solid var(--ink); }
+.qa-list section { display: grid; grid-template-columns: 55px 1fr; gap: 22px; padding: 27px 0; border-bottom: 1px solid var(--line); }
+.interview-flow + .river-story { border-top: 0; }
+.book-detail-content .interview-flow { padding-bottom: 0; }
+.qa-list > section > span { color: #a56743; font: 400 28px/1 var(--serif); }
+.qa-list h3 { margin: 0 0 10px; font: 700 17px/1.55 var(--serif); letter-spacing: -.05em; word-break: keep-all; }
+.qa-list p { margin: 0; font-size: 13px; line-height: 1.9; }
+.qa-list .interview-answer { position: relative; padding-left: 31px; }
+.qa-list .interview-answer b { position: absolute; left: 0; top: 1px; color: #a56743; font: 400 19px/1.35 var(--serif); }
+.river-story blockquote, .jjinmak-message blockquote { max-width: none; margin: 28px 0; padding: 32px clamp(24px, 5vw, 52px); border: 0; background: #e8ddcd; color: #493d34; font-size: clamp(17px, 2.2vw, 22px); line-height: 1.95; }
+.jjinmak-message blockquote { background: #dfe5d9; color: #304236; }
+@media (max-width: 700px) {
+  .jjinmak-hero { padding-top: 60px; }
+  .jjinmak-hero h1 { font-size: 43px; }
+  .qa-list section { grid-template-columns: 38px 1fr; gap: 13px; }
+}
+
+/* 전구사람 */
+.lamp-detail-page { background: #fffdfa; }
+.lamp-hero img { width: min(100%, 345px); }
+.lamp-hero h1 { color: #22242a; }
+.lamp-opening { padding: clamp(75px, 10vw, 135px) 22px; background: #242b35; color: #fff; text-align: center; }
+.lamp-opening p { margin: 0; font: 400 clamp(26px, 3.7vw, 49px)/1.7 var(--serif); letter-spacing: -.08em; word-break: keep-all; }
+.lamp-detail-page .detail-number { color: #5f71aa !important; }
+.lamp-detail-page .book-detail-content blockquote { border-left-color: #f3d741; }
+.lamp-spread { width: min(100%, 760px); }
+.lamp-spread img { background: #fff; }
+.lamp-dialogue .lamp-lines { margin: 30px 0 42px; padding: 30px clamp(24px, 5vw, 52px); background: #f4f3ee; }
+.lamp-lines p { margin: 0 0 7px; color: #3f4754; font: 400 17px/1.75 var(--serif); }
+.lamp-lines strong { display: block; margin: 0 0 27px; color: #547744; font: 700 14px/1.6 var(--serif); }
+.lamp-lines strong:last-child { margin-bottom: 0; }
+.lamp-message blockquote { max-width: none; margin: 30px 0 0; padding: 34px clamp(24px, 5vw, 52px); border: 0; background: #fff4a8; color: #37372c; font-size: clamp(20px, 2.6vw, 28px); text-align: center; }
+.reader-list { margin: 28px 0 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
+.reader-list li { padding: 16px 4px; border-bottom: 1px solid var(--line); color: #4f5a52; font-size: 14px; line-height: 1.7; }
+.reader-list li::before { content: "●"; margin-right: 13px; color: #f0cf35; font-size: 8px; vertical-align: 2px; }
+@media (max-width: 700px) {
+  .lamp-hero { padding-top: 60px; }
+  .lamp-dialogue .lamp-lines { padding: 25px 20px; }
+}
+
+/* 나는 다시 살아야 한다 */
+.nadasal-detail-page { background: #fbfaf6; }
+.nadasal-hero { grid-template-columns: minmax(260px, .9fr) minmax(330px, 1.1fr); }
+.nadasal-hero img { width: min(100%, 390px); box-shadow: 15px 19px 30px rgba(0,0,0,.12); }
+.nadasal-hero h1 { font-size: clamp(46px, 5.8vw, 82px); }
+.nadasal-opening { padding: clamp(80px, 10vw, 140px) 22px; background: #507d7b; color: #fff; text-align: center; }
+.nadasal-opening p { margin: 0; font: 400 clamp(25px, 3.6vw, 48px)/1.7 var(--serif); letter-spacing: -.08em; word-break: keep-all; }
+.nadasal-detail-page .detail-number { color: #4e7c7b !important; }
+.nadasal-spread { width: min(100%, 760px); }
+.nadasal-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin: 38px 0 0; }
+.nadasal-gallery figure { margin: 0; }
+.nadasal-gallery img { display: block; width: 100%; border: 1px solid #e4e2dc; box-shadow: 0 12px 26px rgba(34,37,29,.08); }
+.nadasal-gallery figcaption { margin-top: 10px; color: #788078; font-size: 11px; }
+.nadasal-questions > div { margin: 30px 0; padding: 32px clamp(24px, 5vw, 50px); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.nadasal-questions > div p { margin: 0 0 10px; color: #334c4b; font: 400 clamp(17px, 2.2vw, 22px)/1.8 var(--serif); }
+.nadasal-questions > div p:last-child { margin-bottom: 0; }
+.nadasal-last blockquote { max-width: none; margin: 30px 0; padding: 38px clamp(24px, 5vw, 55px); border: 0; background: #dce8e5; color: #294543; font-size: clamp(22px, 3vw, 34px); text-align: center; }
+@media (max-width: 700px) {
+  .nadasal-hero { grid-template-columns: 1fr; padding-top: 60px; }
+  .nadasal-hero img { width: min(82%, 330px); }
+  .nadasal-hero h1 { font-size: 44px; }
+  .nadasal-gallery { grid-template-columns: 1fr; gap: 32px; }
+}

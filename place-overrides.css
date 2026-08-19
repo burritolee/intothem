@@ -1,0 +1,66 @@
+.place-page .place-hero > div {
+  position: relative;
+  display: grid;
+  place-content: center;
+  overflow: hidden;
+  padding: 0 clamp(30px, 4vw, 62px);
+}
+
+.place-page .place-hero > div::before {
+  content: "";
+  position: absolute;
+  left: -510px;
+  top: 50%;
+  width: 810px;
+  height: 810px;
+  border-radius: 50%;
+  background: #e6803d;
+  transform: translateY(-50%);
+}
+
+.place-page .place-hero .service-kicker,
+.place-page .place-hero p:last-child { display: none; }
+
+.place-page .place-hero h1 {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0;
+  padding: 5px 0;
+  border-top: 1px solid #171714;
+  border-bottom: 1px solid #171714;
+  font: 400 clamp(37px, 5.4vw, 85px)/.9 var(--sans);
+  letter-spacing: -.07em;
+  white-space: nowrap;
+}
+
+.place-page .place-hero h1 span { display: block; transform: translateY(-4px); }
+
+@media (max-width: 760px) {
+  .place-page .place-hero > div { min-height: 290px; }
+  .place-page .place-hero > div::before { left: -58vw; width: 115vw; height: 115vw; }
+  .place-page .place-hero h1 { font-size: 39px; }
+}
+.school-project h3 a {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+}
+
+.school-project h3 a:hover,
+.school-project h3 a:focus-visible { color: var(--green); outline: none; }
+
+.school-project .project-story-link {
+  border: 1px solid var(--ink);
+  padding: 11px 14px;
+  transition: background .2s, color .2s;
+}
+
+.school-project .project-story-link:hover,
+.school-project .project-story-link:focus-visible {
+  background: var(--ink);
+  color: #fff;
+  outline: none;
+}

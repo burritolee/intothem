@@ -1,0 +1,22 @@
+# Local source and extraction files
+homepage-design.indd
+extracted/
+tmp/
+output/
+export-indd.jsx
+
+# Source images retained locally but not used by the website
+assets/home-main.jpg
+assets/homepage.jpg
+assets/intothem-home.jpg
+assets/our-space-source.png
+assets/our-space.jpg
+assets/place-hero.jpg
+assets/place-user.jpg
+assets/books-hero.jpg
+assets/our-space-watercolor.png
+assets/turkiye-yeah.png
+assets/turkiye-before-departure.png
+assets/turkiye-contents.png
+assets/turkiye-hierapolis.png
+assets/turkiye-restaurants.png

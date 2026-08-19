@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="인투뎀 북스의 출판 제작 과정과 예상 비용을 확인하고 직접 견적을 계산해보세요.">
+<title>Intothem Books — 출판 제작·가격 안내</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1a18;--ink-l:#5a5a54;--ink-f:#9a9a90;
+  --paper:#faf9f6;--paper2:#f2f0eb;
+  --green:#2d5a3d;--green-m:#4a8a60;--green-l:#e8f0eb;
+  --blue:#1a3a5c;--blue-l:#e6eef5;
+  --purple:#3c2d6e;--purple-l:#edeaf6;
+  --amber:#7a4a10;--amber-l:#fdf0e0;
+  --bd:rgba(26,26,24,.12);--bd-f:rgba(26,26,24,.07);
+  --r:4px;--rl:8px;
+}
+body{background:var(--paper);color:var(--ink);font-family:'Noto Sans KR',sans-serif;font-weight:300;line-height:1.7}
+.pg{max-width:860px;margin:0 auto;padding:70px 72px 90px}
+.sep-wrap{max-width:860px;margin:0 auto;padding:0 72px}.sep-line{border:none;border-top:1px solid var(--bd)}
+
+/* COVER */
+.c-header-row{display:flex;align-items:center;gap:10px;margin-bottom:52px;}
+.c-logo{width:52px;height:52px;object-fit:cover;border-radius:50%;flex-shrink:0;}
+.c-title-wrap{display:inline-flex;flex-direction:column;gap:0;line-height:1;}
+.c-headline{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:400;color:var(--ink-f);letter-spacing:.05em;line-height:1;margin-bottom:0;}
+.c-brand{font-family:'Helvetica Neue',Arial,sans-serif;font-size:28px;font-weight:700;color:var(--ink);letter-spacing:-.01em;text-transform:uppercase;margin-top:0;}
+
+/* PHILOSOPHY */
+.philosophy-sections{margin-top:52px;display:flex;flex-direction:column;gap:0;}
+.phil-block{display:grid;grid-template-columns:200px 1fr;gap:24px 48px;padding:36px 0;border-top:1px solid var(--bd);}
+.phil-block:last-child{border-bottom:1px solid var(--bd);}
+.phil-title{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:600;color:var(--ink);line-height:1.5;padding-top:2px;word-break:keep-all;}
+.phil-body{display:flex;flex-direction:column;gap:10px;}
+.phil-body p{font-size:13px;color:var(--ink-l);line-height:1.95;word-break:keep-all;}
+.phil-em{font-family:'Noto Serif KR',serif;font-size:13px;color:var(--ink)!important;font-weight:400;}
+.phil-em-en{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:500;letter-spacing:.04em;}
+
+/* PRICING */
+.pr-header{border-bottom:1.5px solid var(--ink);padding-bottom:20px;margin-bottom:32px}
+.pr-brand{font-family:'Helvetica Neue',Arial,sans-serif;font-size:22px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px}
+.pr-sub{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-f)}
+
+/* ADVANTAGE */
+.advantage-box{margin-bottom:40px;}
+.advantage-title{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-f);margin-bottom:16px;}
+.advantage-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.adv-item{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--bd-f);align-items:flex-start;}
+.adv-item:nth-child(odd){padding-right:24px;border-right:1px solid var(--bd-f);}
+.adv-item:nth-child(even){padding-left:24px;}
+.adv-item:nth-last-child(-n+2){border-bottom:none;}
+.adv-num{font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;font-weight:500;color:var(--ink-f);flex-shrink:0;padding-top:1px;letter-spacing:.05em;}
+.adv-label{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px;line-height:1.4;}
+.adv-desc{font-size:12px;color:var(--ink-l);line-height:1.75;word-break:keep-all;}
+
+/* EBOOK TABLE */
+.ebook-section{margin-bottom:0;}
+.ebook-title{font-family:'Noto Serif KR',serif;font-size:16px;font-weight:600;color:var(--ink);letter-spacing:-.3px;margin-bottom:6px;}
+.ebook-table{width:100%;border-collapse:collapse;font-size:12px;}
+.ebook-table th{padding:10px 14px;text-align:left;font-weight:500;font-size:10px;letter-spacing:.1em;text-transform:uppercase;border-bottom:1.5px solid var(--ink);}
+.ebook-table th.col-g{color:var(--ink-f);}
+.ebook-table th.col-i{color:var(--green);font-family:'Helvetica Neue',Arial,sans-serif;}
+.ebook-table td{padding:9px 14px;border-bottom:1px solid var(--bd-f);color:var(--ink-l);vertical-align:top;}
+.ebook-table td.item{color:var(--ink);font-weight:400;}
+.ebook-table td.col-g{color:var(--ink-l);}
+.ebook-table td.col-i{color:var(--green);}
+.ebook-table tr.total td{border-top:1.5px solid var(--ink);border-bottom:none;font-weight:500;padding-top:12px;}
+.ebook-table tr.total td.item{color:var(--ink);}
+.ebook-table tr.total td.col-g{color:var(--ink);}
+.ebook-table tr.total td.col-i{color:var(--green);}
+.ebook-table tr.zero td.col-i{text-decoration:line-through;opacity:.4;}
+.ebook-saving{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;background:var(--green);color:#fff;font-weight:500;margin-left:6px;}
+.ebook-note{font-size:11px;color:var(--ink-f);margin-top:10px;line-height:1.8;}
+
+.adv-tip{background:var(--green-l);border-radius:var(--r);padding:14px 16px!important;margin-top:12px;grid-column:1/-1;border:none!important;}
+.adv-tip .adv-label{color:var(--green);}
+.adv-tip .adv-desc{color:var(--green);}
+.adv-tip strong{font-weight:500;}
+
+/* COMPARE TITLE */
+.compare-title{font-family:'Noto Serif KR',serif;font-size:17px;font-weight:600;color:var(--ink);margin-bottom:16px;line-height:1.3;}
+.compare-vs{font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;font-weight:400;color:var(--ink-f);margin:0 6px;}
+.compare-en{font-family:'Helvetica Neue',Arial,sans-serif;font-size:17px;font-weight:700;color:var(--green);letter-spacing:-.01em;}
+
+/* TABS */
+.cat-row{display:flex;gap:0;margin-bottom:18px;border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;width:fit-content}
+.cat-tab{padding:8px 26px;font-size:13px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;background:transparent;border:none;color:var(--ink-l);transition:all .15s}
+.cat-tab:not(:last-child){border-right:1px solid var(--bd)}
+.cat-tab.active{background:var(--ink);color:var(--paper);font-weight:500}
+.sub-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.sub-tab{padding:5px 13px;font-size:12px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;background:transparent;border:1px solid var(--bd);border-radius:20px;color:var(--ink-l);transition:all .15s}
+.sub-tab.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.spec-tag{display:inline-block;font-size:11px;padding:3px 11px;border-radius:20px;border:1px solid var(--bd);color:var(--ink-f);margin-bottom:11px}
+.notice{border-radius:var(--r);padding:11px 15px;font-size:12px;line-height:1.7;margin-bottom:20px;border-left:3px solid transparent}
+.notice.warn{background:var(--amber-l);border-left-color:#c87820;color:var(--amber)}
+.notice.info{background:var(--green-l);border-left-color:var(--green-m);color:var(--green)}
+.sec-t{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-f);margin-bottom:12px;margin-top:26px}
+
+/* SUMMARY CARDS */
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin-bottom:26px}
+.sc{background:#fff;border:1px solid var(--bd);border-radius:var(--rl);padding:15px 17px}
+.sc-lbl{font-size:11px;color:var(--ink-f);margin-bottom:3px}
+.sc-val{font-family:'Noto Serif KR',serif;font-size:21px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.sc-sub{font-size:11px;color:var(--ink-f)}
+.sc.hl{background:var(--green-l);border-color:var(--green-m);}
+.sc.hl .sc-val{color:var(--green)}
+.sc.hl .sc-lbl{color:var(--green-m)}
+.sc.hl .sc-sub{color:var(--green)}
+
+/* CHART */
+.legend{display:flex;gap:15px;flex-wrap:wrap;font-size:12px;color:var(--ink-l);margin-bottom:9px}
+.legend span{display:flex;align-items:center;gap:5px}
+.ldot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.chart-wrap{position:relative;width:100%;height:250px;margin-bottom:26px}
+
+/* BREAKDOWN */
+.bd-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:18px}
+.bx{background:var(--paper2);border-radius:var(--rl);padding:17px 19px}
+.bx-t{font-size:11px;font-weight:500;letter-spacing:.08em;margin-bottom:11px;text-transform:uppercase;}
+.bx-t.g{color:var(--ink-f)}.bx-t.i{color:var(--green);font-family:'Helvetica Neue',Arial,sans-serif;}
+.brow{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:5px 0;border-bottom:1px solid var(--bd-f);color:var(--ink-l);gap:8px}
+.brow:last-child{border-bottom:none;font-weight:500;color:var(--ink);padding-top:9px}
+.br-r{display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.badge{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500;white-space:nowrap}
+.b-half{background:var(--blue-l);color:var(--blue)}
+.b-ops{background:var(--blue-l);color:var(--blue)}
+.b-acc{background:var(--purple-l);color:var(--purple)}
+.b-real{background:#eaf3de;color:#27500a}
+.ops-note{font-size:12px;color:var(--ink-l);line-height:1.9;margin-top:16px;padding:14px 18px;background:var(--paper2);border-radius:var(--rl);border-left:2.5px solid var(--blue-l)}
+
+/* ESTIMATOR */
+.est-wrap{background:var(--paper2);border-radius:var(--rl);padding:28px 32px;margin-bottom:36px;}
+.est-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;}
+.est-group{display:flex;flex-direction:column;gap:8px;}
+.est-label{font-size:11px;font-weight:500;color:var(--ink-l);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px;}
+.est-select,.est-input{width:100%;padding:9px 12px;border:1px solid var(--bd);border-radius:var(--r);font-size:13px;font-family:'Noto Sans KR',sans-serif;background:#fff;color:var(--ink);-webkit-appearance:none;outline:none;}
+.est-select:focus,.est-input:focus{border-color:var(--green-m);}
+.est-toggle{display:flex;border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;}
+.est-toggle button{flex:1;padding:9px 6px;font-size:12px;font-family:'Noto Sans KR',sans-serif;border:none;background:transparent;color:var(--ink-l);cursor:pointer;transition:all .15s;border-right:1px solid var(--bd);}
+.est-toggle button:last-child{border-right:none;}
+.est-toggle button.on{background:var(--ink);color:#fff;font-weight:500;}
+.est-result-wrap{display:flex;gap:0;margin-bottom:0;}
+.est-result-general{background:#f5f4f1;border:1px solid var(--bd);border-radius:var(--rl) 0 0 var(--rl);padding:18px 20px;flex:1;}
+.est-result-intothem{background:var(--green-l);border:1.5px solid var(--green-m);border-radius:0 var(--rl) var(--rl) 0;padding:18px 20px;flex:1;}
+.est-result-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;margin-bottom:12px;}
+.est-result-general .est-result-label{color:var(--ink-f);}
+.est-result-intothem .est-result-label{font-family:'Helvetica Neue',Arial,sans-serif;color:var(--green);}
+.est-row-g{display:flex;justify-content:space-between;font-size:12px;padding:6px 0;border-bottom:1px solid rgba(26,26,24,.07);color:var(--ink-l);}
+.est-row-g:last-child{border-bottom:none;font-weight:500;color:var(--ink);padding-top:10px;}
+.est-row-i{display:flex;justify-content:space-between;font-size:12px;padding:6px 0;border-bottom:1px solid rgba(45,90,61,.12);color:var(--green);}
+.est-row-i:last-child{border-bottom:none;font-weight:500;color:var(--green);padding-top:10px;}
+.est-row-i.zero{color:rgba(45,90,61,.4);text-decoration:line-through;}
+.est-saving{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;background:var(--green);color:#fff;font-weight:500;margin-left:6px;}
+.est-note{font-size:11px;color:var(--ink-f);line-height:1.8;margin-top:14px;padding:12px 16px;background:rgba(26,26,24,.04);border-radius:var(--r);}
+.est-cond{margin-top:10px;background:#fdf0e0;border:1px solid #e8c070;border-left:3px solid #c87820;border-radius:var(--r);padding:12px 14px;}
+.est-cond-title{font-size:11px;font-weight:500;color:#7a4a10;margin-bottom:8px;letter-spacing:.03em;}
+.est-cond-list{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.est-cond-list li{font-size:11px;color:#7a4a10;line-height:1.6;padding-left:12px;position:relative;}
+.est-cond-list li::before{content:'·';position:absolute;left:0;}
+.est-cond-list strong{font-weight:500;color:#5a3008;}
+
+/* PROCESS */
+.process-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:36px 0;margin-bottom:36px;}
+.step{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 6px;position:relative;z-index:1}
+.step::before{content:'';position:absolute;top:18px;left:0;right:0;height:1px;background:var(--bd);z-index:0}
+.step:first-child::before{left:50%}
+.step:last-child::before{right:50%}
+.step-num{width:36px;height:36px;border-radius:50%;background:var(--ink);color:var(--paper);font-family:'Noto Serif KR',serif;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-bottom:12px;flex-shrink:0;position:relative;z-index:2}
+.step-title{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:4px}
+.step-desc{font-size:11px;color:var(--ink-f);line-height:1.6;word-break:keep-all}
+.step-days{font-size:10px;color:var(--ink-f);margin-top:6px;padding:2px 8px;border:1px solid var(--bd);border-radius:20px;display:inline-block}
+
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;gap:0;margin-bottom:36px}
+.faq-item{border-bottom:1px solid var(--bd-f)}
+.faq-item:first-child{border-top:1px solid var(--bd-f)}
+.faq-q{font-size:13px;font-weight:500;color:var(--ink);padding:14px 0 6px;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;user-select:none}
+.faq-q::after{content:'＋';font-size:14px;color:var(--ink-f);flex-shrink:0;transition:transform .2s}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{font-size:12px;color:var(--ink-l);line-height:1.9;padding-bottom:14px;display:none;word-break:keep-all}
+.faq-item.open .faq-a{display:block}
+
+/* CONTACT */
+.contact-box{background:var(--ink);border-radius:var(--rl);padding:28px 32px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.contact-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:8px}
+.contact-brand{font-family:'Helvetica Neue',Arial,sans-serif;font-size:18px;font-weight:400;color:#fff;letter-spacing:.01em;margin-bottom:4px}
+.contact-tagline{font-size:12px;color:rgba(255,255,255,.55)}
+.contact-right{display:flex;flex-direction:column;gap:8px}
+.contact-item{display:flex;align-items:center;gap:10px;font-size:12px;color:rgba(255,255,255,.8)}
+.contact-item-lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);width:44px;flex-shrink:0}
+.footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--bd);font-size:11px;color:var(--ink-f);line-height:2}
+
+@media(max-width:620px){
+  .pg{padding:40px 32px 60px}
+  .phil-block,.advantage-grid,.bd-grid,.est-grid,.est-result-wrap{grid-template-columns:1fr}
+  .sc-grid{grid-template-columns:1fr 1fr}
+  .adv-item:nth-child(odd){padding-right:0;border-right:none;}
+  .adv-item:nth-child(even){padding-left:0;}
+  .adv-item:nth-last-child(-n+2){border-bottom:1px solid var(--bd-f);}
+  .adv-item:last-child{border-bottom:none;}
+  .est-result-general{border-radius:var(--rl) var(--rl) 0 0;}
+  .est-result-intothem{border-radius:0 0 var(--rl) var(--rl);border-top:none;}
+}
+</style>
+<style>.cover-page,.cover-separator{display:none}</style>
+</head>
+<body>
+<a href="books.html" style="position:fixed;top:20px;right:24px;z-index:10;padding:9px 13px;border:1px solid rgba(26,26,24,.16);border-radius:999px;background:rgba(250,249,246,.9);color:#1a1a18;font:11px 'Noto Sans KR',sans-serif;text-decoration:none;backdrop-filter:blur(6px);">← Intothem Books</a>
+
+<!-- COVER PAGE (moved to books.html) -->
+<div class="pg cover-page">
+  <div class="c-header-row">
+    <img src="data:image/jpeg;base64,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" alt="intothem books logo" class="c-logo">
+    <div class="c-title-wrap">
+      <div class="c-headline">진짜가 되려는 발버둥</div>
+      <div class="c-brand">INTOTHEM BOOKS</div>
+    </div>
+  </div>
+
+  <div class="philosophy-sections">
+    <div class="phil-block">
+      <div class="phil-title">우리는 진짜를 믿습니다</div>
+      <div class="phil-body">
+        <p>우리는 완벽함보다 진심을 믿습니다. 서툴고 투박해도 괜찮지만, 거짓으로 번쩍이는 것은 견디기 어렵습니다. 화려한 말과 포장보다 사람 안에서 흘러나오는 진짜 온도에 더 마음이 갑니다.</p>
+        <p class="phil-em"><span style="font-family:'Helvetica Neue',Arial,sans-serif;font-weight:500;letter-spacing:.04em;">INTOTHEM BOOKS</span>는 그런 진짜의 이야기를 담고 싶습니다.</p>
+      </div>
+    </div>
+    <div class="phil-block">
+      <div class="phil-title">사람에게로 향한 시선</div>
+      <div class="phil-body">
+        <p>거대한 이름이나 멋진 외형보다 우리를 움직이는 것은 결국 사람입니다. 자신의 연약함을 외면하지 않고, 미숙해도 진심으로 살아가려는 사람들.</p>
+        <p class="phil-em">우리는 그런 사람들의 목소리에 귀 기울이고 싶습니다.</p>
+      </div>
+    </div>
+    <div class="phil-block">
+      <div class="phil-title">사랑으로 분별하기</div>
+      <div class="phil-body">
+        <p>세상에는 수많은 말과 기준이 있지만, 우리가 붙드는 기준은 사랑입니다.</p>
+        <p class="phil-em">사랑이 있으면 진짜이고, 사랑이 없으면 가짜입니다.</p>
+        <p>그래서 우리는 먼저 우리 자신의 말과 행동 안에 사랑이 있는지를 묻습니다. 사랑이 없다면 멈추고, 부족하다면 다시 채우려 합니다.</p>
+      </div>
+    </div>
+    <div class="phil-block">
+      <div class="phil-title">세상을 향한 작은 장막</div>
+      <div class="phil-body">
+        <p><span style="font-family:'Helvetica Neue',Arial,sans-serif;font-weight:500;letter-spacing:.04em;">INTOTHEM</span>은 머무르기 위한 공간이 아니라 다시 세상으로 나아가기 위한 작은 장막이 되고자 합니다.</p>
+        <p>사람들의 아픔과 슬픔, 회복과 희망의 이야기를 책으로 엮어 누군가에게 조용한 위로와 숨이 되어주고 싶습니다.</p>
+      </div>
+    </div>
+    <div class="phil-block">
+      <div class="phil-title">증언의 자리</div>
+      <div class="phil-body">
+        <p>다른 눈으로 세상을 보고, 다른 말로 세상을 기록하는 곳이 되기 위해 노력합니다.</p>
+        <p>밖으로 나가기 위한 장막. 다양한 사람들의 아픔과 고통에 귀 기울이는 책을 통해, 오래도록 해온 치유의 사역을 더 넓은 세상으로 확장해 나갑니다.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sep-wrap cover-separator"><hr class="sep-line"></div>
+
+<!-- PRICING PAGE -->
+<div class="pg">
+  <header class="pr-header">
+    <div class="pr-brand">INTOTHEM BOOKS</div>
+    <div class="pr-sub">Publishing Price Guide · 제작 서비스 기준</div>
+  </header>
+
+  <!-- ADVANTAGE -->
+  <div class="advantage-box">
+    <p class="advantage-title">intothem books만의 장점</p>
+    <div class="advantage-grid">
+      <div class="adv-item">
+        <span class="adv-num">01</span>
+        <div><p class="adv-label">편집·디자인 40% 할인</p><p class="adv-desc">대표가 직접 편집디자이너로 작업해 외주 없이 시장가의 60%에 제공. 전체 비용 시장가의 절반 이하 수준.</p></div>
+      </div>
+      <div class="adv-item">
+        <span class="adv-num">02</span>
+        <div><p class="adv-label">교정교열 실비 투명 청구</p><p class="adv-desc">교정교열은 외주 실비만 청구. 마진 없이 실제 드는 비용만 받는 투명한 구조.</p></div>
+      </div>
+      <div class="adv-item">
+        <span class="adv-num">03</span>
+        <div><p class="adv-label">소량 출판 가능</p><p class="adv-desc">200부 기준 설계. 대형 출판사가 수익성을 이유로 거절하는 소량 출판도 진행 가능.</p></div>
+      </div>
+      <div class="adv-item">
+        <span class="adv-num">04</span>
+        <div><p class="adv-label">인쇄비 실비 청구</p><p class="adv-desc">컬러 등 원가 변동이 큰 항목은 인쇄소 확정 단가 그대로 청구. 불필요한 마진 없음.</p></div>
+      </div>
+      <div class="adv-item">
+        <span class="adv-num">05</span>
+        <div><p class="adv-label">사역자·소수 독자 출판 경험</p><p class="adv-desc">선교사·사역자 등 소수를 위한 출판 특화. 판매보다 의미를 우선하는 출판사.</p></div>
+      </div>
+      <div class="adv-item">
+        <span class="adv-num">06</span>
+        <div><p class="adv-label">투명한 가격 구조</p><p class="adv-desc">운영비가 무엇에 쓰이는지, 디자인 비용이 왜 절반인지 모두 공개. 저자가 납득하고 의뢰할 수 있는 구조.</p></div>
+      </div>
+    </div>
+
+  <div class="ebook-section">
+  <div style="background:var(--paper2);border-radius:var(--rl);padding:24px 28px;margin-bottom:32px;">
+    <p class="ebook-title">전자책(E-Book) 제작 비용 비교</p>
+    <p style="font-size:12px;color:var(--ink-f);margin-bottom:14px;">신국판 200p 흑백 기준</p>
+    <table class="ebook-table">
+      <thead>
+        <tr>
+          <th style="width:40%">항목</th>
+          <th class="col-g" style="width:30%">일반 출판사</th>
+          <th class="col-i" style="width:30%">INTOTHEM BOOKS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="item">교정·교열 (초교+재교)</td>
+          <td class="col-g">약 91만원</td>
+          <td class="col-i">약 91만원 <span style="font-size:10px;color:var(--ink-f)">(실비)</span></td>
+        </tr>
+        <tr>
+          <td class="item">본문 편집디자인</td>
+          <td class="col-g">약 105만원</td>
+          <td class="col-i">약 63만원 <span style="font-size:10px;color:var(--ink-f)">(40% 할인)</span></td>
+        </tr>
+        <tr>
+          <td class="item">표지 디자인</td>
+          <td class="col-g">약 50만원</td>
+          <td class="col-i">약 30만원 <span style="font-size:10px;color:var(--ink-f)">(40% 할인)</span></td>
+        </tr>
+        <tr>
+          <td class="item">운영비</td>
+          <td class="col-g col-i" style="color:var(--ink-f)">마진 30% 포함</td>
+          <td class="col-i">약 19만원 <span style="font-size:10px;color:var(--ink-f)">(디자인 기준 20%)</span></td>
+        </tr>
+        <tr>
+          <td class="item">마진</td>
+          <td class="col-g">약 74만원 <span style="font-size:10px">(30%)</span></td>
+          <td class="col-i" style="text-decoration:line-through;opacity:.4">—</td>
+        </tr>
+        <tr class="total">
+          <td class="item">합계</td>
+          <td class="col-g">약 320만원</td>
+          <td class="col-i">약 203만원 <span class="ebook-saving">37% 절감</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+  </div>
+    <div class="adv-tip" style="display:flex;gap:14px;padding:14px 16px;margin-top:12px;border-radius:var(--r);">
+      <span style="font-size:14px;flex-shrink:0;padding-top:1px;">💡</span>
+      <div>
+        <p class="adv-label" style="color:var(--green);font-size:13px;font-weight:500;margin-bottom:3px;">비용을 더 줄이고 싶다면</p>
+        <p class="adv-desc" style="color:var(--green);font-size:12px;">편집·디자인 또는 교정·교열을 직접 진행하면 해당 비용을 절감할 수 있습니다. 단, 디자인 직접 진행 시 <span style="font-weight:500;color:var(--green);">인디자인(.indd) 또는 인쇄용 PDF</span> 완성 파일 납품이 조건입니다.</p>
+        <p style="font-size:11px;color:#7a4a10;background:#fdf0e0;border-radius:var(--r);padding:10px 12px;margin-top:10px;line-height:1.8;border-left:2.5px solid #c87820;"><span style="font-weight:500;color:#5a3008;">단, 품질 기준 미달 시 진행 불가</span> — intothem books의 이름으로 출판되는 책인 만큼, 디자인 완성도가 출판 수준에 미치지 못한다고 판단될 경우 그대로 진행하기 어렵습니다. 이 경우 편집·디자인 서비스를 이용하시거나 수정 후 재납품하셔야 합니다.</p>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(45,90,61,.2);">
+          <p style="font-size:11px;font-weight:500;color:var(--green);margin-bottom:6px;">전자책 기준 비용 절감 예시 (신국판 200p 흑백)</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div style="background:rgba(255,255,255,.5);border-radius:var(--r);padding:10px 12px;">
+              <p style="font-size:10px;color:var(--green);margin-bottom:3px;">교정·교열 직접 진행 시</p>
+              <p style="font-family:'Noto Serif KR',serif;font-size:16px;font-weight:600;color:var(--green);">약 112만원</p>
+              <p style="font-size:10px;color:var(--accent);">교정 91만원 절감</p>
+            </div>
+            <div style="background:rgba(255,255,255,.5);border-radius:var(--r);padding:10px 12px;">
+              <p style="font-size:10px;color:var(--green);margin-bottom:3px;">디자인도 직접 진행 시</p>
+              <p style="font-family:'Noto Serif KR',serif;font-size:16px;font-weight:600;color:var(--green);">최소 15만원</p>
+              <p style="font-size:10px;color:var(--accent);">운영비만 청구</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;margin-bottom:40px;padding:16px 20px;background:var(--paper2);border-radius:var(--rl);border-left:2.5px solid var(--ink);">
+    <p style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:4px;">출판 제작 서비스 안내</p>
+    <p style="font-size:12px;color:var(--ink-l);line-height:1.85;">intothem books는 기획부터 납품까지 출판 제작 서비스를 제공합니다. 영업·홍보·판매는 저자가 직접 진행하셔야 합니다.</p>
+  </div>
+
+  <!-- PROCESS -->
+  <hr style="border:none;border-top:1px solid var(--bd);margin:0 0 40px">
+  <p class="sec-t">작업 프로세스</p>
+  <div class="process-steps">
+    <div class="step"><div class="step-num">1</div><div class="step-title">상담 접수</div><div class="step-desc">원고 분량·판형·수량·예산 파악</div><span class="step-days">1~3일</span></div>
+    <div class="step"><div class="step-num">2</div><div class="step-title">견적 확정</div><div class="step-desc">원고 검토 후 최종 견적 및 계약</div><span class="step-days">3~5일</span></div>
+    <div class="step"><div class="step-num">3</div><div class="step-title">편집 디자인</div><div class="step-desc">본문 레이아웃 및 표지 디자인</div><span class="step-days">3~4주</span></div>
+    <div class="step"><div class="step-num">4</div><div class="step-title">교정·교열</div><div class="step-desc">외주 교정·교열 진행</div><span class="step-days">2~3주</span></div>
+    <div class="step"><div class="step-num">5</div><div class="step-title">교정지 확인</div><div class="step-desc">저자 검토 및 수정 (2회 포함)</div><span class="step-days">1주</span></div>
+    <div class="step"><div class="step-num">6</div><div class="step-title">인쇄·제본</div><div class="step-desc">인쇄소 출력 및 제본 진행</div><span class="step-days">1~2주</span></div>
+    <div class="step"><div class="step-num">7</div><div class="step-title">납품</div><div class="step-desc">ISBN 등록 후 저자 납품</div><span class="step-days">완료</span></div>
+  </div>
+  <p style="font-size:11px;color:var(--ink-f);margin-bottom:40px">· 전체 소요 기간은 원고 상태와 수정 횟수에 따라 달라지며, 평균 <strong style="color:var(--ink-l)">8~12주</strong> 내외입니다.</p>
+
+  <!-- PRODUCTION COST COMPARISON -->
+  <h2 class="compare-title">일반 출판사 <span class="compare-vs">vs</span> <span class="compare-en">INTOTHEM BOOKS</span></h2>
+  <div class="cat-row">
+    <button class="cat-tab active" onclick="setServiceCat('general',this)">일반문고</button>
+    <button class="cat-tab" onclick="setServiceCat('picture',this)">동화책</button>
+  </div>
+  <div class="sub-row" id="service-subtabs"></div>
+  <div class="notice warn" style="margin-bottom:20px;">아래 비교 금액은 제작 서비스 비용만 표시합니다. 인쇄·제본비는 포함되지 않습니다.</div>
+  <p class="sec-t">제작비 요약</p>
+  <div class="sc-grid" id="service-cards"></div>
+  <div class="legend">
+    <span><span class="ldot" style="background:#9a9a90"></span>일반 출판사</span>
+    <span><span class="ldot" style="background:#4a8a60"></span><span style="font-family:'Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:10.5px;letter-spacing:-.02em;text-transform:uppercase;">INTOTHEM BOOKS</span></span>
+  </div>
+  <div class="chart-wrap"><canvas id="serviceChart"></canvas></div>
+  <p class="sec-t">항목별 제작비 비교</p>
+  <div class="bd-grid" id="service-breakdown"></div>
+  <p class="ops-note"><strong style="color:var(--green);font-weight:500">운영비</strong>는 편집·디자인과 표지 디자인 비용 합계의 20%이며, 최소 15만원이 적용됩니다.</p>
+  <p class="ops-note" style="margin-top:8px;border-left-color:var(--green-l);"><strong style="color:var(--green);font-weight:500">교정·교열</strong>은 원고 분량 기준으로 산출되며, 원고 상태에 따라 실제 비용이 달라질 수 있습니다.</p>
+
+  <!-- ESTIMATOR -->
+  <hr style="border:none;border-top:1px solid var(--bd);margin:40px 0">
+  <p class="sec-t">제작비 대략 견적 받아보기</p>
+  <div class="est-wrap">
+    <div class="notice warn" style="margin-bottom:24px;">인쇄·제본비는 이 계산에 포함하지 않습니다. 인쇄 사양 확정 후 실제 인쇄소 견적으로 별도 안내드립니다.</div>
+    <div class="est-grid">
+      <div class="est-group">
+        <span class="est-label">판형</span>
+        <select class="est-select" id="e-format" onchange="calcEst()">
+          <option value="general">일반문고 (신국판)</option>
+          <option value="picture">동화책 (A4)</option>
+        </select>
+      </div>
+      <div class="est-group">
+        <span class="est-label">페이지 수</span>
+        <input class="est-input" type="number" id="e-pages" value="200" min="50" max="500" step="10" oninput="calcEst()">
+      </div>
+    </div>
+    <div class="est-grid" style="margin-bottom:24px;">
+      <div class="est-group">
+        <span class="est-label">교정·교열</span>
+        <div class="est-toggle" id="e-proof">
+          <button class="on" onclick="setToggle('e-proof',0);calcEst()">intothem 외주</button>
+          <button onclick="setToggle('e-proof',1);calcEst()">직접 진행</button>
+        </div>
+      </div>
+      <div class="est-group">
+        <span class="est-label">편집·디자인</span>
+        <div class="est-toggle" id="e-design">
+          <button class="on" onclick="setToggle('e-design',0);calcEst()">intothem 40% 할인</button>
+          <button onclick="setToggle('e-design',1);calcEst()">직접 진행</button>
+        </div>
+        <div class="est-cond" id="e-design-cond" style="display:none">
+          <p class="est-cond-title">⚠ 직접 디자인 시 필수 조건</p>
+          <ul class="est-cond-list">
+            <li><span style="font-weight:500;">인디자인(.indd)</span> 또는 <span style="font-weight:500;">인쇄용 PDF</span> 완성 파일만 가능</li>
+            <li>재단선(블리드 3mm) 포함</li>
+            <li>해상도 300dpi 이상</li>
+            <li>색상 모드 CMYK</li>
+            <li>폰트 아웃라인 처리</li>
+            <li>규격 미달 시 수정비 별도 청구</li>
+          </ul>
+          <p style="font-size:11px;color:#7a4a10;margin-top:10px;padding-top:10px;border-top:1px solid #e8c070;line-height:1.8;"><strong style="color:#5a3008;">품질 기준 미달 시 진행 불가</strong> — intothem books의 이름으로 출판되는 책인 만큼, 디자인 완성도가 출판 수준에 미치지 못한다고 판단될 경우 그대로 진행하기 어렵습니다. 이 경우 intothem books의 편집·디자인 서비스를 이용하시거나 수정 후 재납품하셔야 합니다.</p>
+        </div>
+      </div>
+      <div class="est-group">
+        <span class="est-label">표지 디자인</span>
+        <div class="est-toggle" id="e-cover">
+          <button class="on" onclick="setToggle('e-cover',0);calcEst()">intothem 30만원</button>
+          <button onclick="setToggle('e-cover',1);calcEst()">직접 진행</button>
+        </div>
+      </div>
+    </div>
+    <div class="est-result-wrap">
+      <div class="est-result-general">
+        <p class="est-result-label">일반 출판사</p>
+        <div id="e-rows-g"></div>
+      </div>
+      <div class="est-result-intothem">
+        <p class="est-result-label">INTOTHEM BOOKS</p>
+        <div id="e-rows-i"></div>
+      </div>
+    </div>
+    <p class="est-note" id="e-note"></p>
+  </div>
+
+
+  <!-- FAQ -->
+  <p class="sec-t">자주 묻는 질문</p>
+  <div class="faq-list">
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">어느 단계의 원고를 가져오면 되나요?</div><div class="faq-a">탈고(완성) 원고를 기준으로 합니다. 워드(.docx) 또는 텍스트(.txt) 파일로 전달해 주시면 됩니다. 아직 완성되지 않은 원고는 분량과 방향을 먼저 상담해 주세요.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">ISBN은 어떻게 되나요?</div><div class="faq-a">ISBN은 국립중앙도서관에 무료로 신청하며, 저자 명의 또는 intothem books 명의 중 협의 후 진행합니다. 납본(2부)도 대행해 드립니다.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">디자인 수정은 몇 번까지 가능한가요?</div><div class="faq-a">교정지 검토 2회가 기본 포함됩니다. 3회 이상 수정이 필요한 경우 회당 추가 비용이 발생할 수 있습니다. 표지 디자인은 초안 2안 제시 후 1회 수정이 포함됩니다.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">재쇄(추가 인쇄)는 어떻게 하나요?</div><div class="faq-a">초판 파일을 보관하므로 재쇄 시 편집 비용 없이 인쇄비만으로 진행 가능합니다. 재쇄 시 내용 수정이 있는 경우 수정 범위에 따라 소액의 편집비가 발생할 수 있습니다.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">전자책(e-book)도 함께 만들 수 있나요?</div><div class="faq-a">종이책과 함께 전자책(ePub·PDF) 제작도 가능합니다. 전자책 변환 비용은 별도이며, 함께 진행 시 할인이 적용됩니다.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">인쇄 없이 전자책으로만 진행할 수 있나요?</div><div class="faq-a">가능합니다. 전자책만 진행할 경우 인쇄·제본 비용 없이 교정·교열, 편집·디자인 등 필요한 제작 서비스만 선택할 수 있습니다. 세부 비용은 원고 확인 후 안내드립니다.</div></div>
+  </div>
+
+  <!-- CONTACT -->
+  <p class="sec-t">상담 및 문의</p>
+  <div class="contact-box">
+    <div>
+      <p class="contact-label">intothem books</p>
+      <p class="contact-brand">출판 상담을 시작해보세요</p>
+      <p class="contact-tagline">원고가 완성되지 않아도 괜찮습니다. 먼저 이야기 나눠요.</p>
+    </div>
+    <div class="contact-right">
+      <div class="contact-item"><span class="contact-item-lbl">Email</span><span><a href="mailto:burrito73@naver.com" style="color:rgba(255,255,255,.8);text-decoration:none;">burrito73@naver.com</a></span></div>
+      <div class="contact-item"><span class="contact-item-lbl">Kakao</span><span><a href="https://open.kakao.com/o/s3QVW2se" style="color:rgba(255,255,255,.8);text-decoration:none;">INTOTHEM</a></span></div>
+      <div class="contact-item"><span class="contact-item-lbl">Insta</span><span><a href="https://www.instagram.com/intothem_books?igsh=dDlsd2E3bHRpc2Np&utm_source=qr" style="color:rgba(255,255,255,.8);text-decoration:none;">@intothem_books</a></span></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>· 표시된 제작비에는 인쇄·제본비가 포함되지 않습니다.</p>
+    <p>· 편집·디자인 비용은 일반 시장가의 60% 적용입니다.</p>
+    <p>· 인쇄·제본비는 사양 확정 후 실제 인쇄소 견적으로 별도 안내됩니다.</p>
+    <p>· 교정·교열은 외주 진행되며 원고 분량에 따라 달라질 수 있습니다.</p>
+    <p>· intothem books &nbsp;|&nbsp; 문의: burrito73@naver.com</p>
+  </footer>
+</div>
+
+<script>
+const D={
+  general:{
+    tabs:[{l:'100p 흑백',c:'bw'},{l:'100p 컬러',c:'color'},{l:'200p 흑백',c:'bw'},{l:'200p 컬러',c:'color'},{l:'300p 흑백',c:'bw'},{l:'300p 컬러',c:'color'}],
+    spec:'신국판 152×225mm / 모조 80g 본문 / 스노우화이트 120g 표지 무광코팅 / 무선제본 / 200부',
+    items:[
+      {soft:{g:321,o:216},hard:{g:491,o:350},breakG:[{l:'교정·교열',v:'약 46만원'},{l:'본문 편집디자인',v:'60~80만원'},{l:'표지 디자인',v:'40~60만원'},{l:'인쇄·제본 200부',v:'80~100만원'},{l:'마진 30%',v:'60~80만원'},{l:'합계',v:'약 321만원'}],breakO:[{l:'교정·교열 (외주)',v:'46만원',b:null},{l:'본문 편집디자인',v:'42만원',b:'half'},{l:'표지 디자인',v:'30만원',b:'half'},{l:'인쇄·제본 200부',v:'85~105만원',b:null},{l:'운영비 (인쇄 원가 기준)',v:'별도 산출',b:'ops'},{l:'합계',v:'약 216만원',b:null}]},
+      {soft:{g:401,o:299},hard:{g:571,o:431},breakG:[{l:'교정·교열',v:'약 46만원'},{l:'본문 편집디자인',v:'60~80만원'},{l:'표지 디자인',v:'40~60만원'},{l:'인쇄 4도 200부',v:'160~200만원'},{l:'마진 30%',v:'85~105만원'},{l:'합계',v:'약 401만원'}],breakO:[{l:'교정·교열 (외주)',v:'46만원',b:null},{l:'본문 편집디자인',v:'42만원',b:'half'},{l:'표지 디자인',v:'30만원',b:'half'},{l:'인쇄 4도 200부',v:'160~200만원',b:'real'},{l:'운영비 (인쇄 원가 기준)',v:'별도 산출',b:'ops'},{l:'합계',v:'약 307만원',b:null}]},
+      {soft:{g:498,o:307},hard:{g:658,o:434},breakG:[{l:'교정·교열',v:'약 91만원'},{l:'본문 편집디자인',v:'90~120만원'},{l:'표지 디자인',v:'40~60만원'},{l:'인쇄·제본 200부',v:'130~160만원'},{l:'마진 30%',v:'90~120만원'},{l:'합계',v:'약 498만원'}],breakO:[{l:'교정·교열 (외주)',v:'91만원',b:null},{l:'본문 편집디자인',v:'63만원',b:'half'},{l:'표지 디자인',v:'30만원',b:'half'},{l:'인쇄·제본 200부',v:'135~165만원',b:null},{l:'운영비 (인쇄 원가 기준)',v:'별도 산출',b:'ops'},{l:'합계',v:'약 307만원',b:null}]},
+      {soft:{g:648,o:446},hard:{g:808,o:555},breakG:[{l:'교정·교열',v:'약 91만원'},{l:'본문 편집디자인',v:'90~120만원'},{l:'표지 디자인',v:'40~60만원'},{l:'인쇄 4도 200부',v:'280~320만원'},{l:'마진 30%',v:'130~160만원'},{l:'합계',v:'약 648만원'}],breakO:[{l:'교정·교열 (외주)',v:'91만원',b:null},{l:'본문 편집디자인',v:'63만원',b:'half'},{l:'표지 디자인',v:'30만원',b:'half'},{l:'인쇄 4도 200부',v:'280~320만원',b:'real'},{l:'운영비 (인쇄 원가 기준)',v:'별도 산출',b:'ops'},{l:'합계',v:'약 446만원',b:null}]},
+      {soft:{g:657,o:401},hard:{g:837,o:549},breakG:[{l:'교정·교열',v:'약 137만원'},{l:'본문 편집디자인',v:'120~160만원'},{l:'표지 디자인',v:'40~60만원'},{l:'인쇄·제본 200부',v:'170~210만원'},{l:'마진 30%',v:'115~150만원'},{l:'합계',v:'약 657만원'}],breakO:[{l:'교정·교열 (외주)',v:'137만원',b:null},{l:'본문 편집디자인',v:'84만원',b:'half'},{l:'표지 디자인',v:'30만원',b:'half'},{l:'인쇄·제본 200부',v:'175~215만원',b:null},{l:'운영비 (인쇄 원가 기준)',v:'별도 산출',b:'ops'},{l:'합계',v:'약 401만원',b:null}]},
+      {soft:{g:897,o:646},hard:{g:1077,o:720},breakG:[{l:'교정·교열',v:'약 137만원'},{l:'본문 편집디자인',v:'120~160만원'},{l:'표지 디자인',v:'40~60만원'},{l:'인쇄 4도 200부',v:'400~450만원'},{l:'마진 30%',v:'185~220만원'},{l:'합계',v:'약 897만원'}],breakO:[{l:'교정·교열 (외주)',v:'137만원',b:null},{l:'본문 편집디자인',v:'84만원',b:'half'},{l:'표지 디자인',v:'30만원',b:'half'},{l:'인쇄 4도 200부',v:'400~450만원',b:'real'},{l:'운영비 (인쇄 원가 기준)',v:'별도 산출',b:'ops'},{l:'합계',v:'약 646만원',b:null}]},
+    ]
+  },
+  picture:{
+    tabs:[{l:'32p',c:'color'},{l:'48p',c:'color'},{l:'64p',c:'color'}],
+    spec:'A4 210×297mm / 스노우 120g 내지 4도 컬러 / 스노우 250g 표지 / 양장(하드커버) / 200부',
+    items:[
+      {hard:{g:550,o:378},breakG:[{l:'편집디자인 (32p)',v:'120~150만원'},{l:'표지 디자인',v:'50~70만원'},{l:'인쇄 4도 A4 200부',v:'200~230만원'},{l:'양장 제본',v:'80~100만원'},{l:'마진 30%',v:'120~140만원'},{l:'합계',v:'약 550만원'}],breakO:[{l:'편집디자인 (32p)',v:'81만원',b:'half'},{l:'표지 디자인',v:'36만원',b:'half'},{l:'인쇄 4도 A4 200부',v:'200~230만원',b:'real'},{l:'양장 제본',v:'80~100만원',b:null},{l:'운영비 (인쇄 원가 기준)',v:'별도 산출',b:'ops'},{l:'합계',v:'약 378만원',b:null}]},
+      {hard:{g:700,o:484},breakG:[{l:'편집디자인 (48p)',v:'150~180만원'},{l:'표지 디자인',v:'50~70만원'},{l:'인쇄 4도 A4 200부',v:'270~310만원'},{l:'양장 제본',v:'80~100만원'},{l:'마진 30%',v:'155~175만원'},{l:'합계',v:'약 700만원'}],breakO:[{l:'편집디자인 (48p)',v:'99만원',b:'half'},{l:'표지 디자인',v:'36만원',b:'half'},{l:'인쇄 4도 A4 200부',v:'270~310만원',b:'real'},{l:'양장 제본',v:'80~100만원',b:null},{l:'운영비 (인쇄 원가 기준)',v:'별도 산출',b:'ops'},{l:'합계',v:'약 484만원',b:null}]},
+      {hard:{g:880,o:609},breakG:[{l:'편집디자인 (64p)',v:'180~220만원'},{l:'표지 디자인',v:'50~70만원'},{l:'인쇄 4도 A4 200부',v:'330~380만원'},{l:'양장 제본',v:'80~100만원'},{l:'마진 30%',v:'195~225만원'},{l:'합계',v:'약 880만원'}],breakO:[{l:'편집디자인 (64p)',v:'120만원',b:'half'},{l:'표지 디자인',v:'36만원',b:'half'},{l:'인쇄 4도 A4 200부',v:'330~380만원',b:'real'},{l:'양장 제본',v:'80~100만원',b:null},{l:'운영비 (인쇄 원가 기준)',v:'별도 산출',b:'ops'},{l:'합계',v:'약 609만원',b:null}]},
+    ]
+  }
+};
+
+let cat='general',subIdx=0,chartInst=null;
+
+function bh(b){if(!b)return '';const m={half:['b-half','디자인 40% 할인'],ops:['b-ops','운영비'],acc:['b-acc','영세작가 적립금'],real:['b-real','실비 청구']};const[c,t]=m[b]||[];if(!c)return '';return `<span class="badge ${c}">${t}</span>`;}
+function setCat(c,el){cat=c;subIdx=0;document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');buildSubs();render();}
+function setSub(i,el){subIdx=i;document.querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');render();}
+function buildSubs(){const tabs=D[cat].tabs;document.getElementById('subtabs').innerHTML=tabs.map((t,i)=>`<button class="sub-tab${i===0?' active':''}" onclick="setSub(${i},this)">${t.l}</button>`).join('');}
+
+const EN_STYLE="font-family:'Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:10.5px;letter-spacing:-.02em;text-transform:uppercase;";
+
+function render(){
+  const d=D[cat].items[subIdx],ip=cat==='picture',ic=D[cat].tabs[subIdx].c==='color';
+  document.getElementById('spec-area').innerHTML=`<span class="spec-tag">${D[cat].spec}</span>`;
+  document.getElementById('notice-area').innerHTML=ic
+    ?`<div class="notice warn">⚠ <strong>컬러 인쇄 안내</strong> — 컬러 본문은 인쇄 원가가 전체 비용의 70% 이상을 차지합니다. <strong>인쇄비는 실비 청구</strong>됩니다.${ip?' A4 풀컬러 양장은 동급 소형판 대비 40~60% 원가가 더 높습니다.':''}</div>`
+    :`<div class="notice info" style="display:none"></div>`;
+  let ch='';
+  if(ip){
+    const s=Math.round((1-d.hard.o/d.hard.g)*100);
+    ch=`<div class="sc"><p class="sc-lbl">일반 출판사 (하드)</p><p class="sc-val">${d.hard.g}만원</p><p class="sc-sub">200부 기준</p></div><div class="sc hl"><p class="sc-lbl"><span style="${EN_STYLE}">INTOTHEM BOOKS</span> (하드)</p><p class="sc-val">${d.hard.o}만원</p><p class="sc-sub">${s}% 절감</p></div>`;
+  } else {
+    const ss=Math.round((1-d.soft.o/d.soft.g)*100),sh=Math.round((1-d.hard.o/d.hard.g)*100);
+    ch=`<div class="sc"><p class="sc-lbl">일반 출판사 (소프트)</p><p class="sc-val">${d.soft.g}만원</p><p class="sc-sub">200부 기준</p></div><div class="sc hl"><p class="sc-lbl"><span style="${EN_STYLE}">INTOTHEM BOOKS</span> (소프트)</p><p class="sc-val">${d.soft.o}만원</p><p class="sc-sub">${ss}% 절감</p></div><div class="sc"><p class="sc-lbl">일반 출판사 (하드)</p><p class="sc-val">${d.hard.g}만원</p><p class="sc-sub">200부 기준</p></div><div class="sc hl"><p class="sc-lbl"><span style="${EN_STYLE}">INTOTHEM BOOKS</span> (하드)</p><p class="sc-val">${d.hard.o}만원</p><p class="sc-sub">${sh}% 절감</p></div>`;
+  }
+  document.getElementById('cards').innerHTML=ch;
+  const lb=ip?['하드커버']:['소프트커버','하드커버'],gd=ip?[d.hard.g]:[d.soft.g,d.hard.g],od=ip?[d.hard.o]:[d.soft.o,d.hard.o];
+  if(chartInst)chartInst.destroy();
+  chartInst=new Chart(document.getElementById('mainChart'),{type:'bar',data:{labels:lb,datasets:[{label:'일반 출판사',data:gd,backgroundColor:'rgba(154,154,144,.25)',borderColor:'#9a9a90',borderWidth:1.5},{label:'INTOTHEM BOOKS',data:od,backgroundColor:'rgba(74,138,96,.2)',borderColor:'#4a8a60',borderWidth:1.5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y}만원`}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>v+'만원',font:{size:11},color:'#9a9a90'},grid:{color:'rgba(26,26,24,.06)'},border:{display:false}},x:{ticks:{font:{size:12},color:'#5a5a54'},grid:{display:false},border:{display:false}}}}});
+  const rG=d.breakG.map(r=>`<div class="brow"><span>${r.l}</span><div class="br-r"><span>${r.v}</span></div></div>`).join('');
+  const rO=d.breakO.map(r=>`<div class="brow"><span>${r.l}</span><div class="br-r"><span>${r.v}</span>${bh(r.b)}</div></div>`).join('');
+  document.getElementById('breakdown').innerHTML=`<div class="bx"><p class="bx-t g">일반 출판사</p>${rG}</div><div class="bx"><p class="bx-t i">INTOTHEM BOOKS</p>${rO}</div>`;
+  document.getElementById('fundbox').innerHTML='';
+}
+
+function setToggle(id,idx){
+  const btns=document.getElementById(id).querySelectorAll('button');
+  btns.forEach((b,i)=>b.classList.toggle('on',i===idx));
+  if(id==='e-design'){const c=document.getElementById('e-design-cond');if(c)c.style.display=idx===1?'block':'none';}
+}
+function getToggle(id){const btns=document.getElementById(id).querySelectorAll('button');for(let i=0;i<btns.length;i++)if(btns[i].classList.contains('on'))return i;return 0;}
+
+const SERVICE_COMPARE={general:[100,200,300],picture:[32,48,64]};
+let serviceCat='general',serviceIdx=0,serviceChart=null;
+function setServiceCat(catName,el){serviceCat=catName;serviceIdx=0;document.querySelectorAll('.cat-row .cat-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');buildServiceSubs();renderServiceComparison();}
+function setServiceSub(i,el){serviceIdx=i;document.querySelectorAll('#service-subtabs .sub-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderServiceComparison();}
+function buildServiceSubs(){document.getElementById('service-subtabs').innerHTML=SERVICE_COMPARE[serviceCat].map((p,i)=>`<button class="sub-tab${i===serviceIdx?' active':''}" onclick="setServiceSub(${i},this)">${p}p</button>`).join('');}
+function renderServiceComparison(){
+  const pages=SERVICE_COMPARE[serviceCat][serviceIdx];
+  const proof=Math.round(pages*650*7/10000);
+  const designMarket=serviceCat==='picture'?Math.round(pages*0.8+30):Math.round(pages*0.45+25);
+  const designIntothem=Math.round(designMarket*0.6);
+  const coverMarket=50,coverIntothem=30;
+  const marketMargin=Math.round((proof+designMarket+coverMarket)*0.3);
+  const marketTotal=proof+designMarket+coverMarket+marketMargin;
+  const ops=Math.max(15,Math.round((designIntothem+coverIntothem)*0.2));
+  const intothemTotal=proof+designIntothem+coverIntothem+ops;
+  const saving=Math.round((1-intothemTotal/marketTotal)*100);
+  document.getElementById('service-cards').innerHTML=`<div class="sc"><p class="sc-lbl">일반 출판사</p><p class="sc-val">${marketTotal}만원</p><p class="sc-sub">인쇄비 제외</p></div><div class="sc hl"><p class="sc-lbl"><span style="${EN_STYLE}">INTOTHEM BOOKS</span></p><p class="sc-val">${intothemTotal}만원</p><p class="sc-sub">${saving}% 절감 · 인쇄비 제외</p></div>`;
+  if(serviceChart)serviceChart.destroy();
+  serviceChart=new Chart(document.getElementById('serviceChart'),{type:'bar',data:{labels:['제작 서비스'],datasets:[{label:'일반 출판사',data:[marketTotal],backgroundColor:'rgba(154,154,144,.25)',borderColor:'#9a9a90',borderWidth:1.5},{label:'INTOTHEM BOOKS',data:[intothemTotal],backgroundColor:'rgba(74,138,96,.2)',borderColor:'#4a8a60',borderWidth:1.5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y}만원 (인쇄비 제외)`}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>v+'만원',font:{size:11},color:'#9a9a90'},grid:{color:'rgba(26,26,24,.06)'},border:{display:false}},x:{ticks:{font:{size:12},color:'#5a5a54'},grid:{display:false},border:{display:false}}}}});
+  const marketRows=[['교정·교열',proof+'만원'],['편집·디자인',designMarket+'만원'],['표지 디자인',coverMarket+'만원'],['마진 30%',marketMargin+'만원'],['제작비 합계',marketTotal+'만원']];
+  const intothemRows=[['교정·교열 (외주)',proof+'만원'],['편집·디자인',designIntothem+'만원'],['표지 디자인',coverIntothem+'만원'],['운영비',ops+'만원'],['제작비 합계',intothemTotal+'만원']];
+  const rows=a=>a.map((r,i)=>`<div class="brow"><span>${r[0]}</span><div class="br-r"><span>${r[1]}</span>${i===a.length-1?'':r[0]==='편집·디자인'?bh('half'):''}</div></div>`).join('');
+  document.getElementById('service-breakdown').innerHTML=`<div class="bx"><p class="bx-t g">일반 출판사</p>${rows(marketRows)}</div><div class="bx"><p class="bx-t i">INTOTHEM BOOKS</p>${rows(intothemRows)}</div>`;
+}
+
+function calcEst(){
+  const format=document.getElementById('e-format').value;
+  const pages=parseInt(document.getElementById('e-pages').value)||200;
+  const doProof=getToggle('e-proof')===0;
+  const doDesign=getToggle('e-design')===0;
+  const doCover=getToggle('e-cover')===0;
+  const proofCost=doProof?Math.round(pages*650*7/10000):0;
+  let designMarket=format==='picture'?Math.round(pages*0.8+30):Math.round(pages*0.45+25);
+  const designCost=doDesign?Math.round(designMarket*0.6):0;
+  const coverMarket=50;
+  const coverCost=doCover?30:0;
+  const opsCost=Math.max(15,Math.round((designCost+coverCost)*0.2));
+  const total=proofCost+designCost+coverCost+opsCost;
+  const marketSubtotal=proofCost+designMarket+coverMarket;
+  const marketMargin=Math.round(marketSubtotal*0.3);
+  const marketTotal=marketSubtotal+marketMargin;
+  const savePct=Math.round((1-total/marketTotal)*100);
+  const gRows=[{l:'교정·교열',v:proofCost},{l:'편집·디자인',v:Math.round(designMarket)},{l:'표지 디자인',v:coverMarket},{l:'마진 30%',v:marketMargin},{l:'제작비 합계',v:marketTotal,total:true}];
+  document.getElementById('e-rows-g').innerHTML=gRows.map(r=>r.total?`<div class="est-row-g"><span>합계</span><span>${r.v}만원</span></div>`:r.zero?`<div class="est-row-g" style="opacity:.4;text-decoration:line-through"><span>${r.l}</span><span>—</span></div>`:`<div class="est-row-g"><span>${r.l}</span><span>${r.v}만원</span></div>`).join('');
+  const iRows=[{l:'교정·교열',v:proofCost,zero:!doProof,note:doProof?'외주 실비':'직접 진행'},{l:'편집·디자인',v:designCost,zero:!doDesign,note:doDesign?'40% 할인':'직접 진행'},{l:'표지 디자인',v:coverCost,zero:!doCover,note:doCover?'시장가 50만원 기준':'직접 진행'},{l:'운영비',v:opsCost,note:'디자인 비용의 20%·최소 15만원'},{l:'제작비 합계',v:total,total:true}];
+  document.getElementById('e-rows-i').innerHTML=iRows.map(r=>{if(r.total)return `<div class="est-row-i"><span>합계 <span class="est-saving">${savePct}% 절감</span></span><span>${r.v}만원</span></div>`;if(r.zero)return `<div class="est-row-i zero"><span>${r.l} <span style="font-size:10px;text-decoration:none">(${r.note})</span></span><span>—</span></div>`;return `<div class="est-row-i"><span>${r.l}${r.note?` <span style="font-size:10px;opacity:.7">(${r.note})</span>`:''}</span><span>${r.v}만원</span></div>`;}).join('');
+  document.getElementById('e-note').innerHTML=`· 위 금액은 교정·교열과 디자인, 운영비 등 제작 서비스만 계산한 참고용 예상 금액입니다.<br>· 운영비는 편집·디자인과 표지 디자인 비용 합계의 20%이며, 최소 15만원이 적용됩니다.<br>· 인쇄·제본비는 포함되지 않으며, 사양 확정 후 실제 인쇄소 견적으로 별도 안내드립니다.<br>· 표지 디자인은 기본 디자인 기준 30만원이며, 별도 일러스트·촬영·유료 이미지 비용은 추가됩니다.<br>· 정확한 제작비는 원고 접수 후 안내드립니다.`;
+}
+
+function toggleFaq(el){const item=el.parentElement;const wasOpen=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!wasOpen)item.classList.add('open');}
+
+buildServiceSubs();renderServiceComparison();calcEst();
+</script>
+</body>
+</html>

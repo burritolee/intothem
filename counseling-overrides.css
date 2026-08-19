@@ -1,0 +1,167 @@
+.counseling-page .service-hero img {
+  object-position: center 30%;
+}
+
+.counseling-page .counseling-hero > div {
+  position: relative;
+  display: grid;
+  place-content: center;
+  overflow: hidden;
+  padding: 0 clamp(28px, 4vw, 62px);
+}
+
+.counseling-page .counseling-hero > div::before {
+  content: "";
+  position: absolute;
+  left: -510px;
+  top: 50%;
+  width: 810px;
+  height: 810px;
+  border-radius: 50%;
+  background: #6d8698;
+  transform: translateY(-50%);
+}
+
+.counseling-page .counseling-hero .service-kicker,
+.counseling-page .counseling-hero p:last-child { display: none; }
+
+.counseling-page .counseling-hero h1 {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0;
+  padding: 5px 0;
+  border-top: 1px solid #171714;
+  border-bottom: 1px solid #171714;
+  font: 400 clamp(31px, 3.8vw, 59px)/.9 var(--sans);
+  letter-spacing: -.07em;
+  white-space: nowrap;
+}
+
+.counseling-page .counseling-hero h1 span { display: block; transform: translateY(-4px); }
+
+.booking-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: stretch;
+  width: min(1180px, calc(100% - 44px));
+  margin: 0 auto;
+  padding: 90px 0 110px;
+}
+
+.price-section {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 28px;
+  width: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.price-intro h2 {
+  margin: 15px 0 14px;
+  font: 400 clamp(30px, 3vw, 43px)/1.24 var(--serif);
+  letter-spacing: -.09em;
+  word-break: keep-all;
+}
+
+.price-intro > p:last-child {
+  max-width: 340px;
+  margin: 0;
+  color: #667067;
+  font-size: 13px;
+  line-height: 1.9;
+  word-break: keep-all;
+}
+
+.price-card {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(22px, 3vw, 38px);
+  background: #e7dcc0;
+}
+
+.price-card::before,
+.price-card::after {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border: 1px solid rgba(113, 101, 83, .26);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.price-card::before { top: -105px; right: -42px; }
+.price-card::after { bottom: -120px; left: -66px; }
+
+.price-card table { position: relative; z-index: 1; width: 100%; border-collapse: collapse; text-align: center; }
+.price-card th,
+.price-card td { height: 74px; border-bottom: 1px solid rgba(97, 88, 75, .32); padding: 12px 9px; }
+.price-card thead th { height: 42px; background: #9d9083; color: #fff; font-size: 12px; font-weight: 500; }
+.price-card tbody th { font-size: 14px; font-weight: 500; }
+.price-card tbody td { color: #6f695f; font: 400 15px/1.5 var(--sans); }
+.price-card tbody th small { display: block; margin-top: 4px; color: #6f695f; font-size: 11px; font-weight: 400; }
+
+.price-notes {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 9px 18px;
+  margin-top: 30px;
+  padding-top: 3px;
+}
+
+.price-notes p { margin: 0; color: #746b5e; font: 10px/1.7 var(--mono); letter-spacing: .08em; }
+.price-notes strong { color: #5f594f; font-size: 12px; font-weight: 500; line-height: 1.7; }
+.price-notes a { color: inherit; text-underline-offset: 4px; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+
+.booking-layout .reservation-section { display: flex; padding: 0; }
+.booking-layout .reservation-form { width: 100%; max-width: none; padding: clamp(26px, 3vw, 42px); }
+.booking-layout .reservation-form label:nth-of-type(4) { grid-column: span 2; }
+.kakao-reservation {
+  grid-column: span 2;
+  margin-top: 8px;
+  border: 1px solid var(--ink);
+  padding: 16px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 13px;
+  text-align: center;
+  text-decoration: none;
+}
+.kakao-reservation span { margin-left: 13px; }
+.kakao-reservation:hover,
+.kakao-reservation:focus-visible { background: transparent; color: var(--ink); outline: none; }
+.kakao-only { align-content:center; }
+.kakao-only .form-title,
+.kakao-only .kakao-guide,
+.kakao-only .kakao-reservation,
+.kakao-only .privacy-note { grid-column:span 2; }
+.kakao-guide { border-top:1px solid #cbd1b9; border-bottom:1px solid #cbd1b9; padding:22px 0; }
+.kakao-guide strong { display:block; margin-bottom:8px; font:700 15px/1.5 var(--serif); }
+.kakao-guide p { margin:0; color:#657064; font-size:12px; line-height:1.8; }
+.privacy-note { margin:0; color:#6f796c; font-size:11px; text-align:center; }
+.privacy-note a { color:inherit; text-underline-offset:3px; }
+
+@media (max-width: 760px) {
+  .counseling-page .counseling-hero > div { min-height: 290px; }
+  .counseling-page .counseling-hero > div::before { left: -58vw; width: 115vw; height: 115vw; }
+  .counseling-page .counseling-hero h1 { font-size: 28px; }
+  .booking-layout { grid-template-columns: 1fr; gap: 48px; padding: 65px 0 80px; }
+  .price-section { grid-template-columns: 1fr; gap: 35px; padding: 0; }
+  .price-intro > p:last-child { max-width: none; }
+  .price-card { margin: 0 -8px; padding: 26px 14px 30px; }
+  .price-card th, .price-card td { height: 68px; padding: 10px 5px; }
+  .price-card tbody th, .price-card tbody td { font-size: 13px; }
+  .price-notes { grid-template-columns: 75px 1fr; gap: 8px 12px; }
+  .booking-layout .reservation-form label:nth-of-type(4),
+  .kakao-reservation { grid-column: auto; }
+  .kakao-only .form-title,
+  .kakao-only .kakao-guide,
+  .kakao-only .kakao-reservation,
+  .kakao-only .privacy-note { grid-column:auto; }
+}
