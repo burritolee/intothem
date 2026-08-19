@@ -8,7 +8,9 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="service-pages.css">
   <link rel="stylesheet" href="service-nav.css?v=20260818-4">
-  <link rel="stylesheet" href="naneun-school.css">
+  <link rel="stylesheet" href="naneun-school.css?v=20260819-2">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="school-dialogue.js?v=20260819-1" defer></script>
 </head>
 <body class="service-page school-page">
   <header class="service-header"><a class="service-brand" href="index.html"><img src="assets/intothem-logo.png" alt="INTOTHEM"></a><nav class="service-switch" aria-label="인투뎀 서비스 선택"><a href="place.html" aria-current="page">PLACE</a><a href="counseling.html">COUNSELING</a><a href="books.html">BOOKS</a></nav><a class="home-link" href="index.html">처음으로</a></header>
@@ -59,27 +61,40 @@
         <p>나는학교의 질문에는 하나의 정답이 없습니다. 서로의 경험과 생각을 나누며 더 넓은 배움의 길을 함께 찾아갑니다.</p>
       </div>
 
-      <div class="dialogue-board" aria-label="나는학교 대화창 준비 중">
-        <div class="dialogue-status"><span aria-hidden="true"></span><strong>대화창 준비 중</strong><p>온라인 연결 후 누구나 의견을 남기고 함께 읽을 수 있습니다.</p></div>
+      <div class="dialogue-board" aria-label="나는학교 공개 대화창">
+        <div class="dialogue-status"><span aria-hidden="true"></span><strong>OPEN</strong><p>모든 글은 작성 즉시 공개됩니다.</p></div>
         <div class="dialogue-prompt">
           <p>오늘의 질문</p>
           <strong>“학교에서 우리는 무엇을 배워야 할까요?”</strong>
         </div>
-        <div class="dialogue-empty">
-          <p>첫 번째 대화를 기다리고 있습니다.</p>
-          <span>대화창이 열리면 서로의 생각이 이곳에 쌓입니다.</span>
+        <div class="dialogue-list" id="dialogue-list" aria-live="polite">
+          <div class="dialogue-empty"><p>대화를 불러오는 중입니다.</p><span>잠시만 기다려주세요.</span></div>
         </div>
-        <form class="dialogue-form" aria-describedby="dialogue-disabled-note">
-          <fieldset disabled>
-            <label>이름 또는 별명<input type="text" name="nickname" maxlength="20" placeholder="이름을 입력해주세요"></label>
-            <label>나의 생각<textarea name="message" maxlength="500" rows="5" placeholder="질문에 대한 생각을 자유롭게 남겨주세요"></textarea></label>
+        <form class="dialogue-form" id="dialogue-form">
+          <fieldset>
+            <label>이름 또는 별명<input type="text" name="nickname" maxlength="10" required placeholder="최대 10자"></label>
+            <label>네 자리 비밀번호<input type="password" name="pin" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="new-password" required placeholder="수정·삭제 시 필요"></label>
+            <label class="dialogue-message-label">나의 생각<textarea name="message" maxlength="500" rows="5" required placeholder="질문에 대한 생각을 자유롭게 남겨주세요"></textarea><span class="character-count">0 / 500</span></label>
             <label class="dialogue-agree"><input type="checkbox" name="agreement"> 대화 운영 원칙과 개인정보 안내에 동의합니다.</label>
             <button type="submit">의견 남기기 <span>→</span></button>
           </fieldset>
-          <p id="dialogue-disabled-note">현재는 작성할 수 없습니다. 온라인 대화창 연결 후 활성화됩니다.</p>
+          <p class="dialogue-form-note" id="dialogue-form-note">비밀번호는 글 수정과 삭제에 필요하며 복구할 수 없습니다.</p>
         </form>
       </div>
     </section>
+
+    <dialog class="dialogue-editor" id="dialogue-editor" aria-labelledby="editor-title">
+      <form method="dialog" class="dialogue-editor-form" id="dialogue-editor-form">
+        <div class="dialogue-editor-heading"><p>EDIT DIALOGUE</p><button type="button" class="editor-close" aria-label="닫기">×</button></div>
+        <h2 id="editor-title">내 글 수정·삭제</h2>
+        <input type="hidden" name="id">
+        <label>이름 또는 별명<input type="text" name="nickname" maxlength="10" required></label>
+        <label>내용<textarea name="message" maxlength="500" rows="6" required></textarea></label>
+        <label>작성할 때 입력한 네 자리 비밀번호<input type="password" name="pin" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" required placeholder="0000"></label>
+        <p class="editor-note" aria-live="polite"></p>
+        <div class="editor-actions"><button type="button" class="editor-delete">글 삭제</button><button type="submit" class="editor-save">수정 저장</button></div>
+      </form>
+    </dialog>
 
     <section class="school-together">
       <div>
