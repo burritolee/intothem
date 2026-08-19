@@ -7,7 +7,9 @@
 }
 
 .books-page .book-grid {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 60px;
+  row-gap: 72px;
   align-items: start;
 }
 
@@ -20,14 +22,27 @@
   position: relative;
 }
 
+.books-page .book-item > a,
+.books-page .book-item > div {
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 .books-page .published-book .meta { color: #397d62; }
 .books-page .upcoming-book .meta { color: #956447; }
+.books-page .book-item h3 { font-family:var(--sans); font-weight:500; letter-spacing:-.045em; }
+.books-page .book-item .book-price { margin-top:12px; color:var(--ink); font:500 12px/1.5 var(--sans); letter-spacing:-.02em; }
+.books-page .book-purchase-cta { display:flex; align-items:center; justify-content:space-between; gap:24px; width:min(1120px,calc(100% - 44px)); margin:-55px auto 80px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:25px 0; }
+.books-page .book-purchase-cta p { margin:0; color:#596357; font:400 14px/1.7 var(--sans); }
+.books-page .book-purchase-cta a { flex:0 0 auto; border:1px solid #66764c; padding:13px 19px; background:#66764c; color:#fff; font:500 12px/1 var(--sans); text-decoration:none; }
+.books-page .book-purchase-cta a span { margin-left:18px; }
 
-.books-page .book-item:not(:nth-child(5n)):not(:last-child)::after {
+.books-page .book-item:not(:nth-child(3n)):not(:last-child)::after {
   content: "";
   position: absolute;
   top: 0;
-  right: -15px;
+  right: -30px;
   bottom: 0;
   width: 1px;
   background: var(--line);
@@ -41,7 +56,7 @@
 }
 
 @media (max-width: 920px) and (min-width: 761px) {
-  .books-page .book-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .books-page .book-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 50px; }
   .books-page .book-item::after { display: none; }
   .books-page .book-item:nth-child(odd):not(:last-child)::after { display: block; }
 }
@@ -132,8 +147,12 @@
 .philosophy-list strong { display: block; font: 400 14px/1.8 var(--serif); letter-spacing: -.04em; word-break: keep-all; }
 
 @media (max-width: 760px) {
-  .books-page .book-grid { grid-template-columns: 1fr; }
+  .books-page .book-grid { grid-template-columns: 1fr; row-gap: 52px; }
   .books-page .book-item::after { display: none; }
+  .books-page .book-item > a,
+  .books-page .book-item > div { width:100%; }
+  .books-page .book-purchase-cta { display:grid; margin:-20px auto 60px; }
+  .books-page .book-purchase-cta a { text-align:center; }
   .books-philosophy { padding: 70px 0 55px; }
   .books-philosophy > h2 { margin-bottom: 32px; font-size: 37px; }
   .philosophy-list article { grid-template-columns: 1fr; gap: 13px; padding: 26px 0; }
