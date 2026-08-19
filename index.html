@@ -6,7 +6,10 @@
   <meta name="description" content="상담, 모임과 교육, 책 만들기가 이루어지는 인투뎀">
   <title>INTOTHEM — 사람들의 이야기가 머무는 곳</title>
   <link rel="stylesheet" href="styles.css?v=20260818-2">
-  <link rel="stylesheet" href="home-overrides.css?v=20260818-6">
+  <link rel="stylesheet" href="home-overrides.css?v=20260819-9">
+  <link rel="stylesheet" href="naneun-school.css?v=20260819-2">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="school-dialogue.js?v=20260819-1" defer></script>
 </head>
 <body class="home magazine-home">
   <header class="magazine-header">
@@ -63,6 +66,50 @@
         </div>
       </div>
     </section>
+
+    <section class="school-dialogue home-dialogue" aria-labelledby="home-dialogue-title">
+      <div class="dialogue-heading">
+        <div>
+          <p class="section-label">OPEN DIALOGUE</p>
+          <h2 id="home-dialogue-title">당신의 생각을<br>들려주세요.</h2>
+        </div>
+        <p>나는학교의 질문에는 하나의 정답이 없습니다. 서로의 경험과 생각을 나누며 더 넓은 배움의 길을 함께 찾아갑니다.</p>
+      </div>
+
+      <div class="dialogue-board" aria-label="나는학교 공개 대화창">
+        <div class="dialogue-status"><span aria-hidden="true"></span><strong>OPEN</strong><p>모든 글은 작성 즉시 공개됩니다.</p></div>
+        <div class="dialogue-prompt">
+          <p>오늘의 질문</p>
+          <strong>“학교에서 우리는 무엇을 배워야 할까요?”</strong>
+        </div>
+        <div class="dialogue-list" id="dialogue-list" aria-live="polite">
+          <div class="dialogue-empty"><p>대화를 불러오는 중입니다.</p><span>잠시만 기다려주세요.</span></div>
+        </div>
+        <form class="dialogue-form" id="dialogue-form">
+          <fieldset>
+            <label>이름 또는 별명<input type="text" name="nickname" maxlength="10" required placeholder="최대 10자"></label>
+            <label>네 자리 비밀번호<input type="password" name="pin" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="new-password" required placeholder="수정·삭제 시 필요"></label>
+            <label class="dialogue-message-label">나의 생각<textarea name="message" maxlength="500" rows="5" required placeholder="질문에 대한 생각을 자유롭게 남겨주세요"></textarea><span class="character-count">0 / 500</span></label>
+            <label class="dialogue-agree"><input type="checkbox" name="agreement"> 대화 운영 원칙과 개인정보 안내에 동의합니다.</label>
+            <button type="submit">의견 남기기 <span>→</span></button>
+          </fieldset>
+          <p class="dialogue-form-note" id="dialogue-form-note">비밀번호는 글 수정과 삭제에 필요하며 복구할 수 없습니다.</p>
+        </form>
+      </div>
+    </section>
+
+    <dialog class="dialogue-editor" id="dialogue-editor" aria-labelledby="home-editor-title">
+      <form method="dialog" class="dialogue-editor-form" id="dialogue-editor-form">
+        <div class="dialogue-editor-heading"><p>EDIT DIALOGUE</p><button type="button" class="editor-close" aria-label="닫기">×</button></div>
+        <h2 id="home-editor-title">내 글 수정·삭제</h2>
+        <input type="hidden" name="id">
+        <label>이름 또는 별명<input type="text" name="nickname" maxlength="10" required></label>
+        <label>내용<textarea name="message" maxlength="500" rows="6" required></textarea></label>
+        <label>작성할 때 입력한 네 자리 비밀번호<input type="password" name="pin" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" required placeholder="0000"></label>
+        <p class="editor-note" aria-live="polite"></p>
+        <div class="editor-actions"><button type="button" class="editor-delete">글 삭제</button><button type="submit" class="editor-save">수정 저장</button></div>
+      </form>
+    </dialog>
 
   </main>
 
