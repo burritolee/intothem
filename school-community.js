@@ -111,15 +111,15 @@
 
   async function openPost(post) {
     const target = $("#reader-content");
-    target.innerHTML = `<button type="button" class="dialog-close reader-close" aria-label="닫기">×</button><p class="community-label">${escapeText(categoryNames[post.category])}</p><h1>${escapeText(post.title)}</h1><p class="reader-meta">${escapeText(post.author_nickname)} · ${formatDate(post.created_at)}</p><div class="reader-body">${escapeText(post.content).replace(/\n/g,"<br>")}</div><section class="reader-attachments" id="attachment-list" hidden></section><section class="reader-comments"><h2>댓글 <span>${post.comment_count || 0}</span></h2><div id="comment-list"><p>댓글을 불러오고 있습니다.</p></div><form id="comment-form"><textarea name="content" maxlength="2000" rows="3" required placeholder="생각을 이어주세요."></textarea><button type="submit">댓글 남기기</button></form></section>`;
+    target.innerHTML = `<button type="button" class="dialog-close reader-close" aria-label="닫기">×</button><p class="community-label">${escapeText(categoryNames[post.category])}</p><h1>${escapeText(post.title)}</h1><p class="reader-meta">${escapeText(post.author_nickname)} · ${formatDate(post.created_at)}</p><div class="reader-body">${escapeText(post.content).replace(/\n/g,"<br>")}</div><section class="reader-attachments" id="attachment-list" hidden></section><section class="reader-comments"><h2>댓글 <span id="reader-comment-count">${post.comment_count || 0}</span></h2><div id="comment-list"><p>댓글을 불러오고 있습니다.</p></div><form id="comment-form"><textarea name="content" maxlength="2000" rows="3" required placeholder="생각을 이어주세요."></textarea><button type="submit">댓글 남기기</button><p class="comment-note" id="comment-note" aria-live="polite"></p></form></section>`;
     target.querySelector(".reader-close").onclick = () => reader.close();
     reader.showModal();
     if (previewMode) { $("#comment-list").innerHTML = "<p>미리보기에서는 댓글을 저장하지 않습니다.</p>"; $("#comment-form").onsubmit = (event) => event.preventDefault(); return; }
-    const [{ data:comments }, { data:attachments, error:attachmentError }] = await Promise.all([
+    const [{ data:comments, error:commentLoadError }, { data:attachments, error:attachmentError }] = await Promise.all([
       client.from("school_comments_view").select("id,content,created_at,author_nickname").eq("post_id", post.id).eq("is_hidden", false).order("created_at"),
       client.from("school_attachments").select("id,storage_path,original_name,mime_type,size_bytes").eq("post_id", post.id).order("created_at")
     ]);
-    $("#comment-list").innerHTML = (comments || []).map((comment) => `<article><strong>${escapeText(comment.author_nickname || "참여자")}</strong><time>${formatDate(comment.created_at)}</time><p>${escapeText(comment.content)}</p></article>`).join("") || "<p>첫 댓글을 기다리고 있습니다.</p>";
+    renderReaderComments(comments || [], commentLoadError);
     const attachmentList = $("#attachment-list");
     if (!attachmentError && attachments?.length) {
       const signed = await Promise.all(attachments.map(async (attachment) => {
@@ -138,7 +138,45 @@
         }).join("")}</div>`;
       }
     }
-    $("#comment-form").onsubmit = async (event) => { event.preventDefault(); const content = event.currentTarget.elements.content.value.trim(); if (!content) return; const { error } = await client.from("school_comments").insert({ post_id:post.id, author_membership_id:currentMember.id, content }); if (!error) openPost(post); };
+    $("#comment-form").onsubmit = async (event) => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const content = form.elements.content.value.trim();
+      const button = form.querySelector("button");
+      const note = $("#comment-note");
+      if (!content || button.disabled) return;
+      button.disabled = true;
+      note.textContent = "댓글을 저장하고 있습니다.";
+      note.className = "comment-note";
+      const { error } = await client.from("school_comments").insert({ post_id:post.id, author_membership_id:currentMember.id, content });
+      if (error) {
+        console.error("school comment save failed", error);
+        note.textContent = `댓글을 저장하지 못했습니다. ${error.message || "다시 시도해주세요."}`;
+        note.className = "comment-note is-error";
+        button.disabled = false;
+        return;
+      }
+      form.elements.content.value = "";
+      const { data:nextComments, error:reloadError } = await client.from("school_comments_view").select("id,content,created_at,author_nickname").eq("post_id", post.id).eq("is_hidden", false).order("created_at");
+      renderReaderComments(nextComments || [], reloadError);
+      post.comment_count = nextComments?.length ?? Number(post.comment_count || 0) + 1;
+      $("#reader-comment-count").textContent = post.comment_count;
+      renderPosts();
+      note.textContent = reloadError ? "댓글은 저장됐지만 목록을 새로 불러오지 못했습니다." : "댓글을 남겼습니다.";
+      note.className = `comment-note ${reloadError ? "is-error" : "is-success"}`;
+      button.disabled = false;
+    };
+  }
+
+  function renderReaderComments(comments, error) {
+    const list = $("#comment-list");
+    if (!list) return;
+    if (error) {
+      console.error("school comments load failed", error);
+      list.innerHTML = `<p class="comment-load-error">댓글을 불러오지 못했습니다. ${escapeText(error.message || "잠시 후 다시 시도해주세요.")}</p>`;
+      return;
+    }
+    list.innerHTML = comments.map((comment) => `<article><strong>${escapeText(comment.author_nickname || "참여자")}</strong><time>${formatDate(comment.created_at)}</time><p>${escapeText(comment.content)}</p></article>`).join("") || "<p>첫 댓글을 기다리고 있습니다.</p>";
   }
 
   async function loadNotifications() {
@@ -157,7 +195,7 @@
       setMessage(limited ? "로그인 메일 발송 한도에 도달했습니다. 잠시 후 다시 시도해주세요." : `로그인 링크를 보내지 못했습니다. ${error.message || "관리자에게 문의해주세요."}`, "error");
       return;
     }
-    setMessage("이메일을 확인해주세요. 로그인 링크는 잠시 후 만료됩니다.", "success");
+    setMessage("로그인하려는 기기에서 이메일을 열고 로그인 링크를 눌러주세요.", "success");
   });
   $("#logout-button").addEventListener("click", async () => { await client.auth.signOut(); location.reload(); });
   $("#profile-form").addEventListener("submit", async (event) => {
