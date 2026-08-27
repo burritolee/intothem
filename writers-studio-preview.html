@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="브리또 작가의 습작노트 작업실 미리보기입니다.">
+  <title>브리또의 작업실 미리보기 | Intothem Books</title>
+  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="service-pages.css"><link rel="stylesheet" href="service-nav.css?v=20260818-4"><link rel="stylesheet" href="writers-notebook.css?v=20260826-2">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="writers-studio-preview.js?v=20260826-2" defer></script>
+</head>
+<body class="service-page writers-page studio-preview-page">
+  <header class="service-header"><a class="service-brand" href="index.html"><img src="assets/intothem-logo.png" alt="INTOTHEM"></a><nav class="service-switch" aria-label="인투뎀 서비스 선택"><a href="place.html">PLACE</a><a href="counseling.html">COUNSELING</a><a href="books.html" aria-current="page">BOOKS</a></nav><a class="home-link" href="writers-notebook.html">습작노트</a></header>
+  <main>
+    <section class="studio-welcome"><div><p>WRITER 01 · BURRITO</p><h1>브리또의<br>작업실</h1></div><div class="studio-welcome-copy"><span>LOGIN PREVIEW</span><p>안녕하세요, 브리또 작가님.<br>완성되지 않은 문장도 편안하게 이곳에 머물 수 있습니다.</p><a href="writers-notebook.html">로그아웃</a></div></section>
+    <section class="studio-overview" aria-label="작업실 현황"><div><span>ALL NOTES</span><strong id="preview-all-count">04</strong><p>전체 습작</p></div><div><span>PRIVATE</span><strong id="preview-private-count">00</strong><p>비공개 글</p></div><div><span>PUBLIC</span><strong id="preview-public-count">04</strong><p>공개한 글</p></div><p>공개 여부는 글을 쓸 때 선택하고<br>나중에도 자유롭게 변경할 수 있습니다.</p></section>
+    <section class="preview-writing-area">
+      <div class="preview-writing-heading"><div><p>NEW WRITING</p><h2>새 글 쓰기</h2></div><span>이 브라우저에 안전하게 임시 저장됩니다.</span></div>
+      <button class="open-writing-paper" id="open-writing-paper" type="button"><span>빈 종이 열기</span><strong>당신의 첫 문장을<br>시작해 보세요.</strong></button>
+      <p class="preview-save-status" id="preview-save-status">저장한 글은 현재 브라우저에서만 확인할 수 있습니다.</p>
+    </section>
+    <section class="preview-note-library">
+      <div class="preview-writing-heading"><div><p>MY NOTES</p><h2>나의 습작</h2></div><div class="preview-tabs"><button class="is-active" type="button" data-filter="all">전체 <span id="preview-tab-all">4</span></button><button type="button" data-filter="private">비공개 <span id="preview-tab-private">0</span></button><button type="button" data-filter="public">공개 <span id="preview-tab-public">4</span></button></div></div>
+      <div class="my-note-list" id="preview-note-list">
+        <article class="my-note"><span class="visibility public">PUBLIC</span><div><h3>프로젝트 헤일메리를 읽고</h3><p>『프로젝트 헤일메리』를 읽고 가슴이 먹먹하다. 대체 이런 글은 어떻게 쓰는 걸까? 과학은 잘 모르고 우주는 더 모르지만, 나를 꼬박 4일 동안 690페이지의 이야기에 묶어 놓은 힘을 생각한다…</p><time datetime="2026-08-15">2026. 08. 15. 공개</time></div><div class="my-note-actions"><a class="note-action note-action-read" href="writers-notebook.html?author=burrito-static&amp;note=burrito-project-hail-mary#public-notes-title" aria-label="읽기" title="읽기"><span class="action-icon document" aria-hidden="true"></span></a><button class="note-action note-action-edit" type="button" aria-label="수정" title="수정"><span class="action-icon pencil" aria-hidden="true">✎</span></button><button class="note-action note-action-remove" type="button" aria-label="삭제" title="삭제"><span class="action-icon eraser" aria-hidden="true"></span></button></div></article>
+        <article class="my-note"><span class="visibility public">PUBLIC</span><div><h3>유기불안, 그 깊은 외로움에 대하여...</h3><p>오늘 나는 부모를 버렸다. 깊고 묵직한 통증이 심연 저 끝에서 퉁 하고 한 계단을 내리디뎠다. 모든 기억과 상처들이 뒤섞여 엉겨 있기에 충격만큼 파동이 크지 못했다…</p><time datetime="2026-07-31">2026. 07. 31. 공개</time></div><div class="my-note-actions"><a class="note-action note-action-read" href="writers-notebook.html?author=burrito-static&amp;note=burrito-abandonment-anxiety#public-notes-title" aria-label="읽기" title="읽기"><span class="action-icon document" aria-hidden="true"></span></a><button class="note-action note-action-edit" type="button" aria-label="수정" title="수정"><span class="action-icon pencil" aria-hidden="true">✎</span></button><button class="note-action note-action-remove" type="button" aria-label="삭제" title="삭제"><span class="action-icon eraser" aria-hidden="true"></span></button></div></article>
+        <article class="my-note"><span class="visibility public">PUBLIC</span><div><h3>사랑하고 사랑받자</h3><p>상담을 시작한 지 어느새 15년이 흘렀다. 가끔 나는 뭘 하고 있나 하는 생각이 들 때가 있다. 나의 일에 대한 자조적인 물음이 아니라, 실제 내가 하고 있는 일이 무엇인지에 대한 원론적인 질문이다…</p><time datetime="2024-09-10">2024. 09. 10. 공개</time></div><div class="my-note-actions"><a class="note-action note-action-read" href="writers-notebook.html?author=burrito-static&amp;note=burrito-love-and-be-loved#public-notes-title" aria-label="읽기" title="읽기"><span class="action-icon document" aria-hidden="true"></span></a><button class="note-action note-action-edit" type="button" aria-label="수정" title="수정"><span class="action-icon pencil" aria-hidden="true">✎</span></button><button class="note-action note-action-remove" type="button" aria-label="삭제" title="삭제"><span class="action-icon eraser" aria-hidden="true"></span></button></div></article>
+        <article class="my-note"><span class="visibility public">PUBLIC</span><div><h3>내 안에 어린 ‘나’</h3><p>가끔 나도 이해하기 힘든 말이나 행동을 생각 없이 할 때가 있다. 평소에 잘 하지 않는 선택을 하거나, 별로 중요하지 않은 일에 마음이 크게 흔들리는 순간을 바라본다…</p><time datetime="2024-06-03">2024. 06. 03. 공개</time></div><div class="my-note-actions"><a class="note-action note-action-read" href="writers-notebook.html?author=burrito-static&amp;note=burrito-inner-child#public-notes-title" aria-label="읽기" title="읽기"><span class="action-icon document" aria-hidden="true"></span></a><button class="note-action note-action-edit" type="button" aria-label="수정" title="수정"><span class="action-icon pencil" aria-hidden="true">✎</span></button><button class="note-action note-action-remove" type="button" aria-label="삭제" title="삭제"><span class="action-icon eraser" aria-hidden="true"></span></button></div></article>
+      </div>
+    </section>
+    <dialog class="writing-paper" id="writing-paper" aria-label="새 습작 작성">
+      <form id="preview-note-editor"><input type="hidden" name="id">
+        <div class="writing-paper-bar"><button type="button" id="close-writing-paper">← 작업실</button><span id="writing-paper-mode">NEW WRITING</span><div class="writing-paper-actions"><fieldset><legend>공개 설정</legend><label><input type="radio" name="visibility" value="private" checked> 비공개</label><label><input type="radio" name="visibility" value="public"> 공개</label></fieldset><button type="submit">저장하기</button></div></div>
+        <article class="writing-sheet"><label class="sr-only" for="writing-title">제목</label><input id="writing-title" class="writing-title" type="text" name="title" maxlength="100" required placeholder="제목 없는 글"><label class="sr-only" for="writing-content">본문</label><textarea id="writing-content" class="writing-content" name="content" maxlength="5000" required placeholder="첫 문장을 적어보세요."></textarea><div class="writing-sheet-footer"><span class="note-count">0 / 5000</span><button type="reset">새 종이</button></div><p id="preview-save-note">이 글은 현재 브라우저에 저장됩니다.</p></article>
+      </form>
+    </dialog>
+    <dialog class="note-reader preview-note-reader" id="preview-note-reader" aria-labelledby="preview-reader-title"><div class="note-reader-bar"><button type="button" id="preview-reader-close">← 나의 습작</button><span>BURRITO · WRITERS' NOTE</span></div><article class="note-reader-article"><p class="note-reader-meta" id="preview-reader-meta"></p><h2 id="preview-reader-title"></h2><div class="note-reader-content" id="preview-reader-content"></div></article></dialog>
+  </main>
+  <footer class="service-footer"><p class="service-footer-name">INTOTHEM</p><p>상담 · 모임과 교육 · 책 만들기</p><address>서울 서대문구 이화여대길 88-16 4층 · <a href="privacy.html">개인정보처리방침</a></address></footer>
+</body>
+</html>

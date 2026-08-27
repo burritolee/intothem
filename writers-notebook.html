@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="다섯 작가의 문장과 작업 과정을 만나는 인투뎀 북스 작가의 습작노트입니다.">
+  <title>작가의 습작노트 | Intothem Books</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="service-pages.css">
+  <link rel="stylesheet" href="service-nav.css?v=20260818-4">
+  <link rel="stylesheet" href="writers-notebook.css?v=20260826-2">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="writers-public-notes.js?v=20260826-1" defer></script>
+  <script src="writers-notebook.js?v=20260826-2" defer></script>
+</head>
+<body class="service-page writers-page">
+  <header class="service-header"><a class="service-brand" href="index.html"><img src="assets/intothem-logo.png" alt="INTOTHEM"></a><nav class="service-switch" aria-label="인투뎀 서비스 선택"><a href="place.html">PLACE</a><a href="counseling.html">COUNSELING</a><a href="books.html" aria-current="page">BOOKS</a></nav><a class="home-link" href="books.html">책 목록</a></header>
+  <main>
+    <section class="writers-hero">
+      <div><p>INTOTHEM BOOKS · WRITERS' NOTE</p><h1>작가의<br>습작노트</h1></div>
+      <p>완성된 작품 뒤에는 수없이 고쳐 쓴 문장과 오래 머문 생각이 있습니다.<br>다섯 작가가 자신의 속도로 쓰고, 공개하고 싶은 글을 독자와 나누는 작은 작업실입니다.</p>
+    </section>
+    <section class="writers-rooms" aria-labelledby="rooms-title">
+      <div class="writers-section-heading"><p>FIVE WRITERS</p><h2 id="rooms-title">다섯 개의 작업실</h2><span>작가 이름은 계정 등록 후 표시됩니다.</span></div>
+      <div class="writer-room-grid" id="writer-room-grid" aria-live="polite">
+        <article class="writer-room" tabindex="0"><span>01</span><h3>브리또의 방</h3><p>공개된 글 4편</p></article>
+        <article class="writer-room"><span>02</span><h3>작가 02</h3><p>아직 공개된 글이 없습니다.</p></article>
+        <article class="writer-room"><span>03</span><h3>작가 03</h3><p>아직 공개된 글이 없습니다.</p></article>
+        <article class="writer-room"><span>04</span><h3>작가 04</h3><p>아직 공개된 글이 없습니다.</p></article>
+        <article class="writer-room"><span>05</span><h3>작가 05</h3><p>아직 공개된 글이 없습니다.</p></article>
+      </div>
+    </section>
+    <section class="public-notes" aria-labelledby="public-notes-title">
+      <div class="writers-section-heading"><p>OPEN NOTE</p><h2 id="public-notes-title">독자에게 열린 글</h2><span>작가가 공개를 선택한 습작만 이곳에 나타납니다.</span></div>
+      <div class="note-filter" id="note-filter" aria-label="작가별 글 보기"><button type="button" class="is-active" data-author="all">전체</button></div>
+      <div class="public-note-list" id="public-note-list" aria-live="polite"><div class="writers-empty"><p>공개된 글을 불러오는 중입니다.</p></div></div>
+    </section>
+    <section class="writer-access" aria-labelledby="writer-access-title">
+      <div class="access-copy"><p>WRITER ACCESS</p><h2 id="writer-access-title">작가의 작업실</h2><p>등록된 작가만 로그인할 수 있습니다. 비공개로 저장한 글은 본인 계정에서만 확인할 수 있습니다.</p></div>
+      <form class="writer-login" id="writer-login">
+        <label>이메일<input type="email" name="email" autocomplete="username" required placeholder="writer@example.com"></label>
+        <label>비밀번호<input type="password" name="password" autocomplete="current-password" required minlength="8" placeholder="비밀번호"></label>
+        <button type="submit">작가 로그인 <span>→</span></button><a class="studio-preview-link" href="writers-studio-preview.html">로그인 후 화면 미리보기 <span>→</span></a><p id="login-note">작가 계정은 인투뎀에서 등록합니다.</p>
+      </form>
+      <div class="writer-session" id="writer-session" hidden><p><strong id="session-writer-name">작가</strong>님의 작업실입니다.</p><button type="button" id="writer-logout">로그아웃</button></div>
+    </section>
+    <section class="writer-studio" id="writer-studio" aria-labelledby="studio-title" hidden>
+      <div class="studio-heading"><div><p>MY WRITING ROOM</p><h2 id="studio-title">나의 습작</h2></div><button type="button" id="new-note-button">새 글 쓰기 ＋</button></div>
+      <form class="note-editor" id="note-editor" hidden>
+        <input type="hidden" name="id">
+        <label>제목<input type="text" name="title" maxlength="100" required placeholder="글의 제목을 적어주세요"></label>
+        <label>본문<textarea name="content" maxlength="5000" rows="14" required placeholder="아직 완성되지 않은 문장도 괜찮습니다."></textarea><span class="note-count">0 / 5000</span></label>
+        <fieldset><legend>공개 설정</legend><label><input type="radio" name="visibility" value="private" checked> 비공개로 저장</label><label><input type="radio" name="visibility" value="public"> 독자에게 공개</label></fieldset>
+        <div class="editor-actions"><button type="submit">저장하기</button><button type="button" id="cancel-note-button">취소</button></div><p id="editor-note">공개 여부는 언제든 변경할 수 있습니다.</p>
+      </form>
+      <div class="my-note-list" id="my-note-list" aria-live="polite"></div>
+    </section>
+    <dialog class="note-reader" id="note-reader" aria-labelledby="note-reader-title">
+      <div class="note-reader-bar"><button type="button" id="note-reader-close" aria-label="글 목록으로 돌아가기">← 글 목록</button><span>WRITERS' NOTE</span></div>
+      <article class="note-reader-article"><p class="note-reader-meta" id="note-reader-meta"></p><h2 id="note-reader-title"></h2><div class="note-reader-content" id="note-reader-content"></div></article>
+    </dialog>
+  </main>
+  <footer class="service-footer"><p class="service-footer-name">INTOTHEM</p><p>상담 · 모임과 교육 · 책 만들기</p><address>서울 서대문구 이화여대길 88-16 4층 · <a href="privacy.html">개인정보처리방침</a></address></footer>
+</body>
+</html>

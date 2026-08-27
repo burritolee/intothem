@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="나는학교 참여자들이 대화하고 자료를 나누는 회원 전용 아고라입니다.">
+  <title>나는학교 아고라 — INTOTHEM</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="school-community.css?v=20260827-2">
+  <link rel="stylesheet" href="school-community-extras.css?v=20260827-3">
+  <link rel="stylesheet" href="school-community-profile.css?v=20260827-1">
+  <link rel="stylesheet" href="school-community-login.css?v=20260827-11">
+  <link rel="stylesheet" href="school-community-reader.css?v=20260827-3">
+  <style>[hidden]{display:none!important}</style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="school-community.js?v=20260827-6" defer></script>
+</head>
+<body class="community-page">
+  <header class="community-header">
+    <a class="community-brand" href="index.html"><img src="assets/intothem-logo.png" alt="INTOTHEM"></a>
+    <p>NANEUN SCHOOL · AGORA</p>
+    <nav><a href="naneun-school.html">프로젝트 소개</a><button type="button" id="logout-button" hidden>로그아웃</button></nav>
+  </header>
+
+  <main>
+    <section class="login-view" id="login-view">
+      <div class="login-art" aria-hidden="true"><div class="login-art-kicker"><span>배움은</span></div><strong>나로부터,<br>우리 사이에서.</strong><small class="members-only-seal">회원 전용</small></div>
+      <div class="login-panel">
+        <h1>나는학교<br>아고라</h1>
+        <p>초대받은 참여자들이 생각을 나누고 자료를 함께 쌓아가는 조용한 작업실입니다.</p>
+        <form id="login-form">
+          <label><span>초대받은 이메일</span><input type="email" name="email" autocomplete="email" required placeholder="name@example.com"></label>
+          <button type="submit" aria-label="로그인 링크 받기"><span aria-hidden="true">→</span></button>
+        </form>
+        <p class="login-note" id="login-note" aria-live="polite">별도의 비밀번호 없이 이메일로 받은 링크를 누르면 로그인됩니다.</p>
+      </div>
+    </section>
+
+    <section class="pending-view" id="pending-view" hidden>
+      <p class="community-label">MEMBERSHIP REQUIRED</p><h1>참여 권한을 확인하고 있습니다.</h1>
+      <p>초대된 이메일로 로그인했는데도 이 화면이 보인다면 관리자에게 문의해주세요.</p>
+      <a href="naneun-school.html">프로젝트 소개로 돌아가기</a>
+    </section>
+
+    <section class="community-view" id="community-view" hidden>
+      <aside class="community-sidebar">
+        <div class="member-card"><p>WELCOME BACK</p><strong id="member-nickname">참여자</strong><span id="member-real-name"></span></div>
+        <nav class="community-nav" aria-label="나는학교 아고라 메뉴">
+          <button type="button" class="is-active" data-category="all"><span>00</span>전체 글</button>
+          <button type="button" data-category="notice"><span>01</span>공지</button>
+          <button type="button" data-category="resource"><span>02</span>자료공유</button>
+          <button type="button" data-category="discussion"><span>03</span>질문과 토론</button>
+        </nav>
+        <button class="admin-entry" id="admin-entry" type="button" hidden>관리자 메뉴 열기 ↗</button>
+      </aside>
+
+      <div class="community-content">
+        <header class="community-intro">
+          <div><p class="community-label">LEARN · SHARE · CONNECT</p><h1>함께 배우는<br>사람들의 기록</h1></div>
+          <div><label>현재 모임<select id="group-select" aria-label="현재 모임"></select></label><button class="notification-button" id="notification-button" type="button" aria-label="알림 보기">○<span id="notification-count" hidden>0</span></button></div>
+        </header>
+
+        <section class="notice-strip" id="notice-strip" hidden><p>PINNED NOTICE</p><strong id="pinned-title"></strong><button type="button" id="pinned-open">읽기 →</button></section>
+
+        <section class="board-toolbar">
+          <div><p id="board-label">ALL NOTES</p><h2 id="board-title">전체 글</h2></div>
+          <button type="button" id="new-post-button">새 글 쓰기 <span>＋</span></button>
+        </section>
+        <div class="post-list" id="post-list" aria-live="polite"><p class="board-empty">글을 불러오고 있습니다.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="post-dialog" id="post-dialog">
+    <form id="post-form">
+      <header><div><p class="community-label">NEW NOTE</p><h2>생각과 자료 남기기</h2></div><button type="button" class="dialog-close" aria-label="닫기">×</button></header>
+      <div class="post-fields">
+        <label>분류<select name="category"><option value="discussion">질문과 토론</option><option value="resource">자료공유</option><option value="notice" class="admin-only-option">공지</option></select></label>
+        <label>공개 범위<select name="visibility"><option value="group">현재 그룹</option><option value="project">나는학교 전체</option></select></label>
+        <label class="wide">제목<input type="text" name="title" maxlength="100" required placeholder="제목을 입력하세요"></label>
+        <label class="wide">내용<textarea name="content" maxlength="10000" rows="13" required placeholder="서로의 생각이 이어질 수 있도록 천천히 적어주세요."></textarea></label>
+        <label class="wide file-field">자료 첨부<input type="file" name="files" multiple accept=".pdf,.doc,.docx,.hwp,.hwpx,.ppt,.pptx,.jpg,.jpeg,.png,.webp"><span>파일당 20MB · 최대 5개 · 동영상과 압축파일 제외</span></label>
+      </div>
+      <p class="form-note" id="post-form-note" aria-live="polite"></p>
+      <footer><button type="button" class="dialog-cancel">취소</button><button type="submit" class="post-submit">글 올리기 →</button></footer>
+    </form>
+  </dialog>
+
+  <dialog class="reader-dialog" id="reader-dialog"><article id="reader-content"></article></dialog>
+  <dialog class="admin-dialog" id="admin-dialog">
+    <section><header><div><p class="community-label">AGORA CONTROL</p><h2>나는학교 아고라 관리</h2></div><button type="button" class="admin-close" aria-label="닫기">×</button></header>
+      <div class="admin-summary"><article><span>활동 회원</span><strong id="admin-active-count">0</strong></article><article><span>운영자</span><strong id="admin-operator-count">0</strong></article><article><span>숨긴 글</span><strong id="admin-hidden-count">0</strong></article></div>
+      <div class="admin-toolbar"><h3>회원과 권한</h3><p>가입 초대는 초기에는 Supabase에서 진행하며, 여기에서 그룹 역할과 활동 상태를 관리합니다.</p></div><div class="admin-member-list" id="admin-member-list"></div>
+    </section>
+  </dialog>
+  <dialog class="profile-dialog" id="profile-dialog">
+    <form id="profile-form"><p class="community-label">FIRST SIGN IN</p><h2>참여자 정보를<br>완성해주세요.</h2><p>가입 확인을 위해 실명을 입력하고, 다른 참여자에게 보일 닉네임을 정해주세요. 실명은 관리자에게만 보입니다.</p><label>실명<input type="text" name="real_name" minlength="2" maxlength="30" required autocomplete="name"></label><label>닉네임<input type="text" name="nickname" minlength="1" maxlength="20" required value="브리또"></label><span class="form-note" id="profile-note"></span><button type="submit">아고라 시작하기 →</button></form>
+  </dialog>
+</body>
+</html>

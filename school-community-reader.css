@@ -1,0 +1,23 @@
+.reader-dialog h1 {
+  margin: 18px 54px 12px 0;
+  font: 500 clamp(18px, 2vw, 24px) / 1.45 var(--sans);
+  letter-spacing: -0.025em;
+}
+
+.reader-dialog .reader-close:focus,
+.reader-dialog .reader-close:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.member-card strong {
+  font: 500 23px / 1.35 var(--sans);
+  letter-spacing: -0.03em;
+}
+
+@media (max-width: 760px) {
+  .reader-dialog h1 {
+    margin-right: 42px;
+    font-size: 18px;
+  }
+}
