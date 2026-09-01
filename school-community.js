@@ -1,7 +1,14 @@
 (function () {
   const SUPABASE_URL = "https://rjkzlpdoaldwbgjpicrv.supabase.co";
   const SUPABASE_KEY = "sb_publishable_o-ayN4jSeqDkAWSP2W4uNA_-Dsl624v";
-  const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+      storage: window.localStorage
+    }
+  });
   const $ = (selector) => document.querySelector(selector);
   const loginView = $("#login-view");
   const pendingView = $("#pending-view");
@@ -187,7 +194,9 @@
   loginForm.addEventListener("submit", async (event) => {
     event.preventDefault(); const email = loginForm.elements.email.value.trim(); const button = loginForm.querySelector("button"); button.disabled = true;
     setMessage("로그인 링크를 보내고 있습니다.");
-    const redirectTo = `${location.origin}${location.pathname}`;
+    const redirectTo = location.protocol === "file:"
+      ? "http://127.0.0.1:4173/naneun-school-community.html"
+      : `${location.origin}${location.pathname}`;
     const { error } = await client.auth.signInWithOtp({ email, options:{ emailRedirectTo:redirectTo, shouldCreateUser:false } });
     button.disabled = false;
     if (error) {
@@ -195,7 +204,7 @@
       setMessage(limited ? "로그인 메일 발송 한도에 도달했습니다. 잠시 후 다시 시도해주세요." : `로그인 링크를 보내지 못했습니다. ${error.message || "관리자에게 문의해주세요."}`, "error");
       return;
     }
-    setMessage("로그인하려는 기기에서 이메일을 열고 로그인 링크를 눌러주세요.", "success");
+    setMessage("이 기기에서 이메일 링크를 한 번만 눌러주세요. 이후에는 자동으로 로그인됩니다.", "success");
   });
   $("#logout-button").addEventListener("click", async () => { await client.auth.signOut(); location.reload(); });
   $("#profile-form").addEventListener("submit", async (event) => {
@@ -257,6 +266,9 @@
     if (previewMode) { enterPreview(); return; }
     const { data:{ session } } = await client.auth.getSession();
     if (session?.user) await loadMembership(session.user); else show(loginView);
-    client.auth.onAuthStateChange((_event, nextSession) => { if (nextSession?.user) loadMembership(nextSession.user); });
+    client.auth.onAuthStateChange((event, nextSession) => {
+      if (nextSession?.user) loadMembership(nextSession.user);
+      else if (event === "SIGNED_OUT") show(loginView);
+    });
   })();
 })();
