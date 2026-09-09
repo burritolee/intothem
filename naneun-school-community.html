@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="나는학교 참여자들이 대화하고 자료를 나누는 회원 전용 아고라입니다.">
+  <meta name="description" content="이메일 인증 후 누구나 대화하고 자료를 나눌 수 있는 나는학교 아고라입니다.">
   <title>나는학교 아고라 — INTOTHEM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="school-community-reader.css?v=20260827-4">
   <style>[hidden]{display:none!important}</style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-  <script src="school-community.js?v=20260909-1" defer></script>
+  <script src="school-community.js?v=20260909-3" defer></script>
 </head>
 <body class="community-page">
   <header class="community-header">
@@ -28,12 +28,12 @@
 
   <main>
     <section class="login-view" id="login-view">
-      <div class="login-art" aria-hidden="true"><div class="login-art-kicker"><span>배움은</span></div><strong>나로부터,<br>우리 사이에서.</strong><small class="members-only-seal">회원 전용</small></div>
+      <div class="login-art" aria-hidden="true"><div class="login-art-kicker"><span>배움은</span></div><strong>나로부터,<br>우리 사이에서.</strong><small class="members-only-seal">이메일 인증</small></div>
       <div class="login-panel">
         <h1>나는학교<br>아고라</h1>
-        <p>초대받은 참여자들이 생각을 나누고 자료를 함께 쌓아가는 조용한 작업실입니다.</p>
+        <p>이메일 인증을 마치면 누구나 생각을 나누고 자료를 함께 쌓을 수 있습니다.</p>
         <form id="login-form">
-          <label><span>초대받은 이메일</span><input type="email" name="email" autocomplete="email" required placeholder="name@example.com"></label>
+          <label><span>이메일</span><input type="email" name="email" autocomplete="email" required placeholder="name@example.com"></label>
           <button type="submit" aria-label="로그인 링크 받기"><span aria-hidden="true">→</span></button>
         </form>
         <p class="login-note" id="login-note" aria-live="polite">처음 한 번만 이 브라우저에서 이메일 링크를 누르면, 다음부터는 자동으로 로그인됩니다.</p>
@@ -41,9 +41,9 @@
     </section>
 
     <section class="pending-view" id="pending-view" hidden>
-      <p class="community-label">MEMBERSHIP REQUIRED</p><h1>참여 권한을 확인하고 있습니다.</h1>
-      <p>초대된 이메일로 로그인했는데도 이 화면이 보인다면 관리자에게 문의해주세요.</p>
-      <div class="pending-actions"><button type="button" id="pending-login-again">다른 이메일로 로그인</button><a href="naneun-school.html">프로젝트 소개로 돌아가기</a></div>
+      <p class="community-label">SIGN-UP INCOMPLETE</p><h1>가입을 마무리하지 못했습니다.</h1>
+      <p id="pending-note">잠시 후 다시 시도해주세요. 같은 화면이 계속 보이면 관리자에게 문의해주세요.</p>
+      <div class="pending-actions"><button type="button" id="pending-retry">다시 시도</button><button type="button" id="pending-login-again">다른 이메일로 로그인</button><a href="naneun-school.html">프로젝트 소개로 돌아가기</a></div>
     </section>
 
     <section class="community-view" id="community-view" hidden>
@@ -79,7 +79,7 @@
     <form id="post-form">
       <header><div><p class="community-label">NEW NOTE</p><h2>생각과 자료 남기기</h2></div><button type="button" class="dialog-close" aria-label="닫기">×</button></header>
       <div class="post-fields">
-        <label>분류<select name="category"><option value="discussion">질문과 토론</option><option value="resource">자료공유</option><option value="notice" class="admin-only-option">공지</option></select></label>
+        <label>분류<select name="category"><option value="discussion">질문과 토론</option><option value="resource">자료공유</option><option value="notice" class="admin-only-option" hidden disabled>공지</option></select></label>
         <label>공개 범위<select name="visibility"><option value="group">현재 그룹</option><option value="project">나는학교 전체</option></select></label>
         <label class="wide">제목<input type="text" name="title" maxlength="100" required placeholder="제목을 입력하세요"></label>
         <label class="wide">내용<textarea name="content" maxlength="10000" rows="13" required placeholder="서로의 생각이 이어질 수 있도록 천천히 적어주세요."></textarea></label>
@@ -94,11 +94,11 @@
   <dialog class="admin-dialog" id="admin-dialog">
     <section><header><div><p class="community-label">AGORA CONTROL</p><h2>나는학교 아고라 관리</h2></div><button type="button" class="admin-close" aria-label="닫기">×</button></header>
       <div class="admin-summary"><article><span>활동 회원</span><strong id="admin-active-count">0</strong></article><article><span>운영자</span><strong id="admin-operator-count">0</strong></article><article><span>숨긴 글</span><strong id="admin-hidden-count">0</strong></article></div>
-      <div class="admin-toolbar"><h3>회원과 권한</h3><p>가입 초대는 초기에는 Supabase에서 진행하며, 여기에서 그룹 역할과 활동 상태를 관리합니다.</p></div><div class="admin-member-list" id="admin-member-list"></div>
+      <div class="admin-toolbar"><h3>회원과 권한</h3><p>이메일 인증을 마친 사용자는 자동으로 가입됩니다. 여기에서 역할과 활동 상태를 관리합니다.</p></div><div class="admin-member-list" id="admin-member-list"></div>
     </section>
   </dialog>
   <dialog class="profile-dialog" id="profile-dialog">
-    <form id="profile-form"><p class="community-label">FIRST SIGN IN</p><h2>참여자 정보를<br>완성해주세요.</h2><p>가입 확인을 위해 실명을 입력하고, 다른 참여자에게 보일 닉네임을 정해주세요. 실명은 관리자에게만 보입니다.</p><label>실명<input type="text" name="real_name" minlength="2" maxlength="30" required autocomplete="name"></label><label>닉네임<input type="text" name="nickname" minlength="1" maxlength="20" required value="브리또"></label><span class="form-note" id="profile-note"></span><button type="submit">아고라 시작하기 →</button></form>
+    <form id="profile-form"><p class="community-label">FIRST SIGN IN</p><h2>참여자 정보를<br>완성해주세요.</h2><p>관리자에게 확인할 실명과 다른 참여자에게 보일 닉네임을 입력해주세요.</p><label>실명<input type="text" name="real_name" minlength="2" maxlength="30" required autocomplete="name"></label><label>닉네임<input type="text" name="nickname" minlength="1" maxlength="20" required value="새 참여자"></label><span class="form-note" id="profile-note"></span><button type="submit">아고라 시작하기 →</button></form>
   </dialog>
 </body>
 </html>

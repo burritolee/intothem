@@ -3,14 +3,117 @@
   const SUPABASE_KEY = "sb_publishable_o-ayN4jSeqDkAWSP2W4uNA_-Dsl624v";
   // 기존 나는학교 세션을 유지하도록 현재 기본 키를 명시합니다.
   const COMMUNITY_AUTH_STORAGE_KEY = "sb-rjkzlpdoaldwbgjpicrv-auth-token";
-  const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
-    auth: {
+  const COMMUNITY_AUTO_JOIN_RPC = "ensure_naneun_school_membership";
+
+  function createCommunityAuthOptions(storage) {
+    return {
       persistSession: true,
       autoRefreshToken: true,
       detectSessionInUrl: true,
       storageKey: COMMUNITY_AUTH_STORAGE_KEY,
-      storage: window.localStorage
+      storage
+    };
+  }
+
+  function getCommunityRedirectTo(pageLocation) {
+    return pageLocation.protocol === "file:"
+      ? "http://127.0.0.1:4173/naneun-school-community.html"
+      : `${pageLocation.origin}${pageLocation.pathname}`;
+  }
+
+  function getLoginErrorMessage(error) {
+    const code = error?.code || error?.error_code || "";
+    const message = error?.message || "";
+    if (["over_email_send_rate_limit", "over_request_rate_limit"].includes(code) || error?.status === 429 || /rate|limit|security purposes/i.test(message)) {
+      return "로그인 메일 발송 한도에 도달했습니다. 잠시 후 다시 시도해주세요.";
     }
+    if (code === "otp_disabled" || /signups not allowed for otp/i.test(message)) {
+      return "이메일 가입이 현재 비활성화되어 있습니다. 관리자에게 문의해주세요.";
+    }
+    if (code === "email_address_invalid" || /invalid email/i.test(message)) {
+      return "이메일 주소 형식을 확인해주세요.";
+    }
+    if (code === "email_address_not_authorized") {
+      return "현재 인증 메일을 보낼 수 없는 주소입니다. 관리자에게 문의해주세요.";
+    }
+    if (code === "email_provider_disabled") {
+      return "이메일 로그인 설정을 확인할 수 없습니다. 관리자에게 문의해주세요.";
+    }
+    return "로그인 링크를 보내지 못했습니다. 잠시 후 다시 시도하거나 관리자에게 문의해주세요.";
+  }
+
+  async function ensureCommunityMembership(readActiveMemberships, joinCommunity) {
+    const { error:joinError } = await joinCommunity();
+    if (joinError) return { data:[], error:joinError };
+    return readActiveMemberships();
+  }
+
+  function createSessionLoadCoordinator(loadUser) {
+    let generation = 0;
+    let activeUserId = null;
+    let completedUserId = null;
+    let inFlight = null;
+
+    function reset() {
+      generation += 1;
+      activeUserId = null;
+      completedUserId = null;
+      inFlight = null;
+    }
+
+    function load(user, { force=false } = {}) {
+      if (!user?.id) return Promise.resolve(false);
+      if (!force && activeUserId === user.id) {
+        if (inFlight) return inFlight;
+        if (completedUserId === user.id) return Promise.resolve(true);
+      }
+
+      const requestGeneration = ++generation;
+      activeUserId = user.id;
+      completedUserId = null;
+      const isCurrent = () => generation === requestGeneration && activeUserId === user.id;
+      const task = Promise.resolve()
+        .then(() => loadUser(user, isCurrent))
+        .then((loaded) => {
+          const accepted = Boolean(loaded) && isCurrent();
+          if (accepted) completedUserId = user.id;
+          return accepted;
+        })
+        .catch((error) => {
+          if (!isCurrent()) return false;
+          throw error;
+        })
+        .finally(() => {
+          if (inFlight === task) inFlight = null;
+        });
+      inFlight = task;
+      return task;
+    }
+
+    return {
+      load,
+      reset,
+      isCurrentUser: (userId) => activeUserId === userId
+    };
+  }
+
+  if (typeof module !== "undefined" && module.exports) {
+    module.exports = {
+      SUPABASE_URL,
+      SUPABASE_KEY,
+      COMMUNITY_AUTH_STORAGE_KEY,
+      COMMUNITY_AUTO_JOIN_RPC,
+      createCommunityAuthOptions,
+      getCommunityRedirectTo,
+      getLoginErrorMessage,
+      ensureCommunityMembership,
+      createSessionLoadCoordinator
+    };
+    return;
+  }
+
+  const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: createCommunityAuthOptions(window.localStorage)
   });
   const $ = (selector) => document.querySelector(selector);
   const loginView = $("#login-view");
@@ -22,6 +125,8 @@
   const postDialog = $("#post-dialog");
   const postForm = $("#post-form");
   const reader = $("#reader-dialog");
+  const profileDialog = $("#profile-dialog");
+  const pendingNote = $("#pending-note");
   const previewMode = new URLSearchParams(location.search).get("preview") === "1";
   let currentMember = null;
   let memberships = [];
@@ -55,24 +160,60 @@
     const node = document.createElement("span"); node.textContent = value || ""; return node.innerHTML;
   }
   function isManager() { return currentMember && ["admin", "operator"].includes(currentMember.role); }
+  function updateManagerControls(manager) {
+    $("#admin-entry").hidden = !manager;
+    document.querySelectorAll(".admin-only-option").forEach((option) => {
+      option.hidden = !manager;
+      option.disabled = !manager;
+    });
+  }
 
-  async function loadMembership(user) {
-    const { data, error } = await client.from("school_memberships").select("id,role,status,nickname,real_name,group_id,school_groups(id,name,project_id)").eq("user_id", user.id).eq("status", "active");
-    if (error || !data || !data.length) { show(pendingView); return; }
+  async function loadMembership(user, isCurrent=() => true) {
+    const readActiveMemberships = () => client.from("school_memberships").select("id,role,status,nickname,real_name,group_id,school_groups(id,name,project_id)").eq("user_id", user.id).eq("status", "active");
+    const { data, error } = await ensureCommunityMembership(
+      readActiveMemberships,
+      () => client.rpc(COMMUNITY_AUTO_JOIN_RPC)
+    );
+    if (!isCurrent()) return false;
+    if (error || !data || !data.length) {
+      console.error("school membership provisioning failed", { code:error?.code, message:error?.message });
+      pendingNote.textContent = "가입 처리에 실패했습니다. 잠시 후 다시 시도해주세요.";
+      show(pendingView);
+      return false;
+    }
     memberships = data;
     currentMember = data[0];
     $("#member-nickname").textContent = currentMember.nickname;
     $("#member-real-name").textContent = roleNames[currentMember.role] || "참여자";
-    $("#admin-entry").hidden = !isManager();
+    updateManagerControls(isManager());
     $("#logout-button").hidden = false;
     const select = $("#group-select");
     select.replaceChildren(...memberships.map((item) => new Option(item.school_groups.name, item.group_id)));
     show(communityView);
     if (currentMember.real_name === "가입 후 입력") {
       $("#profile-form").elements.nickname.value = currentMember.nickname;
-      $("#profile-dialog").showModal();
+      if (!profileDialog.open) profileDialog.showModal();
     }
-    await Promise.all([loadPosts(), loadNotifications()]);
+    await Promise.all([loadPosts(isCurrent), loadNotifications(isCurrent)]);
+    return isCurrent();
+  }
+
+  const sessionLoadCoordinator = createSessionLoadCoordinator(loadMembership);
+
+  function resetCommunitySession() {
+    sessionLoadCoordinator.reset();
+    currentMember = null;
+    memberships = [];
+    posts = [];
+    $("#logout-button").hidden = true;
+    updateManagerControls(false);
+    $("#group-select").replaceChildren();
+    postForm.reset();
+    postList.innerHTML = '<p class="board-empty">글을 불러오고 있습니다.</p>';
+    [profileDialog, postDialog, reader, $("#admin-dialog")].forEach((dialog) => {
+      if (dialog?.open) dialog.close();
+    });
+    show(loginView);
   }
 
   function enterPreview() {
@@ -80,17 +221,18 @@
     memberships = [{ group_id:"preview", school_groups:{ name:"나는학교 1기", project_id:"preview" } }];
     $("#member-nickname").textContent = "브리또";
     $("#member-real-name").textContent = "전체 관리자";
-    $("#admin-entry").hidden = false;
+    updateManagerControls(true);
     $("#group-select").replaceChildren(new Option("나는학교 1기", "preview"));
     posts = demoPosts;
     show(communityView);
     renderPosts(); renderPinned();
   }
 
-  async function loadPosts() {
+  async function loadPosts(isCurrent=() => true) {
     const groupId = $("#group-select").value;
     if (!posts.length) postList.innerHTML = '<p class="board-empty">글을 불러오고 있습니다.</p>';
     const { data, error } = await client.from("school_posts_view").select("*").or(`group_id.eq.${groupId},visibility.eq.project`).eq("is_hidden", false).order("is_pinned", { ascending:false }).order("created_at", { ascending:false });
+    if (!isCurrent()) return;
     if (error) {
       console.error("school posts load failed", error);
       if (!posts.length) postList.innerHTML = `<p class="board-empty">글을 불러오지 못했습니다.<br>${escapeText(error.message || "잠시 후 다시 시도해주세요.")}</p>`;
@@ -189,22 +331,21 @@
     list.innerHTML = comments.map((comment) => `<article><strong>${escapeText(comment.author_nickname || "참여자")}</strong><time>${formatDate(comment.created_at)}</time><p>${escapeText(comment.content)}</p></article>`).join("") || "<p>첫 댓글을 기다리고 있습니다.</p>";
   }
 
-  async function loadNotifications() {
+  async function loadNotifications(isCurrent=() => true) {
     const { count } = await client.from("school_notifications").select("id", { count:"exact", head:true }).eq("membership_id", currentMember.id).is("read_at", null);
+    if (!isCurrent()) return;
     const badge = $("#notification-count"); badge.textContent = count || 0; badge.hidden = !count;
   }
 
   loginForm.addEventListener("submit", async (event) => {
     event.preventDefault(); const email = loginForm.elements.email.value.trim(); const button = loginForm.querySelector("button"); button.disabled = true;
     setMessage("로그인 링크를 보내고 있습니다.");
-    const redirectTo = location.protocol === "file:"
-      ? "http://127.0.0.1:4173/naneun-school-community.html"
-      : `${location.origin}${location.pathname}`;
-    const { error } = await client.auth.signInWithOtp({ email, options:{ emailRedirectTo:redirectTo, shouldCreateUser:false } });
+    const redirectTo = getCommunityRedirectTo(location);
+    const { error } = await client.auth.signInWithOtp({ email, options:{ emailRedirectTo:redirectTo, shouldCreateUser:true } });
     button.disabled = false;
     if (error) {
-      const limited = error.status === 429 || /rate|limit|security purposes/i.test(error.message || "");
-      setMessage(limited ? "로그인 메일 발송 한도에 도달했습니다. 잠시 후 다시 시도해주세요." : `로그인 링크를 보내지 못했습니다. ${error.message || "관리자에게 문의해주세요."}`, "error");
+      console.error("school login link send failed", { status:error.status, code:error.code, message:error.message });
+      setMessage(getLoginErrorMessage(error), "error");
       return;
     }
     setMessage("이 브라우저에서 이메일 링크를 한 번만 눌러주세요. 이후에는 자동으로 로그인됩니다.", "success");
@@ -216,11 +357,24 @@
     if (error) window.localStorage.removeItem(COMMUNITY_AUTH_STORAGE_KEY);
     location.reload();
   });
+  $("#pending-retry").addEventListener("click", async (event) => {
+    const button = event.currentTarget;
+    button.disabled = true;
+    const { data:{ session } } = await client.auth.getSession();
+    if (session?.user) {
+      await sessionLoadCoordinator.load(session.user, { force:true }).catch((error) => {
+        console.error("school membership retry failed", error);
+      });
+    } else {
+      resetCommunitySession();
+    }
+    button.disabled = false;
+  });
   $("#profile-form").addEventListener("submit", async (event) => {
     event.preventDefault();
     const form = event.currentTarget; const realName=form.elements.real_name.value.trim(); const nickname=form.elements.nickname.value.trim(); const note=$("#profile-note");
     if (realName.length < 2 || nickname.length < 1) { note.textContent="실명과 닉네임을 확인해주세요."; note.className="form-note is-error"; return; }
-    const { error } = await client.from("school_memberships").update({real_name:realName,nickname,updated_at:new Date().toISOString()}).eq("id",currentMember.id);
+    const { error } = await client.rpc("update_own_school_profile", { p_membership_id:currentMember.id, p_real_name:realName, p_nickname:nickname });
     if (error) { note.textContent="정보를 저장하지 못했습니다."; note.className="form-note is-error"; return; }
     currentMember.real_name=realName; currentMember.nickname=nickname; $("#member-nickname").textContent=nickname; $("#member-real-name").textContent=roleNames[currentMember.role] || "참여자"; $("#profile-dialog").close();
   });
@@ -271,13 +425,25 @@
     if (uploadFailures.length) postList.insertAdjacentHTML("afterbegin", `<p class="upload-warning">글은 저장했지만 다음 자료는 올리지 못했습니다: ${escapeText(uploadFailures.join(", "))}</p>`);
   });
 
-  (async function init() {
+  (function init() {
     if (previewMode) { enterPreview(); return; }
-    const { data:{ session } } = await client.auth.getSession();
-    if (session?.user) await loadMembership(session.user); else show(loginView);
     client.auth.onAuthStateChange((event, nextSession) => {
-      if (nextSession?.user) loadMembership(nextSession.user);
-      else if (event === "SIGNED_OUT") show(loginView);
+      if (event === "SIGNED_OUT") {
+        resetCommunitySession();
+        return;
+      }
+      if (!["INITIAL_SESSION", "SIGNED_IN", "USER_UPDATED"].includes(event)) return;
+      if (!nextSession?.user) {
+        if (event === "INITIAL_SESSION") resetCommunitySession();
+        return;
+      }
+      sessionLoadCoordinator.load(nextSession.user).catch((error) => {
+        console.error("school session initialization failed", error);
+        if (sessionLoadCoordinator.isCurrentUser(nextSession.user.id)) {
+          pendingNote.textContent = "가입 처리에 실패했습니다. 잠시 후 다시 시도해주세요.";
+          show(pendingView);
+        }
+      });
     });
   })();
 })();
