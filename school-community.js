@@ -143,7 +143,7 @@
           const name = escapeText(attachment.original_name);
           const meta = `${escapeText(attachment.mime_type || "파일")} · ${formatFileSize(attachment.size_bytes)}`;
           return attachment.mime_type?.startsWith("image/")
-            ? `<a class="attachment-image" href="${attachment.url}" target="_blank" rel="noopener"><img src="${attachment.url}" alt="${name}"><strong>${name}</strong><span>${meta}</span></a>`
+            ? `<a class="attachment-image" href="${attachment.url}" target="_blank" rel="noopener"><img src="${attachment.url}" alt="${name}" loading="lazy" decoding="async"><strong>${name}</strong><span>${meta}</span></a>`
             : `<a class="attachment-file" href="${attachment.url}" target="_blank" rel="noopener"><strong>${name}</strong><span>${meta}</span><i>열기 ↗</i></a>`;
         }).join("")}</div>`;
       }

@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600&family=Noto+Serif+KR:wght@300;400;500;600&display=swap');
 .writers-page{--ink:#19241f;--green:#667b4d;--paper:#f5f2e9;--line:#c8c5b8;background:#f8f7f2;color:var(--ink)}
 .writers-page main{overflow:hidden}.writers-hero{min-height:520px;padding:100px max(6vw,42px) 78px;display:grid;grid-template-columns:1fr 1.2fr;align-items:end;gap:8vw;background:linear-gradient(120deg,#6c7e52 0 38%,#dad6c0 38% 100%)}
 .writers-hero>div>p,.writers-section-heading>p,.access-copy>p:first-child,.studio-heading p{margin:0 0 18px;font-size:11px;letter-spacing:.2em;font-family:"Noto Sans KR",sans-serif}.writers-hero h1{margin:0;color:#fff;font-family:"Noto Serif KR",serif;font-size:clamp(64px,9vw,132px);font-weight:300;line-height:.98;letter-spacing:-.07em}.writers-hero>p{margin:0 0 18px;max-width:660px;font-family:"Noto Serif KR",serif;font-size:clamp(18px,2vw,25px);line-height:1.9}
