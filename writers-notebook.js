@@ -1,22 +1,33 @@
 (function () {
+  "use strict";
+
   const SUPABASE_URL = "https://rjkzlpdoaldwbgjpicrv.supabase.co";
   const SUPABASE_KEY = "sb_publishable_o-ayN4jSeqDkAWSP2W4uNA_-Dsl624v";
-  const WRITERS_AUTH_STORAGE_KEY = "intothem-writers-notebook-auth-token";
+  const WRITERS_AUTH_STORAGE_KEY = "intothem-writers-notebook-session";
+  try {
+    window.localStorage.removeItem("intothem-writers-notebook-auth-token");
+  } catch (_error) {
+    // 사생활 보호 설정으로 저장소 접근이 막혀도 세션 저장은 계속 시도합니다.
+  }
   const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
     auth: {
       persistSession: true,
       autoRefreshToken: true,
-      detectSessionInUrl: true,
+      detectSessionInUrl: false,
       storageKey: WRITERS_AUTH_STORAGE_KEY,
-      storage: window.localStorage
+      storage: window.sessionStorage
     }
   });
 
   const roomGrid = document.querySelector("#writer-room-grid");
   const filter = document.querySelector("#note-filter");
   const publicList = document.querySelector("#public-note-list");
-  const loginForm = document.querySelector("#writer-login");
-  const loginNote = document.querySelector("#login-note");
+  const writerWriteButton = document.querySelector("#writer-write-button");
+  const writerCodeDialog = document.querySelector("#writer-code-dialog");
+  const writerCodeForm = document.querySelector("#writer-code-form");
+  const writerCodeInput = document.querySelector("#writer-code");
+  const writerCodeClose = document.querySelector("#writer-code-close");
+  const writerCodeNote = document.querySelector("#writer-code-note");
   const sessionBox = document.querySelector("#writer-session");
   const sessionName = document.querySelector("#session-writer-name");
   const logoutButton = document.querySelector("#writer-logout");
@@ -32,14 +43,25 @@
   const noteReaderTitle = document.querySelector("#note-reader-title");
   const noteReaderMeta = document.querySelector("#note-reader-meta");
   const noteReaderContent = document.querySelector("#note-reader-content");
+
   let profiles = [];
   let publicNotes = [];
   let myNotes = [];
   let currentProfile = null;
   let activeAuthor = "all";
-  const burritoProfile = { user_id: "burrito-static", display_name: "브리또", slot_number: 1, bio: "브리또의 공개 습작" };
+  let desiredSessionUserId = null;
+  let publicDataUnavailable = false;
+
+  const fallbackBurritoProfile = {
+    user_id: "burrito-static",
+    display_name: "브리또",
+    public_slug: "burrito-static",
+    slot_number: 1,
+    bio: "브리또의 공개 습작"
+  };
   const roomNames = { 1: "브리또의 방", 2: "하나로 샴푸의 방" };
-  const burritoNotes = Array.isArray(window.BURRITO_PUBLIC_NOTES) ? window.BURRITO_PUBLIC_NOTES : [];
+  const fallbackBurritoNotes = Array.isArray(window.BURRITO_PUBLIC_NOTES) ? window.BURRITO_PUBLIC_NOTES : [];
+  const legacySchemaErrorCodes = new Set(["PGRST204", "PGRST205", "42P01", "42703"]);
 
   function setMessage(element, message, type) {
     element.textContent = message;
@@ -48,7 +70,12 @@
   }
 
   function formatDate(value) {
-    return new Intl.DateTimeFormat("ko-KR", { year: "numeric", month: "long", day: "numeric" }).format(new Date(value));
+    return new Intl.DateTimeFormat("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      timeZone: "Asia/Seoul"
+    }).format(new Date(value));
   }
 
   function excerpt(text, limit) {
@@ -56,31 +83,45 @@
     return clean.length > limit ? `${clean.slice(0, limit)}…` : clean;
   }
 
-  function emptyBox(target, text) {
+  function emptyBox(target, copyText) {
     target.replaceChildren();
     const box = document.createElement("div");
     box.className = "writers-empty";
     const copy = document.createElement("p");
-    copy.textContent = text;
+    copy.textContent = copyText;
     box.append(copy);
     target.append(box);
+  }
+
+  function noteKey(note) {
+    return note.slug || note.id;
   }
 
   function authorName(note) {
     return note.writer_profiles?.display_name || "인투뎀 작가";
   }
 
+  function authorSlug(note) {
+    return note.writer_profiles?.public_slug
+      || profiles.find((profile) => profile.user_id === note.author_id)?.public_slug
+      || note.author_id;
+  }
+
+  function publicDate(note) {
+    return note.published_at || note.created_at;
+  }
+
   function openNoteReader(note, updateAddress = true) {
     noteReaderTitle.textContent = note.title;
-    noteReaderMeta.textContent = `${authorName(note)} · ${formatDate(note.created_at)}`;
-    noteReaderContent.textContent = note.content.replace(/\n{2,}/g, "\n");
+    noteReaderMeta.textContent = `${authorName(note)} · ${formatDate(publicDate(note))}`;
+    noteReaderContent.textContent = note.content.replace(/\n{3,}/g, "\n\n");
     if (!noteReader.open) noteReader.showModal();
     document.body.classList.add("is-reading-note");
     if (updateAddress) {
       const url = new URL(window.location.href);
-      url.searchParams.set("author", note.author_id);
-      url.searchParams.set("note", note.id);
-      window.history.pushState({ noteId: note.id }, "", url);
+      url.searchParams.set("author", authorSlug(note));
+      url.searchParams.set("note", noteKey(note));
+      window.history.pushState({ note: noteKey(note) }, "", url);
     }
   }
 
@@ -101,19 +142,26 @@
       const count = profile ? publicNotes.filter((note) => note.author_id === profile.user_id).length : 0;
       const room = document.createElement("article");
       room.className = "writer-room";
-      room.tabIndex = 0;
+      room.tabIndex = profile ? 0 : -1;
       room.dataset.author = profile?.user_id || "";
       const number = document.createElement("span");
       const name = document.createElement("h3");
       const copy = document.createElement("p");
       number.textContent = String(slot).padStart(2, "0");
-      name.textContent = profile?.display_name || roomNames[slot] || `작가 ${String(slot).padStart(2, "0")}`;
-      copy.textContent = profile ? `공개된 글 ${count}편` : "작가를 기다리고 있습니다.";
+      name.textContent = profile?.display_name ? `${profile.display_name}의 방` : roomNames[slot] || `작가 ${String(slot).padStart(2, "0")}`;
+      copy.textContent = profile
+        ? (count ? `공개된 글 ${count}편` : "아직 공개된 글이 없습니다.")
+        : "작가를 기다리고 있습니다.";
       room.append(number, name, copy);
       if (profile) {
         const selectRoom = () => selectAuthor(profile.user_id);
         room.addEventListener("click", selectRoom);
-        room.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") selectRoom(); });
+        room.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            selectRoom();
+          }
+        });
       }
       roomGrid.append(room);
     }
@@ -135,7 +183,9 @@
 
   function selectAuthor(authorId) {
     activeAuthor = authorId;
-    document.querySelectorAll(".writer-room").forEach((room) => room.classList.toggle("is-active", room.dataset.author === authorId));
+    document.querySelectorAll(".writer-room").forEach((room) => {
+      room.classList.toggle("is-active", room.dataset.author === authorId);
+    });
     renderFilters();
     renderPublicNotes();
     document.querySelector("#public-notes-title").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -144,21 +194,21 @@
   function renderPublicNotes() {
     const notes = activeAuthor === "all" ? publicNotes : publicNotes.filter((note) => note.author_id === activeAuthor);
     if (!notes.length) {
-      emptyBox(publicList, "아직 공개된 습작이 없습니다.");
+      emptyBox(publicList, publicDataUnavailable ? "공개된 글을 불러오지 못했습니다. 잠시 후 다시 시도해주세요." : "아직 공개된 습작이 없습니다.");
       return;
     }
     publicList.replaceChildren();
     notes.forEach((note) => {
       const article = document.createElement("article");
       article.className = "public-note";
-      article.id = `note-${note.id}`;
+      article.id = `note-${noteKey(note)}`;
       const meta = document.createElement("div");
       meta.className = "public-note-meta";
       const writer = document.createElement("strong");
       const date = document.createElement("time");
       writer.textContent = authorName(note);
-      date.dateTime = note.created_at;
-      date.textContent = formatDate(note.created_at);
+      date.dateTime = publicDate(note);
+      date.textContent = formatDate(publicDate(note));
       meta.append(writer, document.createElement("br"), date);
       const body = document.createElement("div");
       const title = document.createElement("h3");
@@ -178,24 +228,55 @@
 
     const requestedNote = new URLSearchParams(window.location.search).get("note");
     if (requestedNote) {
-      const requested = notes.find((note) => note.id === requestedNote);
+      const requested = publicNotes.find((note) => noteKey(note) === requestedNote);
       if (requested && !noteReader.open) openNoteReader(requested, false);
     }
   }
 
+  function normalizeFallbackNotes(profile) {
+    return fallbackBurritoNotes.map((note) => ({
+      ...note,
+      slug: note.slug || note.id,
+      author_id: profile.user_id,
+      published_at: note.published_at || note.created_at,
+      writer_profiles: {
+        display_name: profile.display_name,
+        public_slug: profile.public_slug
+      }
+    }));
+  }
+
   async function loadPublicData() {
     const [{ data: profileData, error: profileError }, { data: noteData, error: noteError }] = await Promise.all([
-      client.from("writer_profiles").select("user_id,display_name,slot_number,bio").order("slot_number"),
-      client.from("writer_notes").select("id,author_id,title,content,is_public,created_at,updated_at,writer_profiles(display_name)").eq("is_public", true).order("created_at", { ascending: false }).limit(50)
+      client.from("writer_profiles").select("user_id,display_name,public_slug,slot_number,bio").order("slot_number"),
+      client.from("writer_notes")
+        .select("id,slug,author_id,title,content,is_public,created_at,updated_at,published_at,writer_profiles(display_name,public_slug)")
+        .eq("is_public", true)
+        .order("published_at", { ascending: false, nullsFirst: false })
+        .limit(100)
     ]);
+
     const remoteProfiles = profileError ? [] : (profileData || []);
+    profiles = remoteProfiles.length ? remoteProfiles : [fallbackBurritoProfile];
+    if (!profiles.some((profile) => profile.slot_number === 1)) profiles.unshift(fallbackBurritoProfile);
+    profiles.sort((a, b) => a.slot_number - b.slot_number);
+
+    const burritoProfile = profiles.find((profile) => profile.slot_number === 1) || fallbackBurritoProfile;
+    const useLegacyFallback = Boolean(noteError && legacySchemaErrorCodes.has(noteError.code));
+    const fallbackNotes = useLegacyFallback ? normalizeFallbackNotes(burritoProfile) : [];
     const remoteNotes = noteError ? [] : (noteData || []);
-    profiles = [burritoProfile, ...remoteProfiles.filter((profile) => profile.slot_number !== 1)];
-    const importedTitles = new Set(burritoNotes.map((note) => note.title));
-    publicNotes = [...burritoNotes, ...remoteNotes.filter((note) => !importedTitles.has(note.title))]
-      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    publicDataUnavailable = Boolean(noteError && !useLegacyFallback);
+    const remoteSlugs = new Set(remoteNotes.map(noteKey));
+    publicNotes = [
+      ...remoteNotes,
+      ...fallbackNotes.filter((note) => !remoteSlugs.has(noteKey(note)))
+    ].sort((a, b) => new Date(publicDate(b)) - new Date(publicDate(a)));
+
     const requestedAuthor = new URLSearchParams(window.location.search).get("author");
-    if (requestedAuthor && profiles.some((profile) => profile.user_id === requestedAuthor)) activeAuthor = requestedAuthor;
+    const requestedProfile = profiles.find((profile) => profile.public_slug === requestedAuthor || profile.user_id === requestedAuthor);
+    if (requestedProfile) activeAuthor = requestedProfile.user_id;
+    else if (activeAuthor !== "all" && !profiles.some((profile) => profile.user_id === activeAuthor)) activeAuthor = "all";
+
     renderRooms();
     renderFilters();
     renderPublicNotes();
@@ -210,13 +291,16 @@
   }
 
   function openEditor(note) {
+    if (!currentProfile) return;
     noteForm.hidden = false;
     noteForm.elements.id.value = note?.id || "";
     noteForm.elements.title.value = note?.title || "";
     noteForm.elements.content.value = note?.content || "";
     noteForm.elements.visibility.value = note?.is_public ? "public" : "private";
     noteCount.textContent = `${noteForm.elements.content.value.length} / 5000`;
+    setMessage(editorNote, "공개 여부는 언제든 변경할 수 있습니다.");
     noteForm.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.setTimeout(() => noteForm.elements.title.focus(), 350);
   }
 
   function renderMyNotes() {
@@ -253,7 +337,11 @@
   }
 
   async function loadMyNotes() {
-    const { data, error } = await client.from("writer_notes").select("id,title,content,is_public,created_at,updated_at").eq("author_id", currentProfile.user_id).order("updated_at", { ascending: false });
+    if (!currentProfile) return;
+    const { data, error } = await client.from("writer_notes")
+      .select("id,slug,title,content,is_public,created_at,updated_at,published_at")
+      .eq("author_id", currentProfile.user_id)
+      .order("updated_at", { ascending: false });
     if (error) {
       emptyBox(myList, "나의 습작을 불러오지 못했습니다.");
       return;
@@ -262,81 +350,155 @@
     renderMyNotes();
   }
 
+  function hideStudio() {
+    desiredSessionUserId = null;
+    currentProfile = null;
+    myNotes = [];
+    closeEditor();
+    sessionBox.hidden = true;
+    studio.hidden = true;
+    sessionName.textContent = "작가";
+    writerWriteButton.firstChild.textContent = "작가 글쓰기 ";
+  }
+
   async function applySession(session) {
+    desiredSessionUserId = session?.user?.id || null;
     if (!session?.user) {
-      currentProfile = null;
-      loginForm.hidden = false;
-      sessionBox.hidden = true;
-      studio.hidden = true;
-      return;
+      hideStudio();
+      return false;
     }
-    const { data, error } = await client.from("writer_profiles").select("user_id,display_name,slot_number").eq("user_id", session.user.id).maybeSingle();
-    if (error) {
-      currentProfile = null;
-      loginForm.hidden = false;
-      sessionBox.hidden = true;
-      studio.hidden = true;
-      setMessage(loginNote, "작가 계정을 확인하지 못했습니다. 잠시 후 다시 시도해주세요.", "error");
-      return;
-    }
-    if (!data) {
+    const { data, error } = await client.from("writer_profiles")
+      .select("user_id,display_name,public_slug,slot_number")
+      .eq("user_id", session.user.id)
+      .maybeSingle();
+    if (desiredSessionUserId !== session.user.id) return false;
+    if (error || !data) {
+      hideStudio();
       await client.auth.signOut({ scope: "local" });
-      setMessage(loginNote, "등록된 작가 계정이 아닙니다.", "error");
-      return;
+      return false;
     }
     currentProfile = data;
-    loginForm.hidden = true;
     sessionBox.hidden = false;
     studio.hidden = false;
     sessionName.textContent = data.display_name;
+    writerWriteButton.firstChild.textContent = `${data.display_name} 글쓰기 `;
     await loadMyNotes();
+    return true;
   }
 
-  loginForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const button = loginForm.querySelector("button");
-    button.disabled = true;
-    setMessage(loginNote, "로그인하고 있습니다.");
-    const { data, error } = await client.auth.signInWithPassword({ email: loginForm.elements.email.value.trim(), password: loginForm.elements.password.value });
-    button.disabled = false;
-    if (error) {
-      setMessage(loginNote, "이메일 또는 비밀번호를 확인해주세요.", "error");
+  function openWriterAccess() {
+    if (currentProfile) {
+      studio.hidden = false;
+      openEditor();
       return;
     }
-    loginForm.reset();
-    setMessage(loginNote, "로그인되었습니다.", "success");
-    await applySession(data.session);
+    writerCodeForm.reset();
+    setMessage(writerCodeNote, "코드는 저장되지 않습니다.");
+    if (!writerCodeDialog.open) writerCodeDialog.showModal();
+    window.setTimeout(() => writerCodeInput.focus(), 50);
+  }
+
+  function closeWriterAccess() {
+    writerCodeForm.reset();
+    setMessage(writerCodeNote, "코드는 저장되지 않습니다.");
+    if (writerCodeDialog.open) writerCodeDialog.close();
+  }
+
+  writerWriteButton.addEventListener("click", openWriterAccess);
+  writerCodeClose.addEventListener("click", closeWriterAccess);
+  writerCodeDialog.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    closeWriterAccess();
+  });
+  writerCodeInput.addEventListener("input", () => {
+    writerCodeInput.value = writerCodeInput.value.replace(/\D/g, "").slice(0, 4);
   });
 
-  logoutButton.addEventListener("click", async () => { await client.auth.signOut({ scope: "local" }); await applySession(null); });
+  writerCodeForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const pin = writerCodeInput.value.trim();
+    if (!/^\d{4}$/.test(pin)) {
+      setMessage(writerCodeNote, "4자리 숫자 코드를 입력해주세요.", "error");
+      writerCodeInput.focus();
+      return;
+    }
+
+    const button = writerCodeForm.querySelector("button[type=submit]");
+    button.disabled = true;
+    setMessage(writerCodeNote, "작가 코드를 확인하고 있습니다.");
+    try {
+      const { data: loginData, error: loginError } = await client.functions.invoke("writer-pin-login", {
+        body: { pin }
+      });
+      writerCodeInput.value = "";
+      if (loginError || !loginData?.token_hash) throw new Error("writer-code-rejected");
+
+      const { data: authData, error: authError } = await client.auth.verifyOtp({
+        token_hash: loginData.token_hash,
+        type: "email"
+      });
+      if (authError || !authData.session) throw new Error("writer-session-rejected");
+
+      const recognized = await applySession(authData.session);
+      if (!recognized) throw new Error("writer-profile-missing");
+      closeWriterAccess();
+      openEditor();
+    } catch (_error) {
+      setMessage(writerCodeNote, "코드를 확인하거나 잠시 후 다시 시도해주세요.", "error");
+      writerCodeInput.focus();
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  logoutButton.addEventListener("click", async () => {
+    await client.auth.signOut({ scope: "local" });
+    hideStudio();
+  });
   noteReaderClose.addEventListener("click", () => closeNoteReader());
-  noteReader.addEventListener("cancel", (event) => { event.preventDefault(); closeNoteReader(); });
+  noteReader.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    closeNoteReader();
+  });
   noteReader.addEventListener("close", () => document.body.classList.remove("is-reading-note"));
   window.addEventListener("popstate", () => {
     const requestedNote = new URLSearchParams(window.location.search).get("note");
-    const note = publicNotes.find((item) => item.id === requestedNote);
+    const note = publicNotes.find((item) => noteKey(item) === requestedNote);
     if (note) openNoteReader(note, false);
     else closeNoteReader(false);
   });
   newNoteButton.addEventListener("click", () => openEditor());
   cancelNoteButton.addEventListener("click", closeEditor);
-  noteForm.elements.content.addEventListener("input", () => { noteCount.textContent = `${noteForm.elements.content.value.length} / 5000`; });
+  noteForm.elements.content.addEventListener("input", () => {
+    noteCount.textContent = `${noteForm.elements.content.value.length} / 5000`;
+  });
 
   noteForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!currentProfile) return;
     const id = noteForm.elements.id.value;
-    const payload = { author_id: currentProfile.user_id, title: noteForm.elements.title.value.trim(), content: noteForm.elements.content.value.trim(), is_public: noteForm.elements.visibility.value === "public" };
+    const payload = {
+      author_id: currentProfile.user_id,
+      title: noteForm.elements.title.value.trim(),
+      content: noteForm.elements.content.value.trim(),
+      is_public: noteForm.elements.visibility.value === "public"
+    };
     if (!payload.title || !payload.content) {
       setMessage(editorNote, "제목과 본문을 입력해주세요.", "error");
       return;
     }
     const save = noteForm.querySelector("button[type=submit]");
     save.disabled = true;
-    const result = id ? await client.from("writer_notes").update({ title: payload.title, content: payload.content, is_public: payload.is_public }).eq("id", id).eq("author_id", currentProfile.user_id) : await client.from("writer_notes").insert(payload);
+    setMessage(editorNote, "글을 저장하고 있습니다.");
+    const result = id
+      ? await client.from("writer_notes")
+        .update({ title: payload.title, content: payload.content, is_public: payload.is_public })
+        .eq("id", id)
+        .eq("author_id", currentProfile.user_id)
+      : await client.from("writer_notes").insert(payload);
     save.disabled = false;
     if (result.error) {
-      setMessage(editorNote, "글을 저장하지 못했습니다. 잠시 후 다시 시도해주세요.", "error");
+      setMessage(editorNote, "글을 저장하지 못했습니다. 작성한 내용은 그대로 두었습니다.", "error");
       return;
     }
     closeEditor();
@@ -345,7 +507,10 @@
 
   async function deleteNote(note) {
     if (!window.confirm(`「${note.title}」 글을 삭제할까요?`)) return;
-    const { error } = await client.from("writer_notes").delete().eq("id", note.id).eq("author_id", currentProfile.user_id);
+    const { error } = await client.from("writer_notes")
+      .delete()
+      .eq("id", note.id)
+      .eq("author_id", currentProfile.user_id);
     if (error) {
       window.alert("글을 삭제하지 못했습니다.");
       return;
@@ -353,7 +518,9 @@
     await Promise.all([loadMyNotes(), loadPublicData()]);
   }
 
-  client.auth.onAuthStateChange((_event, session) => { window.setTimeout(() => applySession(session), 0); });
+  client.auth.onAuthStateChange((_event, session) => {
+    window.setTimeout(() => applySession(session), 0);
+  });
   loadPublicData();
   client.auth.getSession().then(({ data }) => applySession(data.session));
 })();

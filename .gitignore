@@ -1,3 +1,8 @@
+# Local writer credentials (never commit)
+.env.writers
+.env.writers.local
+supabase/.temp/
+
 # Local source and extraction files
 homepage-design.indd
 extracted/

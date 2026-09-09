@@ -1,0 +1,4 @@
+# writer-pin-login is called before a writer has a Supabase Auth session.
+# The function performs PIN validation and rate limiting itself.
+[functions.writer-pin-login]
+verify_jwt = false
