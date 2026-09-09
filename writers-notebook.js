@@ -31,6 +31,7 @@
   let currentProfile = null;
   let activeAuthor = "all";
   const burritoProfile = { user_id: "burrito-static", display_name: "브리또", slot_number: 1, bio: "브리또의 공개 습작" };
+  const roomNames = { 1: "브리또의 방", 2: "하나로 샴푸의 방" };
   const burritoNotes = Array.isArray(window.BURRITO_PUBLIC_NOTES) ? window.BURRITO_PUBLIC_NOTES : [];
 
   function setMessage(element, message, type) {
@@ -99,7 +100,7 @@
       const name = document.createElement("h3");
       const copy = document.createElement("p");
       number.textContent = String(slot).padStart(2, "0");
-      name.textContent = profile?.display_name || (slot === 1 ? "브리또의 방" : `작가 ${String(slot).padStart(2, "0")}`);
+      name.textContent = profile?.display_name || roomNames[slot] || `작가 ${String(slot).padStart(2, "0")}`;
       copy.textContent = profile ? `공개된 글 ${count}편` : "작가를 기다리고 있습니다.";
       room.append(number, name, copy);
       if (profile) {
