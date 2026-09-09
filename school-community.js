@@ -1,11 +1,14 @@
 (function () {
   const SUPABASE_URL = "https://rjkzlpdoaldwbgjpicrv.supabase.co";
   const SUPABASE_KEY = "sb_publishable_o-ayN4jSeqDkAWSP2W4uNA_-Dsl624v";
+  // 기존 나는학교 세션을 유지하도록 현재 기본 키를 명시합니다.
+  const COMMUNITY_AUTH_STORAGE_KEY = "sb-rjkzlpdoaldwbgjpicrv-auth-token";
   const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
     auth: {
       persistSession: true,
       autoRefreshToken: true,
       detectSessionInUrl: true,
+      storageKey: COMMUNITY_AUTH_STORAGE_KEY,
       storage: window.localStorage
     }
   });
@@ -204,9 +207,15 @@
       setMessage(limited ? "로그인 메일 발송 한도에 도달했습니다. 잠시 후 다시 시도해주세요." : `로그인 링크를 보내지 못했습니다. ${error.message || "관리자에게 문의해주세요."}`, "error");
       return;
     }
-    setMessage("이 기기에서 이메일 링크를 한 번만 눌러주세요. 이후에는 자동으로 로그인됩니다.", "success");
+    setMessage("이 브라우저에서 이메일 링크를 한 번만 눌러주세요. 이후에는 자동으로 로그인됩니다.", "success");
   });
-  $("#logout-button").addEventListener("click", async () => { await client.auth.signOut(); location.reload(); });
+  $("#logout-button").addEventListener("click", async () => { await client.auth.signOut({ scope:"local" }); location.reload(); });
+  $("#pending-login-again").addEventListener("click", async (event) => {
+    event.currentTarget.disabled = true;
+    const { error } = await client.auth.signOut({ scope:"local" });
+    if (error) window.localStorage.removeItem(COMMUNITY_AUTH_STORAGE_KEY);
+    location.reload();
+  });
   $("#profile-form").addEventListener("submit", async (event) => {
     event.preventDefault();
     const form = event.currentTarget; const realName=form.elements.real_name.value.trim(); const nickname=form.elements.nickname.value.trim(); const note=$("#profile-note");

@@ -9,11 +9,11 @@
   <link rel="stylesheet" href="school-community.css?v=20260827-2">
   <link rel="stylesheet" href="school-community-extras.css?v=20260827-3">
   <link rel="stylesheet" href="school-community-profile.css?v=20260827-1">
-  <link rel="stylesheet" href="school-community-login.css?v=20260827-12">
+  <link rel="stylesheet" href="school-community-login.css?v=20260909-1">
   <link rel="stylesheet" href="school-community-reader.css?v=20260827-4">
   <style>[hidden]{display:none!important}</style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-  <script src="school-community.js?v=20260901-1" defer></script>
+  <script src="school-community.js?v=20260909-1" defer></script>
 </head>
 <body class="community-page">
   <header class="community-header">
@@ -32,14 +32,14 @@
           <label><span>초대받은 이메일</span><input type="email" name="email" autocomplete="email" required placeholder="name@example.com"></label>
           <button type="submit" aria-label="로그인 링크 받기"><span aria-hidden="true">→</span></button>
         </form>
-        <p class="login-note" id="login-note" aria-live="polite">처음 한 번만 이 기기에서 이메일 링크를 누르면, 다음부터는 자동으로 로그인됩니다.</p>
+        <p class="login-note" id="login-note" aria-live="polite">처음 한 번만 이 브라우저에서 이메일 링크를 누르면, 다음부터는 자동으로 로그인됩니다.</p>
       </div>
     </section>
 
     <section class="pending-view" id="pending-view" hidden>
       <p class="community-label">MEMBERSHIP REQUIRED</p><h1>참여 권한을 확인하고 있습니다.</h1>
       <p>초대된 이메일로 로그인했는데도 이 화면이 보인다면 관리자에게 문의해주세요.</p>
-      <a href="naneun-school.html">프로젝트 소개로 돌아가기</a>
+      <div class="pending-actions"><button type="button" id="pending-login-again">다른 이메일로 로그인</button><a href="naneun-school.html">프로젝트 소개로 돌아가기</a></div>
     </section>
 
     <section class="community-view" id="community-view" hidden>

@@ -1,8 +1,15 @@
 (function () {
   const SUPABASE_URL = "https://rjkzlpdoaldwbgjpicrv.supabase.co";
   const SUPABASE_KEY = "sb_publishable_o-ayN4jSeqDkAWSP2W4uNA_-Dsl624v";
+  const WRITERS_AUTH_STORAGE_KEY = "intothem-writers-notebook-auth-token";
   const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
-    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+      storageKey: WRITERS_AUTH_STORAGE_KEY,
+      storage: window.localStorage
+    }
   });
 
   const roomGrid = document.querySelector("#writer-room-grid");
@@ -264,8 +271,16 @@
       return;
     }
     const { data, error } = await client.from("writer_profiles").select("user_id,display_name,slot_number").eq("user_id", session.user.id).maybeSingle();
-    if (error || !data) {
-      await client.auth.signOut();
+    if (error) {
+      currentProfile = null;
+      loginForm.hidden = false;
+      sessionBox.hidden = true;
+      studio.hidden = true;
+      setMessage(loginNote, "작가 계정을 확인하지 못했습니다. 잠시 후 다시 시도해주세요.", "error");
+      return;
+    }
+    if (!data) {
+      await client.auth.signOut({ scope: "local" });
       setMessage(loginNote, "등록된 작가 계정이 아닙니다.", "error");
       return;
     }
@@ -293,7 +308,7 @@
     await applySession(data.session);
   });
 
-  logoutButton.addEventListener("click", async () => { await client.auth.signOut(); await applySession(null); });
+  logoutButton.addEventListener("click", async () => { await client.auth.signOut({ scope: "local" }); await applySession(null); });
   noteReaderClose.addEventListener("click", () => closeNoteReader());
   noteReader.addEventListener("cancel", (event) => { event.preventDefault(); closeNoteReader(); });
   noteReader.addEventListener("close", () => document.body.classList.remove("is-reading-note"));
