@@ -11,6 +11,7 @@ mkdir -p "${output_root}/w480" "${output_root}/w960" "${output_root}/w1440"
 
 jpeg_sources=(
   assets/books-hero-web.jpg
+  assets/intothem-books-card.jpg
   assets/counseling-couple-01.jpg
   assets/counseling-couple-02.jpg
   assets/counseling-couple-03.jpg
@@ -83,8 +84,8 @@ png_sources_w1440=(
   assets/naneun-dasi-saraya-handa.png
 )
 
-if (( ${#jpeg_sources[@]} + ${#png_sources[@]} != 34 )); then
-  echo "Expected 34 source images." >&2
+if (( ${#jpeg_sources[@]} + ${#png_sources[@]} != 35 )); then
+  echo "Expected 35 source images." >&2
   exit 1
 fi
 
