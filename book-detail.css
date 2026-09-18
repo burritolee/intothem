@@ -115,6 +115,10 @@
 .nadasal-hero .nadasal-preorder { display:inline-flex; align-items:center; gap:28px; margin:27px 14px 0 0; padding:16px 21px; background:#b8d8d4; color:#254a47; font-weight:700; box-shadow:5px 6px 0 rgba(76,125,121,.14); }
 .nadasal-hero .nadasal-preorder:hover { background:#a5cbc6; }
 .nadasal-hero .nadasal-preorder span { margin-left:0; }
+.nadasal-hero .nadasal-ebook { display:inline-flex; align-items:center; gap:28px; margin:27px 14px 0 0; padding:16px 21px; border:1px solid #4e7c7b; color:#315e5c; font-weight:700; }
+.nadasal-hero .nadasal-ebook:hover { background:#e1efec; }
+.nadasal-hero .nadasal-ebook span { margin-left:0; }
+.nadasal-ebook-contact { margin-left:10px; background:#4e7c7b; }
 .nadasal-opening { padding: clamp(80px, 10vw, 140px) 22px; background: #507d7b; color: #fff; text-align: center; }
 .nadasal-opening p { margin: 0; font: 400 clamp(25px, 3.6vw, 48px)/1.7 var(--serif); letter-spacing: -.08em; word-break: keep-all; }
 .nadasal-detail-page .detail-number { color: #4e7c7b !important; }

@@ -134,7 +134,7 @@
   let category = "all";
 
   const demoPosts = [
-    { id:"preview-1", category:"notice", title:"첫 번째 모임을 시작합니다", content:"나는학교 아고라가 열렸습니다. 이곳에서 서로의 질문과 자료를 천천히 나누어주세요.", author_nickname:"관리자", created_at:new Date().toISOString(), comment_count:2, attachment_count:0, is_pinned:true },
+    { id:"preview-1", category:"notice", title:"첫 번째 모임을 시작합니다", content:"인투뎀 랩 아고라가 열렸습니다. 이곳에서 서로의 질문과 자료를 천천히 나누어주세요.", author_nickname:"관리자", created_at:new Date().toISOString(), comment_count:2, attachment_count:0, is_pinned:true },
     { id:"preview-2", category:"resource", title:"함께 읽을 자료를 공유합니다", content:"다음 모임에서 함께 이야기할 자료입니다. 읽으며 떠오른 질문을 댓글로 남겨주세요.", author_nickname:"숲", created_at:new Date(Date.now()-86400000).toISOString(), comment_count:4, attachment_count:2 },
     { id:"preview-3", category:"discussion", title:"배움이 시작되는 순간은 언제일까요?", content:"누군가의 설명을 들었을 때보다 스스로 질문이 생겼을 때 배움이 시작된다고 느꼈습니다. 여러분은 어떤가요?", author_nickname:"마루", created_at:new Date(Date.now()-172800000).toISOString(), comment_count:7, attachment_count:0 }
   ];
@@ -218,11 +218,11 @@
 
   function enterPreview() {
     currentMember = { role:"admin", nickname:"브리또", real_name:"미리보기" };
-    memberships = [{ group_id:"preview", school_groups:{ name:"나는학교 1기", project_id:"preview" } }];
+    memberships = [{ group_id:"preview", school_groups:{ name:"인투뎀 랩 1기", project_id:"preview" } }];
     $("#member-nickname").textContent = "브리또";
     $("#member-real-name").textContent = "전체 관리자";
     updateManagerControls(true);
-    $("#group-select").replaceChildren(new Option("나는학교 1기", "preview"));
+    $("#group-select").replaceChildren(new Option("인투뎀 랩 1기", "preview"));
     posts = demoPosts;
     show(communityView);
     renderPosts(); renderPinned();

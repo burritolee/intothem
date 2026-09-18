@@ -10,10 +10,8 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Nanum+Myeongjo:wght@400;700&amp;family=Noto+Sans+KR:wght@400;500;700&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Nanum+Myeongjo:wght@400;700&amp;family=Noto+Sans+KR:wght@400;500;700&amp;display=swap" rel="stylesheet"></noscript>
   <link rel="stylesheet" href="styles.css?v=20260818-2">
-  <link rel="stylesheet" href="home-overrides.css?v=20260901-3">
-  <link rel="stylesheet" href="naneun-school.css?v=20260826-1">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-  <script src="school-dialogue.js?v=20260819-1" defer></script>
+  <link rel="stylesheet" href="home-overrides.css?v=20260918-2">
+  <link rel="stylesheet" href="gothic-overrides.css?v=20260918-1">
 </head>
 <body class="home magazine-home">
   <header class="magazine-header">
@@ -34,23 +32,22 @@
       <p class="hero-edition">A PLACE TO PAUSE<br>AND BEGIN AGAIN</p>
     </section>
 
-    <section class="home-philosophy" aria-labelledby="home-philosophy-title">
-      <div class="home-philosophy-heading">
-        <p class="eyebrow">OUR PHILOSOPHY</p>
-        <h2 id="home-philosophy-title">진짜가 되려는<br>발버둥</h2>
-      </div>
-      <div class="home-philosophy-list">
-        <article><h3>우리는 진짜를 믿습니다</h3><div><p>우리는 완벽함보다 진심을 믿습니다. 화려한 말과 포장보다 사람 안에서 흘러나오는 진짜 온도에 더 마음이 갑니다.</p><strong>우리는 그런 진짜의 이야기를 담고 싶습니다.</strong></div></article>
-        <article><h3>사람에게로 향한 시선</h3><div><p>거대한 이름이나 멋진 외형보다 우리를 움직이는 것은 결국 사람입니다. 자신의 연약함을 외면하지 않고, 미숙해도 진심으로 살아가려는 사람들.</p><strong>우리는 그런 사람들의 목소리에 귀 기울이고 싶습니다.</strong></div></article>
-        <article><h3>사랑으로 분별하기</h3><div><p>세상에는 수많은 말과 기준이 있지만, 우리가 붙드는 기준은 사랑입니다.</p><strong>사랑이 있으면 진짜이고, 사랑이 없으면 가짜입니다.</strong></div></article>
-        <article><h3>세상을 향한 작은 장막</h3><div><p>인투뎀은 머무르기 위한 공간이 아니라 다시 세상으로 나아가기 위한 작은 장막이 되고자 합니다.</p><strong>우리는 사람들의 아픔과 슬픔을 회복과 희망으로 바꾸어주는 장막이 되고 싶습니다.</strong></div></article>
-        <article><h3>증언의 자리</h3><div><p>다른 눈으로 세상을 보고, 다른 말로 세상을 기록하는 곳이 되기 위해 노력합니다.</p><strong>우리는 이곳을 통해 일어나는 변화들을 이야기하는 곳이 되겠습니다.</strong></div></article>
-      </div>
-    </section>
-
     <section class="home-introduction">
       <p class="eyebrow">WELCOME TO INTOTHEM</p>
       <p>인투뎀은 사람을 만나고, 이야기를 듣고, 함께 성장하는 공간입니다.<br>상담과 모임, 출판을 통해 평범하지만 소중한 삶의 이야기를 기록하고 연결합니다.</p>
+    </section>
+
+    <section class="home-philosophy" aria-label="우리의 철학">
+      <a class="home-philosophy-link" href="philosophy.html">OUR PHILOSOPHY <span aria-hidden="true">→</span></a>
+    </section>
+
+    <section class="home-writing" aria-labelledby="home-writing-title">
+      <div class="home-writing-heading"><p class="eyebrow">TODAY'S WRITING</p><h2 id="home-writing-title">오늘의 글</h2></div>
+      <a class="home-writing-feature" href="writing.html">
+        <div><span>FEATURED STORY · 2026. 09. 18.</span><strong>슬픔은 천천히<br>찾아와요</strong></div>
+        <p>딱 그 순간에는 여기저기서 힘을 보태기 때문에<br>내 안에도 슬픔이 있는 걸 모르거나<br>슬픔이 그렇게 크지 않아 보여서 잘 속아요.<br><br>그러다 아무도 없는 고요한 시간에<br>누구도 보지 않는 가려진 곳에<br>어떤 소리도 들리지 않는 적막 속에<br>나도 모르게 불쑥 찾아와요.<br><br>나의 목젖을 누르고<br>나의 심장을 조이고<br>나의 눈에 물을 가득 채워요.<br>나의 코에도 물을 채워요.<br><br>자기가 누군지 소개도 안 하고<br>그렇게 갑자기 와서는<br>고요한 시간을 휘젓고 가요.<br><br>아무도 못 보는데 아무도 못 듣는데<br>혼자서 버둥거리게 해요.<br><br>슬픔은 그래서 환영받지 못해요.</p>
+        <i aria-hidden="true">READ THE STORY ↗</i>
+      </a>
     </section>
 
     <section class="paths" id="paths" aria-label="인투뎀의 세 가지 길">
@@ -75,54 +72,10 @@
         </div>
       </div>
       <div class="now-community-row">
-        <article class="now-story now-place now-school"><a class="now-school-main" href="naneun-school.html"><img src="assets/place-hero-web.jpg" srcset="assets/optimized/v1/w480/place-hero-web.webp 480w, assets/optimized/v1/w960/place-hero-web.webp 960w, assets/optimized/v1/w1440/place-hero-web.webp 1440w" sizes="(max-width: 650px) calc(100vw - 44px), (max-width: 900px) calc(50vw - 31px), (max-width: 1254px) calc(67.35vw - 42px), 803px" width="1466" height="2200" alt="인투뎀 플레이스에서 열리는 나는학교 프로젝트" loading="lazy" decoding="async"><div><p>PLACE / ONGOING</p><h3>나는학교 프로젝트</h3><span>프로젝트 소개 →</span></div></a><a class="now-school-member" href="naneun-school-community.html"><small>MEMBERS ONLY</small><strong>나는학교 아고라</strong><span>↗</span></a></article>
+        <article class="now-story now-place now-school"><a class="now-school-main" href="naneun-school.html"><img src="assets/place-hero-web.jpg" srcset="assets/optimized/v1/w480/place-hero-web.webp 480w, assets/optimized/v1/w960/place-hero-web.webp 960w, assets/optimized/v1/w1440/place-hero-web.webp 1440w" sizes="(max-width: 650px) calc(100vw - 44px), (max-width: 900px) calc(50vw - 31px), (max-width: 1254px) calc(67.35vw - 42px), 803px" width="1466" height="2200" alt="인투뎀 플레이스에서 열리는 인투뎀 랩" loading="lazy" decoding="async"><div><p>PLACE / ONGOING</p><h3>인투뎀 랩</h3><span>프로젝트 소개 →</span></div></a><a class="now-school-member" href="naneun-school-community.html"><small>MEMBERS ONLY</small><strong>인투뎀 랩 아고라</strong><span>↗</span></a></article>
         <a class="now-story now-counseling" href="counseling.html"><img src="assets/counseling-reservation-web.jpg" srcset="assets/optimized/v1/w480/counseling-reservation-web.webp 480w, assets/optimized/v1/w960/counseling-reservation-web.webp 960w, assets/optimized/v1/w1440/counseling-reservation-web.webp 1200w" sizes="(max-width: 650px) calc(100vw - 44px), (max-width: 900px) calc(50vw - 31px), (max-width: 1254px) calc(32.65vw - 20px), 389px" width="1200" height="1800" alt="따뜻한 조명이 켜진 인투뎀 상담 공간" loading="lazy" decoding="async"><div><p>COUNSELING / RESERVATION</p><h3>상담 예약</h3><span>마음을 나누는 시간 →</span></div></a>
       </div>
     </section>
-
-    <section class="school-dialogue home-dialogue" aria-labelledby="home-dialogue-title">
-      <div class="dialogue-heading">
-        <div>
-          <p class="section-label">OPEN DIALOGUE</p>
-          <h2 id="home-dialogue-title">당신의 생각을<br>들려주세요.</h2>
-        </div>
-        <p>나는학교의 질문에는 하나의 정답이 없습니다. 서로의 경험과 생각을 나누며 더 넓은 배움의 길을 함께 찾아갑니다.</p>
-      </div>
-
-      <div class="dialogue-board" aria-label="나는학교 공개 대화창">
-        <div class="dialogue-status"><span aria-hidden="true"></span><strong>OPEN</strong><p>모든 글은 작성 즉시 공개됩니다.</p></div>
-        <div class="dialogue-prompt">
-          <p>오늘의 질문</p>
-          <strong>“학교에서 우리는 무엇을 배워야 할까요?”</strong>
-        </div>
-        <div class="dialogue-list" id="dialogue-list" aria-live="polite">
-          <div class="dialogue-empty"><p>대화를 불러오는 중입니다.</p><span>잠시만 기다려주세요.</span></div>
-        </div>
-        <form class="dialogue-form" id="dialogue-form">
-          <fieldset>
-            <label>이름 또는 별명<input type="text" name="nickname" maxlength="10" required placeholder="최대 10자"></label>
-            <label>네 자리 비밀번호<input type="password" name="pin" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="new-password" required placeholder="수정·삭제 시 필요"></label>
-            <label class="dialogue-message-label">나의 생각<textarea name="message" maxlength="500" rows="5" required placeholder="질문에 대한 생각을 자유롭게 남겨주세요"></textarea><span class="character-count">0 / 500</span></label>
-            <label class="dialogue-agree"><input type="checkbox" name="agreement"> 대화 운영 원칙과 개인정보 안내에 동의합니다.</label>
-            <button type="submit">의견 남기기 <span>→</span></button>
-          </fieldset>
-          <p class="dialogue-form-note" id="dialogue-form-note">비밀번호는 글 수정과 삭제에 필요하며 복구할 수 없습니다.</p>
-        </form>
-      </div>
-    </section>
-
-    <dialog class="dialogue-editor" id="dialogue-editor" aria-labelledby="home-editor-title">
-      <form method="dialog" class="dialogue-editor-form" id="dialogue-editor-form">
-        <div class="dialogue-editor-heading"><p>EDIT DIALOGUE</p><button type="button" class="editor-close" aria-label="닫기">×</button></div>
-        <h2 id="home-editor-title">내 글 수정·삭제</h2>
-        <input type="hidden" name="id">
-        <label>이름 또는 별명<input type="text" name="nickname" maxlength="10" required></label>
-        <label>내용<textarea name="message" maxlength="500" rows="6" required></textarea></label>
-        <label>작성할 때 입력한 네 자리 비밀번호<input type="password" name="pin" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" required placeholder="0000"></label>
-        <p class="editor-note" aria-live="polite"></p>
-        <div class="editor-actions"><button type="button" class="editor-delete">글 삭제</button><button type="submit" class="editor-save">수정 저장</button></div>
-      </form>
-    </dialog>
 
   </main>
 
