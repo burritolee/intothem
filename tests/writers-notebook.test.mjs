@@ -219,6 +219,15 @@ test("writer page exposes only the four-digit PIN entry UI", async (t) => {
     assertDoesNotMatch(html, /writers-studio-preview\.html/i, "legacy studio preview link must be removed");
   });
 
+  await t.test("writer rooms show only the writer names", () => {
+    assertMatches(html, /<h3>브리또<\/h3>/, "room 1 must show only the writer name");
+    assertMatches(html, /<h3>하나로 샴푸<\/h3>/, "room 2 must show only the writer name");
+    assertMatches(html, /<h3>시연하다<\/h3>/, "room 3 must show only the writer name");
+    assertDoesNotMatch(html, /(?:브리또|하나로 샴푸|시연하다)의 방/, "static room labels must not append '의 방'");
+    assertMatches(clientSource, /name\.textContent\s*=\s*profile\?\.display_name\s*\|\|/, "dynamic room labels must use the display name directly");
+    assertDoesNotMatch(clientSource, /display_name\}의 방/, "dynamic room labels must not append '의 방'");
+  });
+
   await t.test("legacy note bundle remains a temporary runtime fallback", () => {
     assert.ok(existsSync(legacyPath));
     const legacyScriptIndex = html.search(/<script\b[^>]*src\s*=\s*["'][^"']*writers-public-notes\.js/i);

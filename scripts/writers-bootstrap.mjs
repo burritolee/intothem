@@ -17,7 +17,7 @@ const SYNTHETIC_EMAIL_DOMAIN = "writers.intothem.invalid";
 const WRITERS = [
   { slot: 1, defaultName: "브리또", publicSlug: "burrito-static", bio: "브리또의 공개 습작" },
   { slot: 2, defaultName: "하나로 샴푸", publicSlug: "writer-02", bio: "" },
-  { slot: 3, defaultName: "작가 03", publicSlug: "writer-03", bio: "" },
+  { slot: 3, defaultName: "시연하다", publicSlug: "writer-03", bio: "" },
   { slot: 4, defaultName: "작가 04", publicSlug: "writer-04", bio: "" },
   { slot: 5, defaultName: "작가 05", publicSlug: "writer-05", bio: "" }
 ];

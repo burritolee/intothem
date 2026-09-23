@@ -72,7 +72,7 @@ node scripts/writers-bootstrap.mjs setup
 | --- | --- | --- |
 | 1 | 브리또 | `burrito-static` |
 | 2 | 하나로 샴푸 | `writer-02` |
-| 3 | 작가 03 | `writer-03` |
+| 3 | 시연하다 | `writer-03` |
 | 4 | 작가 04 | `writer-04` |
 | 5 | 작가 05 | `writer-05` |
 

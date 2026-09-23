@@ -59,7 +59,7 @@
     slot_number: 1,
     bio: "브리또의 공개 습작"
   };
-  const roomNames = { 1: "브리또의 방", 2: "하나로 샴푸의 방" };
+  const roomNames = { 1: "브리또", 2: "하나로 샴푸" };
   const fallbackBurritoNotes = Array.isArray(window.BURRITO_PUBLIC_NOTES) ? window.BURRITO_PUBLIC_NOTES : [];
   const legacySchemaErrorCodes = new Set(["PGRST204", "PGRST205", "42P01", "42703"]);
 
@@ -148,7 +148,7 @@
       const name = document.createElement("h3");
       const copy = document.createElement("p");
       number.textContent = String(slot).padStart(2, "0");
-      name.textContent = profile?.display_name ? `${profile.display_name}의 방` : roomNames[slot] || `작가 ${String(slot).padStart(2, "0")}`;
+      name.textContent = profile?.display_name || roomNames[slot] || `작가 ${String(slot).padStart(2, "0")}`;
       copy.textContent = profile
         ? (count ? `공개된 글 ${count}편` : "아직 공개된 글이 없습니다.")
         : "작가를 기다리고 있습니다.";
