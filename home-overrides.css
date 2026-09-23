@@ -1,4 +1,4 @@
-:root { --home-paper:#f5f2e9; --home-ink:#203128; --home-moss:#788250; --home-sun:#dca85b; --home-line:rgba(32,49,40,.26); }
+:root { --home-paper:#fafaf8; --home-ink:#203128; --home-moss:#788250; --home-sun:#dca85b; --home-line:rgba(32,49,40,.26); }
 .magazine-home { --school-green:#66764c; --school-cream:#eee9d8; background:var(--home-paper); color:var(--home-ink); }
 .now-school { position:relative; overflow:hidden; }
 .now-school-main { display:block; height:100%; color:inherit; text-decoration:none; }
