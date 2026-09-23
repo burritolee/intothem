@@ -12,8 +12,31 @@ const {
   getCommunityRedirectTo,
   getLoginErrorMessage,
   ensureCommunityMembership,
-  createSessionLoadCoordinator
+  createSessionLoadCoordinator,
+  getOwnPostMembership
 } = require("../school-community.js");
+
+test("작성자 관리 버튼은 활성화된 본인 회원권의 글에만 표시된다", () => {
+  const memberships = [
+    { id:"member-a", status:"active", group_id:"group-a" },
+    { id:"member-b", status:"active", group_id:"group-b" },
+    { id:"member-old", status:"suspended", group_id:"group-c" }
+  ];
+  assert.equal(getOwnPostMembership({ author_membership_id:"member-a" }, memberships), memberships[0]);
+  assert.equal(getOwnPostMembership({ author_membership_id:"member-b" }, memberships), memberships[1]);
+  assert.equal(getOwnPostMembership({ author_membership_id:"member-old" }, memberships), null);
+  assert.equal(getOwnPostMembership({ author_membership_id:"another-author" }, memberships), null);
+  assert.equal(getOwnPostMembership({ author_membership_id:"member-a" }, []), null);
+  assert.equal(getOwnPostMembership({}, memberships), null);
+});
+
+test("첨부파일 정리 권한은 작성자 자신의 삭제 요청에만 한정된다", () => {
+  const migration = fs.readFileSync(path.join(__dirname, "..", "supabase-school-post-delete-storage.sql"), "utf8");
+  assert.match(migration, /on storage\.objects for select to authenticated/i);
+  assert.match(migration, /bucket_id\s*=\s*'school-resources'/i);
+  assert.match(migration, /owner_id\s*=\s*auth\.uid\(\)::text/i);
+  assert.match(migration, /storage\.allow_only_operation\('object\.delete_many'\)/i);
+});
 
 test("나는학교 세션은 기존 전용 저장 키에 영속된다", () => {
   const storage = {};
@@ -209,7 +232,7 @@ test("나는학교와 습작노트 인증 저장소 및 로그아웃 범위가 �
   assert.doesNotMatch(communitySource + writersSource, /auth\.signOut\(\s*\)/);
   assert.ok((communitySource.match(/scope\s*:\s*"local"/g) || []).length >= 2);
   assert.ok((writersSource.match(/scope\s*:\s*"local"/g) || []).length >= 2);
-  assert.match(communityHtml, /school-community\.js\?v=20260909-3/);
+  assert.match(communityHtml, /school-community\.js\?v=20260923-2/);
   assert.match(communityHtml, /이메일 인증을 마치면 누구나/);
   assert.doesNotMatch(communityHtml, /초대받은 이메일|초대된 이메일/);
   assert.match(communityHtml, /id="pending-retry"/);

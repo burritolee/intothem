@@ -97,6 +97,11 @@
     };
   }
 
+  function getOwnPostMembership(post, activeMemberships) {
+    if (!post?.author_membership_id || !Array.isArray(activeMemberships)) return null;
+    return activeMemberships.find((membership) => membership?.id === post.author_membership_id && membership.status === "active") || null;
+  }
+
   if (typeof module !== "undefined" && module.exports) {
     module.exports = {
       SUPABASE_URL,
@@ -107,7 +112,8 @@
       getCommunityRedirectTo,
       getLoginErrorMessage,
       ensureCommunityMembership,
-      createSessionLoadCoordinator
+      createSessionLoadCoordinator,
+      getOwnPostMembership
     };
     return;
   }
@@ -125,6 +131,7 @@
   const postDialog = $("#post-dialog");
   const postForm = $("#post-form");
   const reader = $("#reader-dialog");
+  const deleteDialog = $("#delete-post-dialog");
   const profileDialog = $("#profile-dialog");
   const pendingNote = $("#pending-note");
   const previewMode = new URLSearchParams(location.search).get("preview") === "1";
@@ -132,9 +139,11 @@
   let memberships = [];
   let posts = [];
   let category = "all";
+  let editingPost = null;
+  let deletingPost = null;
 
   const demoPosts = [
-    { id:"preview-1", category:"notice", title:"첫 번째 모임을 시작합니다", content:"인투뎀 랩 아고라가 열렸습니다. 이곳에서 서로의 질문과 자료를 천천히 나누어주세요.", author_nickname:"관리자", created_at:new Date().toISOString(), comment_count:2, attachment_count:0, is_pinned:true },
+    { id:"preview-1", author_membership_id:"preview-member", category:"notice", title:"첫 번째 모임을 시작합니다", content:"인투뎀 랩 아고라가 열렸습니다. 이곳에서 서로의 질문과 자료를 천천히 나누어주세요.", author_nickname:"브리또", created_at:new Date().toISOString(), comment_count:2, attachment_count:0, is_pinned:true },
     { id:"preview-2", category:"resource", title:"함께 읽을 자료를 공유합니다", content:"다음 모임에서 함께 이야기할 자료입니다. 읽으며 떠오른 질문을 댓글로 남겨주세요.", author_nickname:"숲", created_at:new Date(Date.now()-86400000).toISOString(), comment_count:4, attachment_count:2 },
     { id:"preview-3", category:"discussion", title:"배움이 시작되는 순간은 언제일까요?", content:"누군가의 설명을 들었을 때보다 스스로 질문이 생겼을 때 배움이 시작된다고 느꼈습니다. 여러분은 어떤가요?", author_nickname:"마루", created_at:new Date(Date.now()-172800000).toISOString(), comment_count:7, attachment_count:0 }
   ];
@@ -205,20 +214,22 @@
     currentMember = null;
     memberships = [];
     posts = [];
+    editingPost = null;
+    deletingPost = null;
     $("#logout-button").hidden = true;
     updateManagerControls(false);
     $("#group-select").replaceChildren();
     postForm.reset();
     postList.innerHTML = '<p class="board-empty">글을 불러오고 있습니다.</p>';
-    [profileDialog, postDialog, reader, $("#admin-dialog")].forEach((dialog) => {
+    [profileDialog, postDialog, reader, deleteDialog, $("#admin-dialog")].forEach((dialog) => {
       if (dialog?.open) dialog.close();
     });
     show(loginView);
   }
 
   function enterPreview() {
-    currentMember = { role:"admin", nickname:"브리또", real_name:"미리보기" };
-    memberships = [{ group_id:"preview", school_groups:{ name:"인투뎀 랩 1기", project_id:"preview" } }];
+    currentMember = { id:"preview-member", role:"admin", nickname:"브리또", real_name:"미리보기" };
+    memberships = [{ id:"preview-member", status:"active", role:"admin", group_id:"preview", school_groups:{ name:"인투뎀 랩 1기", project_id:"preview" } }];
     $("#member-nickname").textContent = "브리또";
     $("#member-real-name").textContent = "전체 관리자";
     updateManagerControls(true);
@@ -254,17 +265,31 @@
     postList.replaceChildren();
     filtered.forEach((post) => {
       const article = document.createElement("article"); article.className = "post-item"; article.tabIndex = 0;
-      article.innerHTML = `<span class="post-category">${escapeText(categoryNames[post.category] || post.category)}</span><div><h3 class="post-title">${post.is_pinned ? "● " : ""}${escapeText(post.title)}</h3><p class="post-excerpt">${escapeText(post.content)}</p><div class="post-meta"><span>${escapeText(post.author_nickname)}</span><time>${formatDate(post.created_at)}</time><span>${post.visibility === "project" ? "전체 공개" : "그룹 공개"}</span></div></div><div class="post-stats"><span>댓글 ${post.comment_count || 0}</span><span>자료 ${post.attachment_count || 0}</span></div>`;
+      const ownsPost = Boolean(getOwnPostMembership(post, memberships));
+      article.innerHTML = `<span class="post-category">${escapeText(categoryNames[post.category] || post.category)}</span><div><h3 class="post-title">${post.is_pinned ? "● " : ""}${escapeText(post.title)}</h3><p class="post-excerpt">${escapeText(post.content)}</p><div class="post-meta"><span>${escapeText(post.author_nickname)}</span><time>${formatDate(post.created_at)}</time><span>${post.visibility === "project" ? "전체 공개" : "그룹 공개"}</span></div></div><div class="post-side"><div class="post-stats"><span>댓글 ${post.comment_count || 0}</span><span>자료 ${post.attachment_count || 0}</span></div>${ownsPost ? '<div class="post-own-actions" aria-label="내 글 관리"><button type="button" class="post-edit">수정</button><button type="button" class="post-delete">삭제</button></div>' : ""}</div>`;
       article.addEventListener("click", () => openPost(post));
-      article.addEventListener("keydown", (event) => { if (event.key === "Enter") openPost(post); });
+      article.addEventListener("keydown", (event) => { if (event.target === article && event.key === "Enter") openPost(post); });
+      if (ownsPost) {
+        const editButton = article.querySelector(".post-edit");
+        const deleteButton = article.querySelector(".post-delete");
+        editButton.setAttribute("aria-label", `${post.title} 수정`);
+        deleteButton.setAttribute("aria-label", `${post.title} 삭제`);
+        editButton.addEventListener("click", (event) => { event.stopPropagation(); openPostEditor(post); });
+        deleteButton.addEventListener("click", (event) => { event.stopPropagation(); openDeleteDialog(post); });
+      }
       postList.append(article);
     });
   }
 
   async function openPost(post) {
     const target = $("#reader-content");
-    target.innerHTML = `<button type="button" class="dialog-close reader-close" aria-label="닫기">×</button><p class="community-label">${escapeText(categoryNames[post.category])}</p><h1>${escapeText(post.title)}</h1><p class="reader-meta">${escapeText(post.author_nickname)} · ${formatDate(post.created_at)}</p><div class="reader-body">${escapeText(post.content).replace(/\n/g,"<br>")}</div><section class="reader-attachments" id="attachment-list" hidden></section><section class="reader-comments"><h2>댓글 <span id="reader-comment-count">${post.comment_count || 0}</span></h2><div id="comment-list"><p>댓글을 불러오고 있습니다.</p></div><form id="comment-form"><textarea name="content" maxlength="2000" rows="3" required placeholder="생각을 이어주세요."></textarea><button type="submit">댓글 남기기</button><p class="comment-note" id="comment-note" aria-live="polite"></p></form></section>`;
+    const ownsPost = Boolean(getOwnPostMembership(post, memberships));
+    target.innerHTML = `<button type="button" class="dialog-close reader-close" aria-label="닫기">×</button><p class="community-label">${escapeText(categoryNames[post.category])}</p><h1>${escapeText(post.title)}</h1><div class="reader-heading-footer"><p class="reader-meta">${escapeText(post.author_nickname)} · ${formatDate(post.created_at)}</p>${ownsPost ? '<div class="reader-own-actions" aria-label="내 글 관리"><button type="button" class="reader-edit">수정</button><button type="button" class="reader-delete">삭제</button></div>' : ""}</div><div class="reader-body">${escapeText(post.content).replace(/\n/g,"<br>")}</div><section class="reader-attachments" id="attachment-list" hidden></section><section class="reader-comments"><h2>댓글 <span id="reader-comment-count">${post.comment_count || 0}</span></h2><div id="comment-list"><p>댓글을 불러오고 있습니다.</p></div><form id="comment-form"><textarea name="content" maxlength="2000" rows="3" required placeholder="생각을 이어주세요."></textarea><button type="submit">댓글 남기기</button><p class="comment-note" id="comment-note" aria-live="polite"></p></form></section>`;
     target.querySelector(".reader-close").onclick = () => reader.close();
+    if (ownsPost) {
+      target.querySelector(".reader-edit").onclick = () => openPostEditor(post);
+      target.querySelector(".reader-delete").onclick = () => openDeleteDialog(post);
+    }
     reader.showModal();
     if (previewMode) { $("#comment-list").innerHTML = "<p>미리보기에서는 댓글을 저장하지 않습니다.</p>"; $("#comment-form").onsubmit = (event) => event.preventDefault(); return; }
     const [{ data:comments, error:commentLoadError }, { data:attachments, error:attachmentError }] = await Promise.all([
@@ -318,6 +343,51 @@
       note.className = `comment-note ${reloadError ? "is-error" : "is-success"}`;
       button.disabled = false;
     };
+  }
+
+  function resetPostEditor() {
+    editingPost = null;
+    postForm.reset();
+    $("#post-dialog-label").textContent = "NEW NOTE";
+    $("#post-dialog-title").textContent = "생각과 자료 남기기";
+    $("#post-dialog-file-field").hidden = false;
+    $("#post-edit-hint").hidden = true;
+    postForm.querySelector(".post-submit").textContent = "글 올리기 →";
+    const note = $("#post-form-note");
+    note.textContent = "";
+    note.className = "form-note";
+  }
+
+  function openPostEditor(post) {
+    const owner = getOwnPostMembership(post, memberships);
+    if (!owner) return;
+    resetPostEditor();
+    editingPost = post;
+    const manager = ["admin", "operator"].includes(owner.role);
+    const noticeOption = postForm.elements.category.querySelector('[value="notice"]');
+    noticeOption.hidden = !manager;
+    noticeOption.disabled = !manager;
+    postForm.elements.category.value = post.category;
+    postForm.elements.visibility.value = post.visibility;
+    postForm.elements.title.value = post.title;
+    postForm.elements.content.value = post.content;
+    $("#post-dialog-label").textContent = "EDIT NOTE";
+    $("#post-dialog-title").textContent = "글 수정하기";
+    $("#post-dialog-file-field").hidden = true;
+    $("#post-edit-hint").hidden = false;
+    postForm.querySelector(".post-submit").textContent = "변경사항 저장 →";
+    if (reader.open) reader.close();
+    postDialog.showModal();
+  }
+
+  function openDeleteDialog(post) {
+    if (!getOwnPostMembership(post, memberships)) return;
+    deletingPost = post;
+    $("#delete-post-title").textContent = post.title;
+    $("#delete-post-note").textContent = "";
+    $("#delete-post-note").className = "form-note";
+    if (reader.open) reader.close();
+    deleteDialog.showModal();
   }
 
   function renderReaderComments(comments, error) {
@@ -380,7 +450,11 @@
   });
   $("#group-select").addEventListener("change", () => previewMode ? renderPosts() : loadPosts());
   document.querySelectorAll(".community-nav button[data-category]").forEach((button) => button.addEventListener("click", () => { document.querySelectorAll(".community-nav button").forEach((item) => item.classList.remove("is-active")); button.classList.add("is-active"); category = button.dataset.category; $("#board-title").textContent = button.childNodes[1].textContent.trim(); $("#board-label").textContent = category === "all" ? "ALL NOTES" : category.toUpperCase(); renderPosts(); }));
-  $("#new-post-button").addEventListener("click", () => postDialog.showModal());
+  $("#new-post-button").addEventListener("click", () => {
+    resetPostEditor();
+    updateManagerControls(isManager());
+    postDialog.showModal();
+  });
   $("#admin-entry").addEventListener("click", async () => {
     const dialog = $("#admin-dialog"); dialog.showModal();
     if (previewMode) { renderAdminMembers([{id:"1",real_name:"관리자",nickname:"브리또",role:"admin",status:"active"},{id:"2",real_name:"김회원",nickname:"숲",role:"operator",status:"active"},{id:"3",real_name:"이회원",nickname:"마루",role:"member",status:"active"}]); return; }
@@ -401,9 +475,81 @@
     });
   }
   document.querySelectorAll(".dialog-close,.dialog-cancel").forEach((button) => button.addEventListener("click", () => postDialog.close()));
+  postDialog.addEventListener("close", resetPostEditor);
+  $("#delete-post-cancel").addEventListener("click", () => deleteDialog.close());
+  deleteDialog.addEventListener("close", () => { deletingPost = null; });
+  $("#delete-post-confirm").addEventListener("click", async (event) => {
+    const post = deletingPost;
+    const owner = getOwnPostMembership(post, memberships);
+    const note = $("#delete-post-note");
+    if (!post || !owner) { deleteDialog.close(); return; }
+    if (previewMode) { note.textContent = "미리보기에서는 글을 삭제하지 않습니다."; return; }
+    const button = event.currentTarget;
+    button.disabled = true;
+    note.className = "form-note";
+    note.textContent = "글을 삭제하고 있습니다.";
+    try {
+      const { data:attachments, error:attachmentError } = await client.from("school_attachments").select("storage_path").eq("post_id", post.id);
+      if (attachmentError) throw attachmentError;
+      const { data:deleted, error } = await client.from("school_posts").delete().eq("id", post.id).eq("author_membership_id", owner.id).select("id");
+      if (error) throw error;
+      if (!deleted?.length) throw new Error("삭제 권한이 없거나 이미 삭제된 글입니다.");
+      posts = posts.filter((item) => item.id !== post.id);
+      renderPosts(); renderPinned();
+      deleteDialog.close();
+      const paths = (attachments || []).map((attachment) => attachment.storage_path);
+      let storageCleanupFailed = false;
+      if (paths.length) {
+        try {
+          const { data:removed, error:storageError } = await client.storage.from("school-resources").remove(paths);
+          if (storageError) throw storageError;
+          if ((removed || []).length !== paths.length) throw new Error("일부 첨부파일을 정리하지 못했습니다.");
+        } catch (storageError) {
+          console.error("school deleted post storage cleanup failed", storageError);
+          storageCleanupFailed = true;
+        }
+      }
+      await loadPosts();
+      if (storageCleanupFailed) postList.insertAdjacentHTML("afterbegin", '<p class="upload-warning">글은 삭제됐지만 첨부파일 정리가 완료되지 않았습니다. 관리자에게 문의해주세요.</p>');
+    } catch (error) {
+      console.error("school post delete failed", error);
+      note.textContent = `글을 삭제하지 못했습니다. ${error.message || "다시 시도해주세요."}`;
+      note.className = "form-note is-error";
+    } finally {
+      button.disabled = false;
+    }
+  });
   postForm.addEventListener("submit", async (event) => {
-    event.preventDefault(); if (previewMode) { $("#post-form-note").textContent = "미리보기에서는 글을 저장하지 않습니다."; return; }
-    const files = Array.from(postForm.elements.files.files); const note = $("#post-form-note");
+    event.preventDefault();
+    const note = $("#post-form-note");
+    if (previewMode) { note.textContent = "미리보기에서는 글을 저장하지 않습니다."; return; }
+    if (editingPost) {
+      const post = editingPost;
+      const owner = getOwnPostMembership(post, memberships);
+      if (!owner) { note.textContent = "이 글을 수정할 권한이 없습니다."; note.className = "form-note is-error"; return; }
+      const button = postForm.querySelector(".post-submit");
+      button.disabled = true;
+      note.textContent = "변경사항을 저장하고 있습니다.";
+      note.className = "form-note";
+      const changes = { category:postForm.elements.category.value, visibility:postForm.elements.visibility.value, title:postForm.elements.title.value.trim(), content:postForm.elements.content.value.trim() };
+      try {
+        const { data:updated, error } = await client.from("school_posts").update(changes).eq("id", post.id).eq("author_membership_id", owner.id).select("*").single();
+        if (error) throw error;
+        if (!updated) throw new Error("수정 권한이 없거나 이미 삭제된 글입니다.");
+        posts = posts.map((item) => item.id === post.id ? { ...item, ...updated } : item);
+        postDialog.close();
+        renderPosts(); renderPinned();
+        await loadPosts();
+      } catch (error) {
+        console.error("school post update failed", error);
+        note.textContent = `글을 수정하지 못했습니다. ${error.message || "다시 시도해주세요."}`;
+        note.className = "form-note is-error";
+      } finally {
+        button.disabled = false;
+      }
+      return;
+    }
+    const files = Array.from(postForm.elements.files.files);
     if (files.length > 5 || files.some((file) => file.size > 20 * 1024 * 1024)) { note.textContent = "첨부파일은 최대 5개, 파일당 20MB까지 가능합니다."; note.className = "form-note is-error"; return; }
     const button = postForm.querySelector(".post-submit"); button.disabled = true;
     const payload = { group_id:$("#group-select").value, author_membership_id:currentMember.id, category:postForm.elements.category.value, visibility:postForm.elements.visibility.value, title:postForm.elements.title.value.trim(), content:postForm.elements.content.value.trim() };

@@ -14,10 +14,10 @@
   <link rel="stylesheet" href="school-community-extras.css?v=20260827-3">
   <link rel="stylesheet" href="school-community-profile.css?v=20260827-1">
   <link rel="stylesheet" href="school-community-login.css?v=20260909-1">
-  <link rel="stylesheet" href="school-community-reader.css?v=20260827-4">
+  <link rel="stylesheet" href="school-community-reader.css?v=20260923-2">
   <style>[hidden]{display:none!important}</style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-  <script src="school-community.js?v=20260909-3" defer></script>
+  <script src="school-community.js?v=20260923-2" defer></script>
   <link rel="stylesheet" href="gothic-overrides.css?v=20260918-1">
 </head>
 <body class="community-page">
@@ -78,20 +78,24 @@
 
   <dialog class="post-dialog" id="post-dialog">
     <form id="post-form">
-      <header><div><p class="community-label">NEW NOTE</p><h2>생각과 자료 남기기</h2></div><button type="button" class="dialog-close" aria-label="닫기">×</button></header>
+      <header><div><p class="community-label" id="post-dialog-label">NEW NOTE</p><h2 id="post-dialog-title">생각과 자료 남기기</h2></div><button type="button" class="dialog-close" aria-label="닫기">×</button></header>
       <div class="post-fields">
         <label>분류<select name="category"><option value="discussion">질문과 토론</option><option value="resource">자료공유</option><option value="notice" class="admin-only-option" hidden disabled>공지</option></select></label>
         <label>공개 범위<select name="visibility"><option value="group">현재 그룹</option><option value="project">인투뎀 랩 전체</option></select></label>
         <label class="wide">제목<input type="text" name="title" maxlength="100" required placeholder="제목을 입력하세요"></label>
         <label class="wide">내용<textarea name="content" maxlength="10000" rows="13" required placeholder="서로의 생각이 이어질 수 있도록 천천히 적어주세요."></textarea></label>
-        <label class="wide file-field">자료 첨부<input type="file" name="files" multiple accept=".pdf,.doc,.docx,.hwp,.hwpx,.ppt,.pptx,.jpg,.jpeg,.png,.webp"><span>파일당 20MB · 최대 5개 · 동영상과 압축파일 제외</span></label>
+        <label class="wide file-field" id="post-dialog-file-field">자료 첨부<input type="file" name="files" multiple accept=".pdf,.doc,.docx,.hwp,.hwpx,.ppt,.pptx,.jpg,.jpeg,.png,.webp"><span>파일당 20MB · 최대 5개 · 동영상과 압축파일 제외</span></label>
       </div>
+      <p class="post-edit-hint" id="post-edit-hint" hidden>기존 첨부 자료는 그대로 유지됩니다. 첨부 자료를 바꾸려면 글을 다시 작성해주세요.</p>
       <p class="form-note" id="post-form-note" aria-live="polite"></p>
       <footer><button type="button" class="dialog-cancel">취소</button><button type="submit" class="post-submit">글 올리기 →</button></footer>
     </form>
   </dialog>
 
   <dialog class="reader-dialog" id="reader-dialog"><article id="reader-content"></article></dialog>
+  <dialog class="delete-post-dialog" id="delete-post-dialog" aria-labelledby="delete-post-heading">
+    <div class="delete-post-panel"><p class="community-label">DELETE NOTE</p><h2 id="delete-post-heading">이 글을 삭제할까요?</h2><p class="delete-post-title" id="delete-post-title"></p><p class="delete-post-warning">삭제하면 글과 댓글, 첨부 자료를 되돌릴 수 없습니다.</p><p class="form-note" id="delete-post-note" aria-live="polite"></p><div class="delete-post-actions"><button type="button" id="delete-post-cancel">취소</button><button type="button" id="delete-post-confirm">글 삭제</button></div></div>
+  </dialog>
   <dialog class="admin-dialog" id="admin-dialog">
     <section><header><div><p class="community-label">AGORA CONTROL</p><h2>인투뎀 랩 아고라 관리</h2></div><button type="button" class="admin-close" aria-label="닫기">×</button></header>
       <div class="admin-summary"><article><span>활동 회원</span><strong id="admin-active-count">0</strong></article><article><span>운영자</span><strong id="admin-operator-count">0</strong></article><article><span>숨긴 글</span><strong id="admin-hidden-count">0</strong></article></div>
