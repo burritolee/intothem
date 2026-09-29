@@ -59,7 +59,7 @@
     slot_number: 1,
     bio: "브리또의 공개 습작"
   };
-  const roomNames = { 1: "브리또", 2: "하나로 샴푸" };
+  const roomNames = { 1: "브리또", 2: "하나로 샴푸", 4: "노기의 춤" };
   const fallbackBurritoNotes = Array.isArray(window.BURRITO_PUBLIC_NOTES) ? window.BURRITO_PUBLIC_NOTES : [];
   const legacySchemaErrorCodes = new Set(["PGRST204", "PGRST205", "42P01", "42703"]);
 
@@ -97,8 +97,15 @@
     return note.slug || note.id;
   }
 
+  function writerDisplayName(profile) {
+    // 기존 DB의 기본 이름도 새 방 이름으로 표시하되, 다른 작가명은 유지합니다.
+    if ((profile?.slot_number === 4 || profile?.public_slug === "writer-04")
+      && profile?.display_name === "작가 04") return roomNames[4];
+    return profile?.display_name || "";
+  }
+
   function authorName(note) {
-    return note.writer_profiles?.display_name || "인투뎀 작가";
+    return writerDisplayName(note.writer_profiles) || "인투뎀 작가";
   }
 
   function authorSlug(note) {
@@ -148,7 +155,7 @@
       const name = document.createElement("h3");
       const copy = document.createElement("p");
       number.textContent = String(slot).padStart(2, "0");
-      name.textContent = profile?.display_name || roomNames[slot] || `작가 ${String(slot).padStart(2, "0")}`;
+      name.textContent = writerDisplayName(profile) || roomNames[slot] || `작가 ${String(slot).padStart(2, "0")}`;
       copy.textContent = profile
         ? (count ? `공개된 글 ${count}편` : "아직 공개된 글이 없습니다.")
         : "작가를 기다리고 있습니다.";
@@ -169,7 +176,7 @@
 
   function renderFilters() {
     filter.replaceChildren();
-    const options = [{ id: "all", name: "전체" }, ...profiles.map((profile) => ({ id: profile.user_id, name: profile.display_name }))];
+    const options = [{ id: "all", name: "전체" }, ...profiles.map((profile) => ({ id: profile.user_id, name: writerDisplayName(profile) }))];
     options.forEach((option) => {
       const button = document.createElement("button");
       button.type = "button";
@@ -380,8 +387,8 @@
     currentProfile = data;
     sessionBox.hidden = false;
     studio.hidden = false;
-    sessionName.textContent = data.display_name;
-    writerWriteButton.firstChild.textContent = `${data.display_name} 글쓰기 `;
+    sessionName.textContent = writerDisplayName(data);
+    writerWriteButton.firstChild.textContent = `${writerDisplayName(data)} 글쓰기 `;
     await loadMyNotes();
     return true;
   }

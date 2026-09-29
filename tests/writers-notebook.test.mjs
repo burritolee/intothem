@@ -223,9 +223,31 @@ test("writer page exposes only the four-digit PIN entry UI", async (t) => {
     assertMatches(html, /<h3>브리또<\/h3>/, "room 1 must show only the writer name");
     assertMatches(html, /<h3>하나로 샴푸<\/h3>/, "room 2 must show only the writer name");
     assertMatches(html, /<h3>시연하다<\/h3>/, "room 3 must show only the writer name");
-    assertDoesNotMatch(html, /(?:브리또|하나로 샴푸|시연하다)의 방/, "static room labels must not append '의 방'");
-    assertMatches(clientSource, /name\.textContent\s*=\s*profile\?\.display_name\s*\|\|/, "dynamic room labels must use the display name directly");
+    assertMatches(html, /<span>04<\/span><h3>노기의 춤<\/h3>/, "room 4 must show the new writer name");
+    assertDoesNotMatch(html, /(?:브리또|하나로 샴푸|시연하다|노기의 춤)의 방/, "static room labels must not append '의 방'");
+    assertMatches(clientSource, /name\.textContent\s*=\s*writerDisplayName\(profile\)\s*\|\|/, "dynamic room labels must use the normalized display name");
     assertDoesNotMatch(clientSource, /display_name\}의 방/, "dynamic room labels must not append '의 방'");
+  });
+
+  await t.test("room 4 rename survives remote profile loading without changing other writers", () => {
+    const helper = clientSource.match(/  function writerDisplayName\(profile\) \{[\s\S]*?\n  \}/)?.[0];
+    const names = clientSource.match(/  const roomNames = [^;]+;/)?.[0];
+    assert.ok(helper && names, "writer name helper and room defaults must exist");
+    const writerDisplayName = vm.runInNewContext(`${names}\n${helper}\nwriterDisplayName`);
+    const oldProfile = { user_id: "writer-four", slot_number: 4, public_slug: "writer-04", display_name: "작가 04" };
+    assert.equal(writerDisplayName(oldProfile), "노기의 춤");
+    assert.equal(oldProfile.display_name, "작가 04", "display changes must not mutate account data");
+    assert.equal(writerDisplayName({ public_slug: "writer-04", display_name: "작가 04" }), "노기의 춤", "note author metadata must use the same name");
+    assert.equal(writerDisplayName({ slot_number: 4, display_name: "노기의 춤" }), "노기의 춤");
+    assert.equal(writerDisplayName({ slot_number: 4, display_name: "새 작가명" }), "새 작가명", "future custom profile names must remain configurable");
+    assert.equal(writerDisplayName({ slot_number: 3, public_slug: "writer-03", display_name: "시연하다" }), "시연하다");
+    assert.equal(writerDisplayName({ slot_number: 5, display_name: "작가 04" }), "작가 04", "rename must apply only to room 4");
+    assert.equal(writerDisplayName(null), "");
+    assertMatches(clientSource, /return writerDisplayName\(note\.writer_profiles\)/, "public notes must use the same writer name");
+    assertMatches(clientSource, /name: writerDisplayName\(profile\)/, "writer filters must use the same writer name");
+    assertMatches(clientSource, /sessionName\.textContent = writerDisplayName\(data\)/, "signed-in writer label must use the same name");
+    assertMatches(clientSource, /\$\{writerDisplayName\(data\)\} 글쓰기/, "write button must use the same name");
+    assertMatches(bootstrapSource, /slot: 4, defaultName: "노기의 춤", publicSlug: "writer-04"/, "setup must retain the new name and existing shared URL");
   });
 
   await t.test("legacy note bundle remains a temporary runtime fallback", () => {

@@ -73,7 +73,7 @@ node scripts/writers-bootstrap.mjs setup
 | 1 | 브리또 | `burrito-static` |
 | 2 | 하나로 샴푸 | `writer-02` |
 | 3 | 시연하다 | `writer-03` |
-| 4 | 작가 04 | `writer-04` |
+| 4 | 노기의 춤 | `writer-04` |
 | 5 | 작가 05 | `writer-05` |
 
 이름은 env의 `WRITER_01_NAME`부터 `WRITER_05_NAME`까지로 바꿀 수 있습니다. `public_slug`는 공유 주소의 안정성을 위해 setup 재실행 시에도 고정됩니다.
