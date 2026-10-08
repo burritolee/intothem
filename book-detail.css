@@ -18,6 +18,11 @@
 .map-spread { max-width: 600px; margin-left: auto; margin-right: auto; }
 @media (max-width: 700px) { .book-detail-hero { grid-template-columns: 1fr; gap: 45px; padding: 65px 0 75px; } .book-detail-hero img { width: min(68%, 280px); } .book-detail-content { padding-bottom: 75px; } .book-detail-content article { padding: 36px 0; } .book-detail-content p { font-size: 14px; } }
 
+/* 다 함께 튀르키예 yeah! */
+.turkiye-detail-page .turkiye-ebook { display:inline-flex; align-items:center; gap:28px; margin:27px 14px 0 0; padding:16px 21px; border:1px solid #747842; background:#b8bb71; color:#303621; font-weight:700; transition:background-color .2s ease,transform .2s ease; }
+.turkiye-detail-page .turkiye-ebook:hover,.turkiye-detail-page .turkiye-ebook:focus-visible { background:#a9ad61; transform:translateY(-2px); outline:2px solid #4d512e; outline-offset:3px; }
+.turkiye-detail-page .turkiye-ebook span { margin-left:0; }
+
 /* 오선지에 쓰는 시 */
 .poem-detail-page { background: #faf8ef; }
 .poem-hero { padding-top: 90px; }
