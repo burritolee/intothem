@@ -49,6 +49,50 @@
   .home-writing-feature strong { font-size:35px; line-height:1.18; }
 }
 
+/* 코리프로젝트: 인투뎀의 카드 흐름을 잇는 작은 밤하늘 */
+.home-kori-link {
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  min-height:168px;
+  margin:0 0 72px;
+  padding:30px clamp(30px,5vw,66px);
+  overflow:hidden;
+  background:#172a38;
+  color:#f4f2e9;
+  text-decoration:none;
+  transition:background-color .3s ease;
+}
+.home-kori-link:hover,.home-kori-link:focus-visible { background:#1d3443; }
+.home-kori-link:focus-visible { outline:2px solid #465f6a; outline-offset:4px; }
+.home-kori-copy { position:relative; z-index:1; display:flex; flex-direction:column; align-items:flex-start; }
+.home-kori-eyebrow { margin-bottom:14px; color:#afc6c7; font:10px/1.4 var(--mono); letter-spacing:.14em; }
+.home-kori-copy strong { font:400 clamp(27px,3vw,39px)/1.18 var(--serif); letter-spacing:-.075em; }
+.home-kori-description { margin-top:10px; color:#c6d1d0; font:400 13px/1.6 var(--sans); }
+.home-kori-cta { position:relative; z-index:1; display:inline-flex; align-items:center; gap:22px; flex:none; align-self:flex-end; padding-bottom:6px; border-bottom:1px solid rgba(244,242,233,.7); font:11px/1.4 var(--sans); }
+.home-kori-cta span { font-size:15px; transition:transform .3s ease; }
+.home-kori-link:hover .home-kori-cta span,.home-kori-link:focus-visible .home-kori-cta span { transform:translate(3px,-3px); }
+.home-kori-stars { position:absolute; inset:0; pointer-events:none; }
+.home-kori-stars i { position:absolute; width:2px; height:2px; border-radius:50%; background:#e5e9d9; box-shadow:0 0 8px 2px rgba(224,232,220,.34); animation:home-kori-twinkle 5s ease-in-out infinite; }
+.home-kori-stars i:nth-child(1) { top:23%; left:49%; animation-delay:-1.4s; }
+.home-kori-stars i:nth-child(2) { top:67%; left:55%; animation-delay:-3.5s; }
+.home-kori-stars i:nth-child(3) { top:34%; left:74%; animation-delay:-.7s; }
+.home-kori-stars i:nth-child(4) { top:72%; left:85%; animation-delay:-2.6s; }
+.home-kori-stars i:nth-child(5) { top:18%; left:93%; animation-delay:-4.2s; }
+@keyframes home-kori-twinkle { 0%,100% { opacity:.22; transform:scale(.8); } 50% { opacity:.9; transform:scale(1.25); } }
+@media (prefers-reduced-motion:reduce) { .home-kori-stars i { animation:none; opacity:.65; } }
+@media (max-width:650px) {
+  .home-kori-link { min-height:170px; margin-bottom:54px; padding:25px 26px; align-items:flex-start; flex-direction:column; gap:22px; }
+  .home-kori-eyebrow { margin-bottom:12px; font-size:9px; }
+  .home-kori-copy strong { font-size:29px; }
+  .home-kori-description { font-size:12px; }
+  .home-kori-cta { align-self:flex-start; }
+  .home-kori-stars i:nth-child(1) { left:64%; }
+  .home-kori-stars i:nth-child(2) { left:72%; }
+}
+
 /* 작가의 습작노트 바로가기 */
 .home-writers-notebook { display:grid; grid-template-columns:minmax(0,1.08fr) minmax(320px,.92fr); width:min(1210px,calc(100% - 44px)); height:620px; margin:0 auto 130px; overflow:hidden; background:#e8e3d6; }
 .home-writers-notebook-photo { position:relative; height:100%; min-height:0; overflow:hidden; }
