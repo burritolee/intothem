@@ -71,6 +71,11 @@
 .home-kori-eyebrow { margin-bottom:14px; color:#afc6c7; font:10px/1.4 var(--mono); letter-spacing:.14em; }
 .home-kori-copy strong { font:400 clamp(27px,3vw,39px)/1.18 var(--serif); letter-spacing:-.075em; }
 .home-kori-description { margin-top:10px; color:#c6d1d0; font:400 13px/1.6 var(--sans); }
+.home-kori-update { display:inline-flex; align-items:center; gap:9px; margin-top:18px; color:#e3e5d5; white-space:nowrap; }
+.home-kori-update::before { content:""; width:4px; height:4px; flex:none; border-radius:50%; background:#e8ddaf; box-shadow:0 0 9px 3px rgba(232,221,175,.35); }
+.home-kori-update-label { color:#bbcac2; font:500 10px/1.5 var(--sans); }
+.home-kori-update-label::after { content:"·"; margin-left:9px; color:#8fa9a8; }
+.home-kori-update-title { color:#f2efd9; font:400 12px/1.5 var(--serif); animation:home-kori-title-glow 6s ease-in-out infinite; }
 .home-kori-cta { position:relative; z-index:1; display:inline-flex; align-items:center; gap:22px; flex:none; align-self:flex-end; padding-bottom:6px; border-bottom:1px solid rgba(244,242,233,.7); font:11px/1.4 var(--sans); }
 .home-kori-cta span { font-size:15px; transition:transform .3s ease; }
 .home-kori-link:hover .home-kori-cta span,.home-kori-link:focus-visible .home-kori-cta span { transform:translate(3px,-3px); }
@@ -82,12 +87,14 @@
 .home-kori-stars i:nth-child(4) { top:72%; left:85%; animation-delay:-2.6s; }
 .home-kori-stars i:nth-child(5) { top:18%; left:93%; animation-delay:-4.2s; }
 @keyframes home-kori-twinkle { 0%,100% { opacity:.22; transform:scale(.8); } 50% { opacity:.9; transform:scale(1.25); } }
-@media (prefers-reduced-motion:reduce) { .home-kori-stars i { animation:none; opacity:.65; } }
+@keyframes home-kori-title-glow { 0%,100% { text-shadow:0 0 6px rgba(242,233,186,.3),0 0 14px rgba(242,233,186,.16); } 50% { text-shadow:0 0 8px rgba(242,233,186,.65),0 0 19px rgba(242,233,186,.35),0 0 28px rgba(242,233,186,.16); } }
+@media (prefers-reduced-motion:reduce) { .home-kori-stars i { animation:none; opacity:.65; } .home-kori-update-title { animation:none; text-shadow:0 0 8px rgba(242,233,186,.42); } }
 @media (max-width:650px) {
   .home-kori-link { min-height:170px; margin-bottom:54px; padding:25px 26px; align-items:flex-start; flex-direction:column; gap:22px; }
   .home-kori-eyebrow { margin-bottom:12px; font-size:9px; }
   .home-kori-copy strong { font-size:29px; }
   .home-kori-description { font-size:12px; }
+  .home-kori-update { margin-top:15px; }
   .home-kori-cta { align-self:flex-start; }
   .home-kori-stars i:nth-child(1) { left:64%; }
   .home-kori-stars i:nth-child(2) { left:72%; }
