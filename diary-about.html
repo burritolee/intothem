@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="다이어리와의 첫 만남과 그가 그려 갈 세계에 관한 이야기">
+  <title>다이어리에 대해 | 전구사람</title>
+  <style>
+    @font-face { font-family:"YoonChildfundkoreaMinGuk"; src:url("assets/YoonChildfundkoreaMinGuk.otf") format("opentype"); font-style:normal; font-weight:400; font-display:swap; }
+    :root { color-scheme:light; --ink:#39362f; }
+    * { box-sizing:border-box; }
+    body { min-height:100vh; margin:0; padding:24px 0 64px; background:#0e0e0e; color:var(--ink); font-family:"YoonChildfundkoreaMinGuk",cursive; }
+    .storybook { display:grid; justify-items:center; gap:28px; }
+    .paper-page {
+      position:relative;
+      width:min(760px,100vw);
+      aspect-ratio:1057 / 1488;
+      container-type:inline-size;
+      background:#f0f1f0 url("assets/duo-story-paper-rough.png") center / 100% 100% no-repeat;
+      filter:drop-shadow(0 12px 18px rgba(0,0,0,.16));
+    }
+    h1,h2,p,blockquote,figure { margin:0; }
+    .hero-title { position:absolute; top:9%; left:12%; right:8%; font:400 4.45cqw/1.16 "YoonChildfundkoreaMinGuk",cursive; transform:rotate(-2deg); }
+    .hero-photo { position:absolute; top:18.5%; left:13%; width:46%; transform:rotate(-2deg); filter:drop-shadow(0 1.1cqw 1.5cqw rgba(67,52,38,.2)); }
+    .photo-paper {
+      padding:1.2cqw 1.2cqw 2.5cqw;
+      background:linear-gradient(145deg,#fffdf8,#f5efe3);
+      clip-path:polygon(.4% .5%,9% 0,19% .35%,30% .1%,42% .45%,53% .08%,65% .4%,77% .05%,88% .35%,99.5% .1%,100% 12%,99.65% 25%,100% 37%,99.7% 52%,100% 68%,99.6% 83%,100% 99.5%,88% 100%,75% 99.68%,62% 100%,49% 99.7%,36% 99.98%,22% 99.64%,10% 100%,.3% 99.5%,0 83%,.3% 67%,0 49%,.4% 31%,0 15%);
+    }
+    .hero-photo img { display:block; width:100%; height:auto; aspect-ratio:992 / 1586; object-fit:cover; }
+    .tape { position:absolute; z-index:1; top:-1.1cqw; left:50%; width:11cqw; height:2.6cqw; background:repeating-linear-gradient(92deg,rgba(255,255,255,.2) 0 2px,rgba(85,68,42,.04) 3px 4px),#ddd2b7; opacity:.84; transform:translateX(-50%) rotate(-6deg); clip-path:polygon(0 7%,4% 0,95% 2%,100% 10%,98% 91%,94% 100%,5% 96%,0 89%); }
+    .hero-quote { position:absolute; top:26%; right:8%; width:28%; padding:2.5cqw 2cqw; background:#f3e7c6; transform:rotate(4deg); box-shadow:0 .6cqw 1.2cqw rgba(68,55,37,.16); font:400 clamp(11px,2.4cqw,19px)/1.5 "YoonChildfundkoreaMinGuk",cursive; }
+    .hero-quote p { margin:0 0 .8em; }
+    .hero-quote p:last-child { margin-bottom:0; }
+    .hero-intro { position:absolute; top:75%; left:12%; right:8%; font:400 clamp(12px,2.6cqw,21px)/1.62 "YoonChildfundkoreaMinGuk",cursive; }
+    .page-content { position:absolute; top:11%; right:9%; bottom:8%; left:12%; font:400 clamp(12px,3cqw,22px)/1.58 "YoonChildfundkoreaMinGuk",cursive; }
+    .page-content h2 { margin:0 0 3cqw; font:400 3.8cqw/1.2 "YoonChildfundkoreaMinGuk",cursive; transform:rotate(-2deg); }
+    .page-content p { margin:0 0 .8em; }
+    .page-content blockquote { margin:0 0 .8em; padding-left:1.6cqw; border-left:1px solid rgba(62,55,46,.35); }
+    .page-no { position:absolute; left:50%; bottom:4%; transform:translateX(-50%); font:400 1.8cqw/1 "YoonChildfundkoreaMinGuk",cursive; opacity:.55; pointer-events:none; }
+    .page-nav { position:absolute; right:8%; bottom:2.7%; left:12%; display:flex; align-items:center; justify-content:space-between; gap:2cqw; }
+    .page-nav a { color:var(--ink); font:400 2.5cqw/1.2 "YoonChildfundkoreaMinGuk",cursive; text-decoration:none; }
+    .page-nav a:hover,.page-nav a:focus-visible { color:#805b4a; text-decoration:underline; text-underline-offset:.25em; }
+    .page-nav .next-page { margin-left:auto; }
+    .paper-page[hidden] { display:none; }
+    @media (max-width:600px) { body { padding:0 0 28px; } .storybook { gap:18px; } }
+  </style>
+</head>
+<body>
+  <main class="storybook" aria-label="다이어리에 대해">
+    <section class="paper-page" id="page-1" aria-labelledby="diary-title">
+      <h1 class="hero-title" id="diary-title">다이어리를 소개합니다.</h1>
+      <figure class="hero-photo">
+        <span class="tape" aria-hidden="true"></span>
+        <div class="photo-paper"><img src="assets/diary-about-line-photo-clean.png" width="992" height="1586" alt="작업실 사진을 배경으로 다이어리 인물만 검은 펜 선화로 그린 모습" loading="eager" decoding="async"></div>
+      </figure>
+      <div class="hero-quote">
+        <p>“닉네임을 뭐라고 하면 좋으시겠어요?”</p>
+        <p>“아빠의 닉네임이 미스터리니까… 전 다이어리?”</p>
+        <p>ㅎㅎㅎㅎㅎㅎ</p>
+      </div>
+      <p class="hero-intro">그렇게 엉뚱하고 재미있는 다이어리를 만났어요. 아직 앳된 얼굴이지만, 스무 해를 자기답게 꽉 채워 살아온 친구예요.</p>
+      <nav class="page-nav" aria-label="페이지 이동"><a class="next-page" href="#page-2">다음 페이지 →</a></nav>
+      <span class="page-no" aria-hidden="true">01 / 03</span>
+    </section>
+    <section class="paper-page" id="page-2" aria-labelledby="page-two-title">
+      <div class="page-content">
+        <h2 id="page-two-title">첫 만남의 대화</h2>
+        <p>브리또인 저는 다이어리와 한참 이야기를 나눴어요. 저는 충전됐는데, 다이어리는 조금 방전된 것 같더라고요. ㅎㅎ</p>
+        <p>서로의 공통점을 찾아가려는 마음이 참 고마웠어요. 긴 시간 대화에 응해 준 다이어리에게 고맙다고 말하고 싶어요.</p>
+        <p>다이어리는 자신을 이제 막 인간계에 적응을 마친 모글리에 비유했어요. 진지한 눈빛과 웃을 때마다 살짝 패는 보조개를 보니 그 말이 더 그럴듯하게 들렸어요.</p>
+        <p>짙은 눈동자 뒤에 어떤 세계가 있을지 궁금했어요. 신중하게 고른 문장마다 그 세계의 색이 조금씩 묻어나는 것 같았거든요.</p>
+        <blockquote>“인간의 뇌는 끊임없이 저장할 수 있대요. 그렇지만 꺼내는 것은 어려워한다고 해요. 어머님들이 그 이야기에 많이 공감하시더라고요.”</blockquote>
+        <p>기억을 더듬으며 이야기를 이어가는 제게 다이어리는 자신을 ‘얕고 넓은 잡지식의 소유자’라고 소개했어요. 귀엽죠.</p>
+        <p>다이어리를 소개해 준 분이 다이어리에게 ‘삽화를 그리는 작가를 찾고 있다’고 전했는데, 제가 그 말을 바로잡았어요.</p>
+      </div>
+      <nav class="page-nav" aria-label="페이지 이동"><a href="#page-1">← 이전 페이지</a><a class="next-page" href="#page-3">다음 페이지 →</a></nav>
+      <span class="page-no" aria-hidden="true">02 / 03</span>
+    </section>
+    <section class="paper-page" id="page-3" aria-labelledby="page-three-title">
+      <div class="page-content">
+        <h2 id="page-three-title">자기만의 언어</h2>
+        <blockquote>“우리가 찾는 사람은 삽화를 그리는 작가라기보다, 자기 세계를 자기 언어로 그려 낼 수 있는 사람이에요.”</blockquote>
+        <p>멋을 잔뜩 부려 조금 오글거리는 말을 던졌는데, 다이어리는 고개를 끄덕이며 받아 주었어요. 검은 눈동자가 반짝였고, 그 진지함이 반가웠어요.</p>
+        <p>다이어리는 말보다 눈빛으로 더 많은 이야기를 전하는 사람이에요.</p>
+        <blockquote>“다이어리의 세계가 어떤 언어를 입고 그려질지 정말 궁금해요. 많은 것이 담겨 있는 것 같아요. 편하게 꺼내 놓으면 좋겠어요.”</blockquote>
+        <p>내향인이라고 자신을 소개한 친구에게 첫 만남부터 ‘편하게’ 꺼내 놓으라니, 저도 가끔은 꽤 교활한 마녀 같아요. ㅎㅎ</p>
+        <p>그러고는 “사실 저는 따뜻한 마녀예요.”라고 덧붙였어요. 그 말로 교활함에 한 스푼을 더한 건 아닐까요? 이건 또 무슨 버릇일까요?</p>
+        <p>이제 다이어리는 생각의 오두막을 찬찬히 둘러보며 세상에 내놓을 보물을 찾겠죠. 어쩌면 이미 그곳의 지도를 잘 알고 있어서 쉽게 찾아낼지도 몰라요.</p>
+        <p>다이어리가 보여 줄 세계가 궁금해요. 첫 만남부터 제가 기운을 다 빼앗은 건 아닐까 걱정도 되지만, 다이어리가 지치지 않기를 바라요.</p>
+      </div>
+      <nav class="page-nav" aria-label="페이지 이동"><a href="#page-2">← 이전 페이지</a><a class="next-page" href="newsletter-sketch-preview.html">표지로 돌아가기 →</a></nav>
+      <span class="page-no" aria-hidden="true">03 / 03</span>
+    </section>
+  </main>
+  <script>
+    (() => {
+      const pages = [...document.querySelectorAll('.paper-page')];
+      const pageFromHash = () => {
+        const match = /^#page-([1-3])$/.exec(location.hash);
+        return match ? Number(match[1]) - 1 : 0;
+      };
+      const showPage = (focusHeading = false) => {
+        const current = pageFromHash();
+        pages.forEach((page, index) => { page.hidden = index !== current; });
+        window.scrollTo(0, 0);
+        if (focusHeading) {
+          const heading = pages[current].querySelector('h1, h2');
+          heading?.focus({ preventScroll:true });
+        }
+      };
+      document.querySelectorAll('.page-nav a[href^="#page-"]').forEach(link => {
+        link.addEventListener('click', event => {
+          event.preventDefault();
+          history.pushState(null, '', link.getAttribute('href'));
+          showPage(true);
+        });
+      });
+      window.addEventListener('popstate', () => showPage());
+      window.addEventListener('hashchange', () => showPage());
+      pages.forEach(page => page.querySelector('h1, h2')?.setAttribute('tabindex', '-1'));
+      showPage();
+    })();
+  </script>
+</body>
+</html>

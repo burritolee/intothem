@@ -63,7 +63,7 @@
 .home-writers-notebook:hover .home-writers-notebook-photo img { transform:scale(1.025); }
 .home-writers-notebook-copy a:hover,.home-writers-notebook-copy a:focus-visible { background:#53613e; transform:translateY(-2px); outline:2px solid #203128; outline-offset:3px; }
 .home-writers-notebook-copy a:hover span,.home-writers-notebook-copy a:focus-visible span { transform:translateX(5px); }
-.now-section .home-writers-notebook { width:100%; margin:10px 0 72px; }
+.now-section .home-writers-notebook { width:100%; margin:10px 0 18px; }
 
 @media (max-width:900px) {
   .home-writers-notebook { grid-template-columns:1fr 1fr; height:500px; }
@@ -79,5 +79,69 @@
   .home-writers-notebook-copy h2 { margin-bottom:24px; font-size:44px; }
   .home-writers-notebook-copy > p:not(.eyebrow) { margin-bottom:34px; font-size:14px; }
   .home-writers-notebook-copy a { width:100%; }
-  .now-section .home-writers-notebook { margin:0 0 64px; }
+  .now-section .home-writers-notebook { margin:0 0 18px; }
 }
+
+/* 전구사람 주간 제작 노트 카드: 표지 전체가 보이도록 표시합니다. */
+.now-community-row { align-items:start; }
+.now-newsletter {
+  display:block;
+  width:100%;
+  min-height:0;
+  aspect-ratio:1057 / 1488;
+  container-type:inline-size;
+  background:url("assets/duo-story-paper-rough.png") center / 100% 100% no-repeat;
+  filter:drop-shadow(0 5px 9px rgba(65,52,37,.12));
+}
+.now-newsletter img {
+  position:absolute;
+  top:0;
+  left:0;
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:fill;
+  filter:url(#newsletter-paper-tone);
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 5%,#000 98%,transparent),linear-gradient(to bottom,transparent,#000 3%,#000 98%,transparent);
+  mask-image:linear-gradient(to right,transparent,#000 5%,#000 98%,transparent),linear-gradient(to bottom,transparent,#000 3%,#000 98%,transparent);
+  -webkit-mask-composite:source-in;
+  mask-composite:intersect;
+}
+.now-newsletter-cover { display:block; width:100%; height:100%; }
+.now-newsletter .diary-about-note {
+  position:absolute;
+  z-index:3;
+  top:17%;
+  left:1%;
+  display:block;
+  width:44%;
+  aspect-ratio:2172 / 724;
+  background:url("assets/diary-about-sticky-handwritten.png") center / contain no-repeat;
+  transform:rotate(16deg);
+  transform-origin:center;
+  filter:drop-shadow(0 .15cqw .15cqw rgba(60,45,30,.17)) drop-shadow(.2cqw .65cqw .65cqw rgba(70,50,32,.23));
+}
+.now-newsletter .diary-about-note:focus-visible { outline:2px solid #654c3b; outline-offset:3px; }
+.now-newsletter:hover img { transform:none; }
+.now-newsletter-diary-hotspot {
+  position:absolute;
+  z-index:2;
+  top:73%;
+  left:7.5%;
+  width:46%;
+  height:9%;
+  display:block;
+}
+.now-newsletter-diary-hotspot:focus-visible { outline:3px solid #7c3e37; outline-offset:3px; }
+.now-newsletter-duo-hotspot {
+  position:absolute;
+  z-index:2;
+  top:9%;
+  left:60%;
+  width:37%;
+  height:11%;
+  display:block;
+}
+.now-newsletter-duo-hotspot:focus-visible { outline:3px solid #7c3e37; outline-offset:3px; }
+.now-newsletter::after { display:none; }
+.now-newsletter:focus-visible { outline:3px solid var(--home-ink); outline-offset:4px; }
