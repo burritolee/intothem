@@ -279,14 +279,54 @@ test("writer client uses per-tab OTP authentication through an Edge Function", a
     assertDoesNotMatch(clientSource, /\.auth\s*\.\s*admin\b/, "admin auth APIs must never run in the browser");
   });
 
-  await t.test("legacy fallback is limited to a pre-migration schema error", () => {
+  await t.test("public read failures keep the four archived notes visible", async () => {
     assertMatches(clientSource, /from\s*\(\s*["']writer_notes["']\s*\)/, "public notes must be loaded from writer_notes");
     assertMatches(clientSource, /\.eq\s*\(\s*["']is_public["']\s*,\s*true\s*\)/, "public query must explicitly request public notes");
     assertMatches(clientSource, /BURRITO_PUBLIC_NOTES/, "legacy static notes must remain available as a temporary fallback");
-    assertMatches(clientSource, /useLegacyFallback\s*=\s*Boolean\s*\(\s*noteError\s*&&\s*legacySchemaErrorCodes\.has\s*\(\s*noteError\.code\s*\)\s*\)/, "fallback must activate only for an expected missing-schema error");
-    assertMatches(clientSource, /fallbackNotes\s*=\s*useLegacyFallback\s*\?\s*normalizeFallbackNotes\s*\([^)]*\)\s*:\s*\[\]/, "a successful DB query must never mix static notes back into the public list");
-    assertMatches(clientSource, /remoteSlugs\s*=\s*new Set\s*\([^;]+noteKey/s, "remote note slugs must be indexed before fallback merge");
-    assertMatches(clientSource, /\.\.\.remoteNotes[\s\S]{0,300}\.\.\.fallbackNotes\.filter\s*\([^;]+!remoteSlugs\.has\s*\(\s*noteKey\s*\(/, "remote notes must be listed first and suppress same-slug fallback notes");
+
+    const normalizeStart = clientSource.indexOf("  function normalizeFallbackNotes(profile) {");
+    const loadStart = clientSource.indexOf("  async function loadPublicData() {");
+    const loadEnd = clientSource.indexOf("\n  function closeEditor()", loadStart);
+    assert.ok(normalizeStart >= 0 && loadStart > normalizeStart && loadEnd > loadStart);
+    const helpers = clientSource.slice(normalizeStart, loadEnd);
+
+    async function scenario(noteResult, archivedNotes) {
+      const query = (result) => ({
+        select() { return this; },
+        order() { return this; },
+        eq() { return this; },
+        limit() { return this; },
+        then(resolve) { resolve(result); }
+      });
+      const context = vm.createContext({
+        client: { from: (table) => query(table === "writer_profiles" ? { data: [], error: null } : noteResult) },
+        fallbackBurritoProfile: { user_id: "burrito-static", display_name: "브리또", public_slug: "burrito-static", slot_number: 1 },
+        fallbackBurritoNotes: archivedNotes,
+        window: { location: { search: "" } },
+        URLSearchParams,
+        noteKey: (note) => note.slug || note.id,
+        publicDate: (note) => note.published_at || note.created_at,
+        renderRooms() {}, renderFilters() {}, renderPublicNotes() {}
+      });
+      vm.runInContext(`let profiles = []; let publicNotes = []; let activeAuthor = "all"; let publicDataUnavailable = false;\n${helpers}\nthis.run = loadPublicData; this.snapshot = () => ({ notes: publicNotes, unavailable: publicDataUnavailable });`, context);
+      await context.run();
+      return context.snapshot();
+    }
+
+    const archived = loadLegacyNotes();
+    const failed = await scenario({ data: null, error: { code: "PGRST200" } }, archived);
+    assert.equal(failed.notes.length, archived.length, "an unfamiliar read error must still show archived public notes");
+    assert.equal(failed.unavailable, false);
+    assert.equal(failed.notes[0].writer_profiles.display_name, "브리또");
+
+    const remote = { id: "remote-note", slug: "remote-note", author_id: "burrito-static", title: "새 공개 글", content: "본문", created_at: "2026-11-11T00:00:00+09:00" };
+    const succeeded = await scenario({ data: [remote], error: null }, archived);
+    assert.equal(succeeded.notes.length, 1, "a successful query must not mix archived notes back in");
+    assert.equal(succeeded.notes[0].id, remote.id);
+
+    const unavailable = await scenario({ data: null, error: { code: "PGRST200" } }, []);
+    assert.equal(unavailable.notes.length, 0);
+    assert.equal(unavailable.unavailable, true, "an error remains visible when no archived notes exist");
   });
 
   await t.test("CRUD always scopes private work to the recognized writer", () => {

@@ -61,7 +61,6 @@
   };
   const roomNames = { 1: "브리또", 2: "하나로 샴푸", 4: "노기의 춤" };
   const fallbackBurritoNotes = Array.isArray(window.BURRITO_PUBLIC_NOTES) ? window.BURRITO_PUBLIC_NOTES : [];
-  const legacySchemaErrorCodes = new Set(["PGRST204", "PGRST205", "42P01", "42703"]);
 
   function setMessage(element, message, type) {
     element.textContent = message;
@@ -269,10 +268,10 @@
     profiles.sort((a, b) => a.slot_number - b.slot_number);
 
     const burritoProfile = profiles.find((profile) => profile.slot_number === 1) || fallbackBurritoProfile;
-    const useLegacyFallback = Boolean(noteError && legacySchemaErrorCodes.has(noteError.code));
-    const fallbackNotes = useLegacyFallback ? normalizeFallbackNotes(burritoProfile) : [];
+    // 공개 글 조회가 실패해도 이미 공개된 보존본은 계속 읽을 수 있게 합니다.
+    const fallbackNotes = noteError ? normalizeFallbackNotes(burritoProfile) : [];
     const remoteNotes = noteError ? [] : (noteData || []);
-    publicDataUnavailable = Boolean(noteError && !useLegacyFallback);
+    publicDataUnavailable = Boolean(noteError && fallbackNotes.length === 0);
     const remoteSlugs = new Set(remoteNotes.map(noteKey));
     publicNotes = [
       ...remoteNotes,
