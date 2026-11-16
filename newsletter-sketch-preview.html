@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="전구사람 프로젝트 제작 노트 표지">
+  <title>전구사람 프로젝트 · 제작 노트</title>
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 24px 22px 48px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      background: #faf9f7;
+    }
+    @font-face { font-family:"YoonChildfundkoreaMinGuk"; src:url("assets/YoonChildfundkoreaMinGuk.otf") format("opentype"); font-style:normal; font-weight:400; font-display:swap; }
+    .poster {
+      position: relative;
+      container-type: inline-size;
+      width: min(760px, 100%);
+      aspect-ratio: 1057 / 1488;
+      flex: none;
+      background: url("assets/duo-story-paper-rough.png") center / 100% 100% no-repeat;
+      filter: drop-shadow(0 7px 12px rgba(65,52,37,.15));
+    }
+    .poster > img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      filter: url(#newsletter-paper-tone);
+      -webkit-mask-image: linear-gradient(to right,transparent,#000 5%,#000 98%,transparent),linear-gradient(to bottom,transparent,#000 3%,#000 98%,transparent);
+      mask-image: linear-gradient(to right,transparent,#000 5%,#000 98%,transparent),linear-gradient(to bottom,transparent,#000 3%,#000 98%,transparent);
+      -webkit-mask-composite: source-in;
+      mask-composite: intersect;
+    }
+    .diary-about-note {
+      position:absolute;
+      z-index:3;
+      top:17%;
+      left:1%;
+      display:block;
+      width:44%;
+      aspect-ratio:2172 / 724;
+      background:url("assets/diary-about-sticky-handwritten.png") center / contain no-repeat;
+      transform:rotate(16deg);
+      transform-origin:center;
+      filter:drop-shadow(0 .15cqw .15cqw rgba(60,45,30,.17)) drop-shadow(.2cqw .65cqw .65cqw rgba(70,50,32,.23));
+    }
+    .diary-about-note:focus-visible { outline: 2px solid #654c3b; outline-offset: 3px; }
+    .note-link { position: absolute; z-index: 1; display: block; touch-action: manipulation; }
+    .note-link:focus-visible { outline: 2px solid #7c3e37; outline-offset: 3px; }
+    .note-link--story { top: 7.5%; left: 59%; width: 37%; height: 12%; }
+    .note-link--diary { top: 70%; left: 6.5%; width: 39%; height: 12%; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  </style>
+</head>
+<body>
+  <svg aria-hidden="true" focusable="false" width="0" height="0" style="position:absolute;overflow:hidden">
+    <filter id="newsletter-paper-tone" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="1 0 0 0 -0.019608  0 1 0 0 -0.031373  0 0 1 0 -0.054902  0 0 0 1 0" />
+    </filter>
+  </svg>
+  <main class="poster" aria-label="전구사람 프로젝트 제작 노트 표지">
+    <h1 class="visually-hidden">전구사람 프로젝트 제작 노트</h1>
+    <img src="assets/jeongu-weekly-cover-project-repositioned.png" width="1049" height="1500" alt="찢은 노트 종이에 두 사람의 사진과 손글씨 메모가 붙어 있는 전구사람 프로젝트 제작 노트 표지">
+    <a class="diary-about-note" href="diary-about.html" aria-label="다이어리에 대하여 읽기"></a>
+    <a class="note-link note-link--story" href="duo-story.html" aria-label="둘이 만드는 이야기 사진 페이지 보기"></a>
+    <a class="note-link note-link--diary" href="assets/artist-diary-start-note-minguk-torn-edge.png" aria-label="매주 한 번, 작업실에서 — 다이어리의 그림 작업 시작 이미지 보기"></a>
+  </main>
+</body>
+</html>
