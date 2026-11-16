@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="인투뎀 투데이 신문형 소식지 디자인 시안">
+  <title>인투뎀 투데이 · 신문형 소식지 시안</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Nanum+Myeongjo:wght@400;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f5f1e8;
+      --outer: #fafaf8;
+      --ink: #26362d;
+      --muted: #677166;
+      --rule: #aeb6a8;
+      --olive: #69794f;
+      --headline-box: #f3dcc0;
+      --mono: "DM Mono", monospace;
+      --sans: "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+      --serif: "Nanum Myeongjo", Georgia, serif;
+      --hand: "MinGuk", cursive;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      padding: clamp(12px, 3vw, 44px);
+      background: var(--outer);
+      color: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    a:focus-visible { outline: 2px solid var(--olive); outline-offset: 5px; }
+    .paper {
+      position: relative;
+      isolation: isolate;
+      width: min(100%, 1160px);
+      margin: 0 auto;
+      padding: clamp(26px, 5.5vw, 68px);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(255, 255, 255, .68), transparent 36%),
+        radial-gradient(circle at 86% 74%, rgba(215, 207, 188, .18), transparent 40%),
+        var(--paper);
+      box-shadow: 0 12px 46px rgba(44, 48, 37, .12), 0 1px 2px rgba(44, 48, 37, .08);
+    }
+    .paper::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      pointer-events: none;
+      opacity: .18;
+      background-image: repeating-linear-gradient(4deg, transparent 0 8px, rgba(92, 76, 55, .025) 9px 10px);
+    }
+    .utility {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 13px;
+      border-bottom: 1px solid var(--ink);
+      color: var(--muted);
+      font: 500 10px/1.5 var(--mono);
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .utility a { text-decoration: none; }
+    .utility a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+    .utility .issue { text-align: right; }
+    .masthead { padding: clamp(32px, 5vw, 62px) 0 clamp(28px, 4vw, 45px); text-align: center; }
+    .masthead .eyebrow { margin: 0 0 13px; color: var(--olive); font: 500 11px/1.4 var(--mono); letter-spacing: .27em; }
+    .masthead h1 {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      flex-wrap: wrap;
+      column-gap: .14em;
+      margin: 0;
+      font: 700 clamp(52px, 8.2vw, 112px)/1.08 var(--sans);
+      letter-spacing: -.095em;
+      word-break: keep-all;
+    }
+    .masthead h1 span { color: var(--olive); font: 400 1.26em/1 var(--hand); letter-spacing: -.06em; transform: rotate(-4deg); }
+    .masthead .tagline { margin: 20px 0 0; color: var(--muted); font: 400 clamp(12px, 1.35vw, 15px)/1.6 var(--serif); }
+    .edition {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 12px 0;
+      border-top: 3px double var(--ink);
+      border-bottom: 1px solid var(--ink);
+      color: var(--muted);
+      font: 500 10px/1.5 var(--mono);
+      letter-spacing: .1em;
+    }
+    .edition strong { color: var(--ink); font-weight: 500; }
+    .lead {
+      display: grid;
+      grid-template-columns: minmax(0, .86fr) minmax(0, 1fr);
+      gap: clamp(28px, 6vw, 88px);
+      align-items: center;
+      padding: clamp(40px, 6vw, 78px) 0 clamp(55px, 7vw, 88px);
+    }
+    .kicker { margin: 0; color: var(--olive); font: 500 11px/1.5 var(--mono); letter-spacing: .16em; }
+    .lead h2 {
+      margin: 27px 0 27px;
+      font: 700 clamp(39px, 5vw, 66px)/1.32 var(--serif);
+      letter-spacing: -.075em;
+      word-break: keep-all;
+    }
+    .lead h2 .line { display: block; }
+    .lead .dek { max-width: 340px; margin: 0 0 38px; color: #4f5a50; font: 400 clamp(15px, 1.45vw, 18px)/1.95 var(--sans); word-break: keep-all; }
+    .lead .read-link { display: inline-flex; align-items: center; gap: 34px; padding-bottom: 8px; border-bottom: 1px solid var(--ink); font: 500 13px/1.4 var(--sans); text-decoration: none; }
+    .lead .read-link span { font-size: 22px; line-height: 1; transition: transform .2s ease; }
+    .lead .read-link:hover span { transform: translateX(5px); }
+    .hero-art { position: relative; margin: 0; transform: rotate(1.3deg); }
+    .hero-art .print {
+      position: relative;
+      padding: 14px 14px 33px;
+      background: #fffdf8;
+      box-shadow: 0 15px 28px rgba(48, 47, 38, .16);
+      clip-path: polygon(0 .45%, 9% 0, 20% .25%, 32% .05%, 44% .28%, 56% .03%, 70% .25%, 84% .05%, 100% .3%, 99.8% 24%, 100% 52%, 99.7% 78%, 100% 99.7%, 84% 100%, 68% 99.8%, 51% 100%, 34% 99.75%, 17% 100%, .2% 99.7%);
+    }
+    .hero-art .visual { overflow: hidden; aspect-ratio: 850 / 1205; background: #fff; }
+    .hero-art .visual img { display: block; width: 200%; max-width: none; height: 100%; transform: translateX(-50%); }
+    .hero-art figcaption { margin-top: 12px; color: var(--muted); font: 400 10px/1.5 var(--mono); letter-spacing: .02em; }
+    .tape {
+      position: absolute;
+      z-index: 2;
+      top: -16px;
+      left: 50%;
+      width: 104px;
+      height: 30px;
+      background: repeating-linear-gradient(92deg, rgba(255,255,255,.22) 0 2px, rgba(80,73,50,.035) 3px 4px), rgba(223, 214, 185, .87);
+      box-shadow: 0 2px 5px rgba(63, 55, 39, .12);
+      clip-path: polygon(0 7%, 5% 0, 95% 2%, 100% 12%, 98% 92%, 94% 100%, 5% 97%, 0 90%);
+      transform: translateX(-50%) rotate(-5deg);
+    }
+    .hand-note {
+      position: absolute;
+      right: -7%;
+      bottom: 9%;
+      display: inline-block;
+      padding: 14px 18px 10px;
+      background: #e9e7ca;
+      box-shadow: 2px 7px 12px rgba(54, 50, 35, .17);
+      color: #47523d;
+      font: 400 clamp(15px, 1.9vw, 23px)/1.25 var(--hand);
+      text-decoration: none;
+      white-space: nowrap;
+      transform: rotate(-7deg);
+    }
+    .hand-note:hover { transform: rotate(-7deg) translateY(-3px); }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; padding-top: 20px; border-top: 1px solid var(--ink); }
+    .section-heading h2 { margin: 0; font: 700 clamp(27px, 3vw, 38px)/1.25 var(--serif); letter-spacing: -.055em; }
+    .section-heading span { color: var(--muted); font: 500 10px/1.5 var(--mono); letter-spacing: .13em; text-align: right; }
+    .briefs { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(22px, 4vw, 54px); margin-top: 29px; }
+    .brief { display: grid; grid-template-columns: 38% 1fr; align-items: start; gap: 22px; padding: 17px 0 22px; border-top: 1px solid var(--rule); text-decoration: none; }
+    .brief:hover h3 { text-decoration: underline; text-underline-offset: 5px; }
+    .brief img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; filter: saturate(.8); }
+    .brief:nth-child(1) img { object-position: center 30%; }
+    .brief:nth-child(2) img { object-position: center 24%; }
+    .brief .number { margin: 0 0 12px; color: var(--olive); font: 500 10px/1.4 var(--mono); letter-spacing: .1em; }
+    .brief h3 { margin: 0 0 13px; font: 700 clamp(21px, 2.1vw, 28px)/1.38 var(--serif); letter-spacing: -.055em; word-break: keep-all; }
+    .brief .summary { margin: 0; color: #596359; font: 400 13px/1.8 var(--sans); word-break: keep-all; }
+    .brief .arrow { display: inline-block; margin-top: 15px; font: 500 12px/1.4 var(--sans); }
+    .paper-footer { display: flex; justify-content: space-between; gap: 12px; margin-top: 47px; padding-top: 12px; border-top: 3px double var(--ink); color: var(--muted); font: 400 10px/1.5 var(--mono); letter-spacing: .08em; }
+    @media (max-width: 760px) {
+      body { padding: 0; }
+      .paper { padding: 22px 22px 30px; box-shadow: none; }
+      .utility { font-size: 9px; }
+      .masthead { padding: 43px 0 32px; }
+      .masthead h1 { font-size: clamp(47px, 10vw, 74px); }
+      .masthead .tagline { margin-top: 13px; }
+      .edition { font-size: 9px; }
+      .lead { grid-template-columns: 1fr; gap: 45px; padding: 45px 0 62px; }
+      .lead h2 { margin: 20px 0 20px; font-size: clamp(39px, 9vw, 60px); }
+      .lead .dek { max-width: 520px; margin-bottom: 25px; }
+      .hero-art { width: min(80%, 440px); margin: 0 auto; }
+      .hand-note { right: -12%; font-size: clamp(15px, 4vw, 21px); }
+      .section-heading { display: block; }
+      .section-heading span { display: block; margin-top: 8px; text-align: left; }
+      .briefs { grid-template-columns: 1fr; gap: 8px; }
+      .brief { grid-template-columns: 36% 1fr; }
+    }
+    @media (max-width: 420px) {
+      .utility span:nth-child(2), .edition span:nth-child(2) { display: none; }
+      .masthead h1 { font-size: 45px; }
+      .brief { gap: 16px; }
+      .brief h3 { font-size: 21px; }
+      .brief .summary { font-size: 12px; }
+      .hand-note { right: -15%; }
+      .paper-footer { font-size: 9px; }
+    }
+    /* Newspaper layout: compact images, readable columns, and reported text. */
+    .masthead { padding: 30px 0 27px; }
+    .lead { display: block; padding: 34px 0 36px; border-bottom: 1px solid var(--ink); }
+    .lead-heading { display: grid; grid-template-columns: 1.4fr .75fr; gap: 32px; align-items: end; margin-bottom: 24px; }
+    .lead h2 { margin: 8px 0 0; font-size: clamp(36px, 4.5vw, 54px); line-height: 1.27; }
+    .lead .standfirst { margin: 0; padding-left: 17px; border-left: 2px solid var(--olive); color: #4f5a50; font: 400 15px/1.8 var(--sans); word-break: keep-all; }
+    .lead-body { display: grid; grid-template-columns: 1.1fr .9fr; gap: 36px; align-items: start; }
+    .lead-copy { column-count: 2; column-gap: 23px; column-rule: 1px solid #c7cbbf; }
+    .lead-copy p, .story-copy p { margin: 0 0 1.15em; font: 400 14px/1.9 var(--serif); word-break: break-all; break-inside: avoid; text-align: left; }
+    .lead-copy p:first-child::first-letter { float: left; margin: .08em .07em 0 0; color: var(--olive); font: 700 2.7em/.85 var(--serif); }
+    .lead .read-link { margin-top: 5px; padding-bottom: 4px; font-size: 12px; }
+    .story-figure figcaption { margin-top: 8px; color: var(--muted); font: 400 10px/1.5 var(--mono); }
+    .section-heading { border-top: 0; padding-top: 22px; border-bottom: 1px solid var(--ink); padding-bottom: 15px; }
+    .stories { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .story { min-width: 0; padding: 20px 0 10px; }
+    .story + .story { padding-left: 32px; border-left: 1px solid var(--rule); }
+    .story h3 { margin: 10px 0 15px; font: 700 clamp(24px, 2.7vw, 31px)/1.35 var(--serif); letter-spacing: -.05em; }
+    .story-figure { float: left; width: 38%; margin: 3px 17px 11px 0; }
+    .story-figure img { display: block; width: 100%; height: auto; aspect-ratio: .86; object-fit: cover; object-position: center 30%; filter: saturate(.87); }
+    .story-figure.diary img { aspect-ratio: auto; object-fit: contain; object-position: center; }
+    .story-copy { display: flow-root; }
+    .story-copy p { font-size: 13px; }
+    .story .read-link { margin-top: 5px; padding-bottom: 4px; font-size: 12px; }
+    .paper-footer { margin-top: 20px; }
+    @media (max-width: 760px) {
+      .lead-heading { grid-template-columns: 1fr; gap: 15px; }
+      .lead .standfirst { max-width: 560px; }
+      .lead-body { grid-template-columns: 1fr 1fr; }
+      .lead-copy { column-count: 1; }
+      .stories { gap: 20px; }
+      .story + .story { padding-left: 20px; }
+      .story-figure { float: none; width: 100%; margin: 0 0 14px; }
+      .story-figure img { aspect-ratio: 1.5; }
+    }
+    @media (max-width: 600px) {
+      .lead { display: block; padding: 24px 0 30px; }
+      .lead h2 { font-size: clamp(34px, 8.5vw, 45px); }
+      .lead .standfirst { font-size: 13px; }
+      .lead-body { display: flex; flex-direction: column; gap: 20px; }
+      .lead-copy { column-count: 2; column-gap: 18px; }
+      .lead-copy p { font-size: 12px; line-height: 1.8; }
+      .stories { grid-template-columns: 1fr; gap: 0; }
+      .story { padding: 21px 0; }
+      .story + .story { padding-left: 0; border-left: 0; border-top: 1px solid var(--rule); }
+      .story-figure { float: left; width: 39%; margin: 3px 17px 9px 0; }
+      .story-figure img { aspect-ratio: .86; }
+    }
+    @media (max-width: 380px) { .lead-copy { column-count: 1; } }
+    .section-index { display: flex; flex-wrap: wrap; gap: 8px 22px; padding: 10px 0; border-bottom: 1px solid var(--rule); color: var(--muted); font: 500 10px/1.5 var(--mono); letter-spacing: .03em; }
+    .section-index a { text-decoration: none; }
+    .section-index a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+    .lead .standfirst { font-size: 14px; }
+    .story:nth-child(n+3) { border-top: 1px solid var(--rule); }
+    .story:nth-child(odd) { padding-left: 0; border-left: 0; }
+    .topic-mark { float: left; display: flex; width: 38%; min-height: 170px; margin: 3px 17px 10px 0; padding: 15px; align-items: end; background: #e2e5d8; color: var(--olive); font: 700 25px/1.42 var(--serif); letter-spacing: -.07em; word-break: keep-all; }
+    .topic-mark.parent { background: #e8e2d5; color: #655d4f; }
+    .topic-mark.meditation { background: #e3e8e1; color: #4d6356; }
+    .story .pending { display: block; clear: both; margin-top: 12px; color: var(--muted); font: 500 10px/1.5 var(--mono); letter-spacing: .04em; }
+    @media (max-width: 760px) { .topic-mark { float: none; width: 100%; min-height: 110px; margin: 0 0 14px; } }
+    @media (max-width: 600px) { .story:nth-child(n+2) { border-top: 1px solid var(--rule); } .topic-mark { float: left; width: 39%; min-height: 150px; margin: 3px 17px 9px 0; } }
+    .story-figure.book-cover { float: left; width: 45%; margin: 3px 17px 11px 0; }
+    .story-figure.book-cover img { aspect-ratio: auto; object-fit: contain; filter: none; background: #fff; box-shadow: 0 3px 10px rgba(48, 47, 38, .12); }
+    @media (max-width: 760px) { .story-figure.book-cover { float: none; width: min(72%, 250px); margin: 3px auto 15px; } }
+    .stories-banner { display: block; width: 100%; height: auto; margin: 20px 0 4px; }
+    /* 기사 제목 상자는 하나의 연한 오렌지로 통일합니다. */
+    .lead h2 {
+      padding: 20px 26px 23px;
+      background: var(--headline-box);
+      font-family: var(--sans);
+      font-weight: 300;
+    }
+    .story h3 {
+      padding: 15px 18px 17px;
+      background: var(--headline-box);
+      font-family: var(--sans);
+      font-weight: 300;
+    }
+    .lead .standfirst { padding-left: 0; border-left: 0; }
+    .lead-copy { column-rule: none; }
+    .story + .story { padding-left: 0; border-left: 0; }
+    @media (max-width: 600px) {
+      .lead h2 { padding: 15px 17px 18px; }
+      .story h3 { padding: 13px 14px 15px; }
+    }
+    /* 첫 기사는 글·글·사진 3등분, 아래 기사는 사진·글·사진·글 4등분. */
+    .lead-body {
+      --lead-column-gap: clamp(20px, 2.6vw, 36px);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--lead-column-gap);
+    }
+    .lead-copy {
+      grid-column: span 2;
+      column-count: 2;
+      column-gap: var(--lead-column-gap);
+    }
+    .stories {
+      --story-column-gap: clamp(16px, 2vw, 28px);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      column-gap: var(--story-column-gap);
+    }
+    .story {
+      display: grid;
+      grid-column: span 2;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: auto auto 1fr;
+      column-gap: var(--story-column-gap);
+      align-content: start;
+    }
+    .story .kicker, .story h3 { grid-column: 1 / -1; }
+    .story h3 { display: flex; align-items: center; min-height: 80px; }
+    .story .story-figure, .story .topic-mark {
+      grid-column: 1;
+      grid-row: 3;
+      float: none;
+      width: 100%;
+      margin: 0;
+    }
+    .story .story-copy { grid-column: 2; grid-row: 3; }
+    @media (max-width: 760px) {
+      .lead-body { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .lead-copy { grid-column: 1; column-count: 1; }
+      .stories { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .story { grid-column: span 2; }
+    }
+    @media (max-width: 600px) {
+      .lead-body { display: flex; }
+      .lead-copy { column-count: 1; }
+      .stories { grid-template-columns: 1fr; }
+      .story { grid-column: 1; grid-template-columns: 1fr; grid-template-rows: none; }
+      .story h3 { min-height: 0; }
+      .story .story-figure, .story .topic-mark, .story .story-copy {
+        grid-column: 1;
+        grid-row: auto;
+      }
+      .story .story-figure.book-cover { width: min(72%, 250px); margin: 0 auto 15px; }
+      .story .story-figure.diary, .story .topic-mark { margin-bottom: 14px; }
+    }
+    /* The November reference: an ivory broadsheet with strict rules and ink drawings. */
+    :root { --paper:#f7f5ee; --outer:#d9d7d0; --ink:#1d211e; --muted:#555a54; --rule:#777b73; --olive:#1d211e; --headline-box:transparent; }
+    body { padding:28px; background:var(--outer); color:var(--ink); font-family:var(--serif); }
+    .paper { width:min(100%,1180px); padding:0 42px 32px; background:var(--paper); box-shadow:0 16px 55px #22281f2c; }
+    .paper::after { display:none; }
+    .utility { min-height:39px; padding:0; border-bottom:1px solid var(--ink); color:var(--ink); font:500 10px/1.4 var(--mono); letter-spacing:.14em; }
+    .masthead { padding:19px 0 21px; }
+    .masthead .eyebrow { margin:0 0 8px; color:var(--ink); font:500 10px/1.4 var(--mono); letter-spacing:.28em; }
+    .masthead h1 { display:block; margin:0; font:700 clamp(56px,7.7vw,102px)/1.15 var(--serif); letter-spacing:-.105em; white-space:nowrap; }
+    .masthead h1 span { display:inline; color:var(--ink); font:inherit; letter-spacing:inherit; transform:none; }
+    .masthead .tagline { margin:8px 0 0; color:var(--ink); font:400 12px/1.6 var(--sans); letter-spacing:.12em; }
+    .edition { padding:9px 0; border-top:5px double var(--ink); border-bottom:1px solid var(--ink); color:var(--ink); font:500 10px/1.5 var(--mono); }
+    .section-index { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:0; padding:0; border-bottom:1px solid var(--ink); color:var(--ink); font:700 12px/1.4 var(--serif); letter-spacing:-.03em; }
+    .section-index a { display:block; min-width:0; padding:13px 6px; text-align:center; }
+    .section-index a+a { border-left:1px solid var(--ink); }
+    .section-index a:hover { background:#e9e8df; text-decoration:none; }
+    .lead { padding:25px 0 27px; border-bottom:4px double var(--ink); }
+    .lead-heading { grid-template-columns:calc(66.6667% + 3.833px) minmax(0,1fr); gap:0; align-items:center; margin-bottom:23px; }
+    .kicker { color:var(--ink); font:500 10px/1.5 var(--mono); letter-spacing:.12em; }
+    .lead h2 { margin:8px 0 0; padding:0; background:none; font:700 clamp(36px,4.3vw,56px)/1.33 var(--serif); letter-spacing:-.075em; }
+    .lead .standfirst { margin:0; padding:0 0 0 19px; border-left:1px solid var(--ink); color:var(--ink); font:700 15px/1.75 var(--serif); }
+    .lead-body { display:block; }
+    .lead-copy { column-count:3; column-gap:23px; column-rule:1px solid #b4b5ad; }
+    .lead-copy p,.story-copy p { color:var(--ink); font:400 13px/1.9 var(--serif); word-break:keep-all; }
+    .lead-copy p:first-child::first-letter { float:none; margin:0; color:var(--ink); font:inherit; }
+    .lead .read-link,.story .read-link { color:var(--ink); font:500 11px/1.5 var(--sans); }
+    .section-heading { display:flex; align-items:baseline; justify-content:space-between; gap:16px; padding:19px 0 11px; border-top:0; border-bottom:1px solid var(--ink); }
+    .section-heading h2 { margin:0; font:700 25px/1.3 var(--serif); letter-spacing:-.06em; }
+    .section-heading span { color:var(--muted); font:500 10px/1.5 var(--mono); letter-spacing:.05em; }
+    .stories { grid-template-columns:repeat(4,minmax(0,1fr)); column-gap:22px; row-gap:8px; }
+    .story { grid-column:span 2; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 22px; padding:20px 0 12px; border-top:0; }
+    .story:nth-child(even) { padding-left:22px; border-left:1px solid var(--ink); }
+    .story:nth-child(n+3) { border-top:1px solid var(--ink); }
+    .story h3 { display:block; min-height:0; margin:8px 0 15px; padding:0; background:none; font:700 clamp(23px,2.4vw,30px)/1.35 var(--serif); letter-spacing:-.06em; }
+    .story .story-figure,.story .topic-mark { grid-column:1; grid-row:3; }
+    .story .story-copy { grid-column:2; grid-row:3; }
+    .story-figure { padding:0; border:0; background:none; }
+    .story-figure img,.story-figure.book-cover img { width:100%; padding:4px; border:1px solid var(--ink); background:#eeeae0; filter:none; box-shadow:none; mix-blend-mode:normal; }
+    .story-figure.diary img { aspect-ratio:.82; object-fit:cover; object-position:center 27%; }
+    .story-figure.book-cover { width:100%; margin:0; }
+    .story-figure.book-cover img { aspect-ratio:auto; object-fit:contain; }
+    .story-figure.article-photo img { aspect-ratio:1.18; object-fit:cover; }
+    .story-figure.article-photo--duo img { object-position:center 62%; }
+    .story-figure.article-photo--art img { object-position:center 53%; }
+    .story-figure.parenting-illustration img { aspect-ratio:1.18; object-fit:cover; object-position:center; }
+    .story-figure.meditation-illustration img { aspect-ratio:1.18; object-fit:cover; object-position:left center; }
+    .story-figure figcaption { font-size:9px; }
+    .topic-mark,.topic-mark.parent,.topic-mark.meditation { display:flex; justify-content:center; align-items:center; width:100%; min-height:170px; padding:12px; border:1px solid var(--ink); background:transparent; color:var(--ink); text-align:center; font:700 24px/1.5 var(--serif); }
+    .story-copy p { margin:0 0 1em; font-size:12px; line-height:1.85; }
+    .story .pending { color:var(--muted); font:500 10px/1.5 var(--mono); }
+    .paper-footer { margin-top:0; padding:12px 0 0; border-top:4px double var(--ink); color:var(--ink); font:500 10px/1.5 var(--mono); }
+    @media(max-width:760px) {
+      body { padding:0; background:var(--paper); }
+      .paper { padding:0 22px 28px; box-shadow:none; }
+      .masthead h1 { font-size:clamp(44px,9.2vw,70px); }
+      .section-index { grid-template-columns:repeat(5,minmax(0,1fr)); font-size:10px; }
+      .section-index a { padding:11px 3px; }
+      .lead-heading { grid-template-columns:1fr; gap:12px; }
+      .lead .standfirst { padding:0; border:0; font-size:13px; }
+      .lead-copy { column-count:2; }
+      .stories { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .story { grid-column:span 2; border-top:1px solid var(--ink); }
+      .story:nth-child(even) { padding-left:0; border-left:0; }
+      .story .story-figure.book-cover { width:100%; margin:0; }
+    }
+    @media(max-width:600px) {
+      .utility { font-size:8px; }
+      .utility span:nth-child(2),.edition span:nth-child(2) { display:none; }
+      .masthead { padding:18px 0; }
+      .masthead h1 { font-size:clamp(36px,9.1vw,54px); }
+      .masthead .tagline { font-size:10px; letter-spacing:.02em; }
+      .edition { font-size:8px; }
+      .section-index { font-size:9px; }
+      .section-index a { padding:10px 1px; overflow-wrap:anywhere; }
+      .lead { padding:22px 0; }
+      .lead h2 { font-size:clamp(32px,8.5vw,45px); }
+      .lead-body { display:block; }
+      .lead-copy { column-count:2; column-gap:17px; column-rule:1px solid #b4b5ad; }
+      .lead-copy p { font-size:12px; }
+      .section-heading { display:block; }
+      .section-heading span { display:block; margin-top:6px; text-align:left; font-size:9px; }
+      .story { display:grid; grid-template-columns:36% minmax(0,1fr); gap:0 15px; }
+      .story .kicker,.story h3 { grid-column:1/-1; }
+      .story .story-figure,.story .topic-mark { grid-column:1; grid-row:3; }
+      .story .story-copy { grid-column:2; grid-row:3; }
+      .story .story-figure.book-cover { width:100%; margin:0; }
+      .topic-mark,.topic-mark.parent,.topic-mark.meditation { min-height:130px; font-size:18px; }
+      .paper-footer { font-size:8px; }
+    }
+    @media(max-width:380px) { .lead-copy { column-count:1; } .story { grid-template-columns:1fr; } .story .story-figure,.story .topic-mark,.story .story-copy { grid-column:1; grid-row:auto; } .story .story-figure,.story .topic-mark { width:min(78%,250px); margin:0 auto 15px; } }
+  </style>
+</head>
+<body>
+  <main class="paper" id="top">
+    <div class="utility">
+      <a href="index.html" aria-label="인투뎀 홈페이지로 돌아가기">← INTOTHEM</a>
+      <span>인투뎀에서 전하는 한 주의 이야기</span>
+      <span class="issue">DESIGN PREVIEW</span>
+    </div>
+
+    <header class="masthead">
+      <p class="eyebrow">INTOTHEM TODAY</p>
+      <h1>인투뎀 <span>투데이</span></h1>
+      <p class="tagline">책과 사람, 배움과 묵상을 담는 인투뎀의 주간 신문</p>
+    </header>
+
+    <div class="edition" aria-label="시안 정보">
+      <strong>제 01 호 · 인투뎀의 한 주</strong>
+      <span>책 작업 · 사람들 · 부모교육 · 묵상</span>
+      <span>2026. 11. · 시안</span>
+    </div>
+    <nav class="section-index" aria-label="이번 호의 꼭지">
+      <a href="#lead-title">이번 주 표지</a>
+      <a href="#story-duo">둘이 만드는 이야기</a>
+      <a href="#story-weekly">매주 한 번, 작업실에서</a>
+      <a href="#story-parenting">부모교육 · 월간</a>
+      <a href="#story-meditation">매일묵상</a>
+    </nav>
+
+    <article class="lead" aria-labelledby="lead-title">
+      <div class="lead-heading">
+        <div><p class="kicker">THIS WEEK / 이번 주의 표지</p><h2 id="lead-title">전구사람의 그림을 다시 그립니다</h2></div>
+        <p class="standfirst">인투뎀에서 작업 중인 두 권의 책 가운데 하나, 『전구사람』. 그림 작가 다이어리가 새 그림을 작업하고 있습니다.</p>
+      </div>
+      <div class="lead-body">
+        <div class="lead-copy">
+          <p>『전구사람』의 그림을 다시 작업하고 있어요. 이번 그림을 맡은 사람은 다이어리입니다. 전구사람의 이야기를 읽고 그림 작업을 시작했지요.</p>
+          <p>어떤 느낌인지 묻는 질문에 “좋았어요.”라고 짧게 답했지만, 그녀의 그림은 얕지 않아요. 어떤 전구사람이 새롭게 그려질지 궁금합니다.</p>
+          <p>이번 호에는 그 시작을 담았습니다. 앞으로는 작업 중인 두 권의 책과 인투뎀에서 일어나는 여러 이야기가 매주 표지의 주인공이 됩니다.</p>
+          <a class="read-link" href="#story-weekly">작업실 기사 읽기 <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </article>
+
+    <section aria-label="이번 호의 기사">
+      <div class="section-heading"><h2>이번 호의 기사들</h2><span>BOOKS · PEOPLE · LEARNING · REFLECTION</span></div>
+      <div class="stories">
+        <article class="story" aria-labelledby="story-duo">
+          <p class="kicker">01 / 함께 만드는 이야기</p>
+          <h3 id="story-duo">둘이 만드는 이야기 2.</h3>
+          <figure class="story-figure article-photo article-photo--duo"><img src="assets/intothem-today-duo-photo.jpg" width="4032" height="3024" alt="손글씨 노트와 잉크병이 놓인 작업실 테이블" loading="lazy" decoding="async"></figure>
+          <div class="story-copy">
+            <p>다이어리가 모은 배지와 키링에는 새로운 곳과 경험의 기억이 담겨 있어요.</p>
+            <p>아홉 가지 잉크를 나누고 만날 때마다 그림을 한 장씩 그리기로 한 둘의 두 번째 이야기를 펼쳐 보세요.</p>
+            <a class="read-link" href="duo-story-2.html">둘이 만드는 이야기 2. 읽기 <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <article class="story" aria-labelledby="story-weekly">
+          <p class="kicker">02 / 그림 작업 기록</p>
+          <h3 id="story-weekly">매주 한 번, 작업실에서</h3>
+          <figure class="story-figure article-photo article-photo--art"><img src="assets/intothem-today-art-photo.jpg" width="4284" height="5712" alt="캔버스 위에 물감을 바르며 그림을 작업하는 모습" loading="lazy" decoding="async"></figure>
+          <div class="story-copy">
+            <p>『전구사람』의 이야기를 읽고 다이어리의 그림 작업이 시작되었어요. 어떤 느낌인지 묻는 질문에 “좋았어요.”라고 짧게 답했지만, 그녀의 그림은 얕지 않네요.</p>
+            <p>이 배경 위에 어떤 전구사람이 그려질지 궁금합니다. 그림을 그릴 때 가장 진지한 다이어리의 첫 작업 기록을 펼쳐 보세요.</p>
+            <a class="read-link" href="artist-diary-work-note.html">그림 작업 노트 보기 <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <article class="story" aria-labelledby="story-snake">
+          <p class="kicker">03 / 책 만드는 중</p>
+          <h3 id="story-snake">일과 신앙이 분리된 당신에게</h3>
+          <figure class="story-figure book-cover">
+            <img src="assets/work-faith-cover.png" width="1256" height="1820" alt="『일과 신앙이 분리된 당신에게』 책 표지" decoding="async">
+            <figcaption>『일과 신앙이 분리된 당신에게』 표지</figcaption>
+          </figure>
+          <div class="story-copy">
+            <p>『전구사람』과 함께 작업 중인 또 한 권의 책은 『일과 신앙이 분리된 당신에게』입니다. 뱀에 관한 이 책의 작업 과정도 신문의 한 꼭지로 전하려고 해요.</p>
+            <p>어떤 이야기와 이미지가 책을 채워 갈지, 다음 호부터 작업 기록을 하나씩 담을 자리입니다.</p>
+            <span class="pending">기사 준비 중</span>
+          </div>
+        </article>
+        <article class="story" aria-labelledby="story-diary">
+          <p class="kicker">04 / 작업실 사람들</p>
+          <h3 id="story-diary">다이어리를 소개합니다</h3>
+          <figure class="story-figure diary">
+            <img src="assets/diary-about-line-photo-clean.png" width="992" height="1586" alt="작업실 사진을 배경으로 선화로 그려진 다이어리" decoding="async">
+            <figcaption>다이어리 / 첫 만남의 기록</figcaption>
+          </figure>
+          <div class="story-copy">
+            <p>“아빠의 닉네임이 미스터리니까… 전 다이어리?” 엉뚱하고 재미있는 대답에서 다이어리와의 첫 만남이 시작됐어요.</p>
+            <p>스스로를 이제 막 인간계에 적응한 모글리에 비유하는 친구. 진지한 눈빛과 웃을 때 살짝 패는 보조개가 오래 기억에 남았습니다. 다이어리가 보여 줄 자기만의 세계가 궁금해요.</p>
+            <a class="read-link" href="diary-about.html">다이어리 이야기 읽기 <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <article class="story" aria-labelledby="story-parenting">
+          <p class="kicker">05 / 한 달에 한 번 · 부모교육</p>
+          <h3 id="story-parenting">부모와 아이 사이의 질문들</h3>
+          <figure class="story-figure parenting-illustration"><img src="assets/intothem-today-parenting-photo-line.png" width="1448" height="1086" alt="우산 아래 유모차에 앉은 아이를 선 그림으로 표현한 사진" loading="lazy" decoding="async"></figure>
+          <div class="story-copy">
+            <p>한 달에 한 번 열리는 부모교육의 이야기도 담습니다. 그날 다룬 주제와 함께 남은 질문을 신문에서 다시 읽을 수 있게 하려고 해요.</p>
+            <p>모임의 내용이 준비되면 이 자리에 그달의 기사를 싣겠습니다.</p>
+            <span class="pending">월간 기사 자리 · 원고 준비 중</span>
+          </div>
+        </article>
+        <article class="story" aria-labelledby="story-meditation">
+          <p class="kicker">06 / 매일묵상</p>
+          <h3 id="story-meditation">제프리장로님의 매일묵상</h3>
+          <figure class="story-figure meditation-illustration"><img src="assets/intothem-today-meditation-photo-line.png" width="1451" height="1084" alt="호숫가 풍경을 배경으로 제프리 장로님을 러프한 선화로 표현한 사진" loading="lazy" decoding="async"></figure>
+          <div class="story-copy">
+            <p>제프리 장로님의 매일묵상에서 한 주 동안 마음에 남은 문장과 질문을 함께 읽습니다.</p>
+            <p>첫 묵상 원고가 들어오면 이 칸에서 함께 읽겠습니다.</p>
+            <span class="pending">첫 묵상 원고 준비 중</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <footer class="paper-footer">
+      <span>INTOTHEM TODAY · DESIGN PREVIEW</span>
+      <span>인투뎀의 한 주를 전합니다</span>
+    </footer>
+  </main>
+</body>
+</html>

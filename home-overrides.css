@@ -1,4 +1,5 @@
-:root { --home-paper:#fafaf8; --home-ink:#203128; --home-moss:#788250; --home-sun:#dca85b; --home-line:rgba(32,49,40,.26); }
+@font-face { font-family:"YoonChildfundkoreaMinGuk"; src:url("assets/YoonChildfundkoreaMinGuk.otf") format("opentype"); font-style:normal; font-weight:400; font-display:swap; }
+:root { --home-paper:var(--page-background); --home-ink:#203128; --home-moss:#788250; --home-sun:#dca85b; --home-line:rgba(32,49,40,.26); }
 .magazine-home { --school-green:#66764c; --school-cream:#eee9d8; background:var(--home-paper); color:var(--home-ink); }
 .now-school { position:relative; overflow:hidden; }
 .now-school-main { display:block; height:100%; color:inherit; text-decoration:none; }
@@ -50,6 +51,50 @@
   .home-writing-feature strong { font-size:35px; line-height:1.18; }
 }
 
+/* 코리프로젝트: 인투뎀의 카드 흐름을 잇는 작은 밤하늘 */
+.home-kori-link {
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  min-height:168px;
+  margin:0 0 72px;
+  padding:30px clamp(30px,5vw,66px);
+  overflow:hidden;
+  background:#172a38;
+  color:#f4f2e9;
+  text-decoration:none;
+  transition:background-color .3s ease;
+}
+.home-kori-link:hover,.home-kori-link:focus-visible { background:#1d3443; }
+.home-kori-link:focus-visible { outline:2px solid #465f6a; outline-offset:4px; }
+.home-kori-copy { position:relative; z-index:1; display:flex; flex-direction:column; align-items:flex-start; }
+.home-kori-eyebrow { margin-bottom:14px; color:#afc6c7; font:10px/1.4 var(--mono); letter-spacing:.14em; }
+.home-kori-copy strong { font:400 clamp(27px,3vw,39px)/1.18 var(--serif); letter-spacing:-.075em; }
+.home-kori-description { margin-top:10px; color:#c6d1d0; font:400 13px/1.6 var(--sans); }
+.home-kori-cta { position:relative; z-index:1; display:inline-flex; align-items:center; gap:22px; flex:none; align-self:flex-end; padding-bottom:6px; border-bottom:1px solid rgba(244,242,233,.7); font:11px/1.4 var(--sans); }
+.home-kori-cta span { font-size:15px; transition:transform .3s ease; }
+.home-kori-link:hover .home-kori-cta span,.home-kori-link:focus-visible .home-kori-cta span { transform:translate(3px,-3px); }
+.home-kori-stars { position:absolute; inset:0; pointer-events:none; }
+.home-kori-stars i { position:absolute; width:2px; height:2px; border-radius:50%; background:#e5e9d9; box-shadow:0 0 8px 2px rgba(224,232,220,.34); animation:home-kori-twinkle 5s ease-in-out infinite; }
+.home-kori-stars i:nth-child(1) { top:23%; left:49%; animation-delay:-1.4s; }
+.home-kori-stars i:nth-child(2) { top:67%; left:55%; animation-delay:-3.5s; }
+.home-kori-stars i:nth-child(3) { top:34%; left:74%; animation-delay:-.7s; }
+.home-kori-stars i:nth-child(4) { top:72%; left:85%; animation-delay:-2.6s; }
+.home-kori-stars i:nth-child(5) { top:18%; left:93%; animation-delay:-4.2s; }
+@keyframes home-kori-twinkle { 0%,100% { opacity:.22; transform:scale(.8); } 50% { opacity:.9; transform:scale(1.25); } }
+@media (prefers-reduced-motion:reduce) { .home-kori-stars i { animation:none; opacity:.65; } }
+@media (max-width:650px) {
+  .home-kori-link { min-height:170px; margin-bottom:54px; padding:25px 26px; align-items:flex-start; flex-direction:column; gap:22px; }
+  .home-kori-eyebrow { margin-bottom:12px; font-size:9px; }
+  .home-kori-copy strong { font-size:29px; }
+  .home-kori-description { font-size:12px; }
+  .home-kori-cta { align-self:flex-start; }
+  .home-kori-stars i:nth-child(1) { left:64%; }
+  .home-kori-stars i:nth-child(2) { left:72%; }
+}
+
 /* 작가의 습작노트 바로가기 */
 .home-writers-notebook { display:grid; grid-template-columns:minmax(0,1.08fr) minmax(320px,.92fr); width:min(1210px,calc(100% - 44px)); height:620px; margin:0 auto 130px; overflow:hidden; background:#e8e3d6; }
 .home-writers-notebook-photo { position:relative; height:100%; min-height:0; overflow:hidden; }
@@ -63,7 +108,7 @@
 .home-writers-notebook:hover .home-writers-notebook-photo img { transform:scale(1.025); }
 .home-writers-notebook-copy a:hover,.home-writers-notebook-copy a:focus-visible { background:#53613e; transform:translateY(-2px); outline:2px solid #203128; outline-offset:3px; }
 .home-writers-notebook-copy a:hover span,.home-writers-notebook-copy a:focus-visible span { transform:translateX(5px); }
-.now-section .home-writers-notebook { width:100%; margin:10px 0 72px; }
+.now-section .home-writers-notebook { width:100%; margin:10px 0 18px; }
 
 @media (max-width:900px) {
   .home-writers-notebook { grid-template-columns:1fr 1fr; height:500px; }
@@ -79,5 +124,36 @@
   .home-writers-notebook-copy h2 { margin-bottom:24px; font-size:44px; }
   .home-writers-notebook-copy > p:not(.eyebrow) { margin-bottom:34px; font-size:14px; }
   .home-writers-notebook-copy a { width:100%; }
-  .now-section .home-writers-notebook { margin:0 0 64px; }
+  .now-section .home-writers-notebook { margin:0 0 18px; }
 }
+
+/* 인투뎀 투데이 홈페이지 신문 배너 */
+.now-community-row { align-items:stretch; }
+.now-community-row .now-counseling { height:100%; min-height:0; }
+.now-today { display:grid; grid-template-columns:53% 47%; min-width:0; min-height:535px; overflow:hidden; background:#2b4840; color:#f7f5ee; text-decoration:none; }
+.now-today:focus-visible { outline:3px solid #2b4840; outline-offset:5px; }
+.now-today-image { display:block; grid-column:2; grid-row:1; width:100%; height:100%; min-height:0; object-fit:cover; object-position:center 43%; filter:saturate(.78) contrast(.95); transition:transform .5s ease; }
+.now-today:hover .now-today-image { transform:scale(1.035); }
+.now-today-content { position:relative; z-index:1; display:flex; flex-direction:column; grid-column:1; grid-row:1; min-width:0; padding:clamp(26px,3.1vw,43px); }
+.now-today-edition { display:flex; flex-wrap:wrap; justify-content:space-between; gap:6px 14px; padding-bottom:12px; border-bottom:1px solid rgba(247,245,238,.64); font:500 9px/1.4 "DM Mono",monospace; letter-spacing:.08em; }
+.now-today-masthead { display:block; margin:clamp(28px,3vw,43px) 0 10px; font:400 clamp(44px,4.6vw,64px)/1.11 "Nanum Myeongjo",Georgia,serif; letter-spacing:-.105em; }
+.now-today-feature { display:block; margin-top:auto; padding-top:18px; border-top:1px solid rgba(247,245,238,.64); }
+.now-today-kicker { display:block; color:#d6e3d7; font:500 10px/1.5 "DM Mono",monospace; letter-spacing:.08em; }
+.now-today-feature strong { display:block; margin-top:12px; font:700 clamp(24px,2.7vw,36px)/1.35 "Nanum Myeongjo",Georgia,serif; letter-spacing:-.065em; word-break:keep-all; }
+.now-today-cta { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:24px; padding-top:13px; border-top:1px solid rgba(247,245,238,.64); font:500 12px/1.4 "Noto Sans KR",sans-serif; }
+.now-today-cta span { font-size:21px; line-height:1; transition:transform .25s ease; }
+.now-today:hover .now-today-cta span { transform:translate(3px,-3px); }
+@media(max-width:900px) {
+  .now-today { display:flex; flex-direction:column; min-height:0; }
+  .now-today-image { width:100%; height:250px; flex:none; object-position:center 42%; }
+  .now-today-content { min-height:330px; padding:27px; }
+  .now-today-masthead { margin:20px 0 7px; font-size:45px; }
+  .now-today-feature strong { font-size:27px; }
+}
+@media(max-width:650px) {
+  .now-community-row .now-counseling { height:240px; min-height:240px; }
+  .now-today-image { height:240px; }
+  .now-today-content { min-height:330px; padding:25px; }
+  .now-today-masthead { font-size:clamp(42px,10vw,55px); }
+}
+@media(max-width:380px) { .now-today-feature strong { font-size:24px; } }

@@ -1,0 +1,22 @@
+:root {
+  --page-background: #fafaf8;
+  --page-background-rgb: 250, 250, 248;
+}
+
+html,
+body.magazine-home,
+body.service-page,
+body.community-page,
+body.philosophy-page,
+body.writers-page,
+body.publishing-page {
+  background-color: var(--page-background);
+}
+
+body.community-page {
+  --community-paper: var(--page-background);
+}
+
+.community-header {
+  background-color: rgba(var(--page-background-rgb), .94);
+}

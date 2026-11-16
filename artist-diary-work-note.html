@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="다이어리의 그림 작업 노트, 첫 번째와 두 번째 페이지">
+  <title>다이어리의 그림 작업 노트 — INTOTHEM</title>
+  <style>
+    @font-face { font-family: "MinGuk"; src: url("assets/YoonChildfundkoreaMinGuk.otf") format("opentype"); font-weight: 400; font-display: swap; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: #e3dfd6; color: #302b26; font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; }
+    a { color: inherit; }
+    a:focus-visible { outline: 2px solid #51473d; outline-offset: 4px; }
+    .note-shell { width: min(100% - 32px, 800px); margin: 0 auto; padding: 28px 0 54px; }
+    .note-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 0 0 18px; font-size: 12px; }
+    .note-header a { text-decoration: none; }
+    .note-header span { color: #625a50; font-size: 10px; letter-spacing: .16em; }
+    h1 { margin: 0 0 26px; font-size: clamp(17px, 2.5vw, 23px); font-weight: 500; letter-spacing: -.04em; }
+    .note-page { margin: 0; }
+    .note-page img { display: block; width: 100%; height: auto; filter: drop-shadow(0 10px 16px rgba(55, 46, 33, .18)); }
+    .note-copy { width: calc(100% - 34px); margin: 17px auto 0; padding: clamp(25px, 4vw, 42px); background: #f8eedf; box-shadow: 0 8px 17px rgba(55, 46, 33, .12); color: #514336; font: 400 clamp(18px, 2.3vw, 24px)/1.7 "MinGuk", "Apple SD Gothic Neo", sans-serif; word-break: keep-all; }
+    .note-copy p { margin: 0 0 1em; }
+    .note-copy p:last-child { margin-bottom: 0; }
+    .note-page figcaption { margin: 16px 0 0; color: #625a50; font-size: 11px; text-align: right; }
+    .note-page figcaption a { text-underline-offset: 3px; }
+    .page-nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; margin-top: 25px; padding-top: 16px; border-top: 1px solid #aaa195; }
+    .page-nav a { font-size: clamp(13px, 2.2vw, 18px); text-decoration: none; }
+    .page-nav a:first-child { justify-self: start; }
+    .page-nav a:last-child { justify-self: end; }
+    .page-nav a[hidden] { display: none; }
+    .page-nav span { color: #6a6257; font-size: 11px; letter-spacing: .12em; }
+    @media (max-width: 600px) {
+      .note-shell { width: min(100% - 16px, 800px); padding-top: 18px; }
+      .note-header, h1 { margin-right: 7px; margin-left: 7px; }
+      .note-header span { font-size: 9px; }
+      .page-nav { margin-right: 7px; margin-left: 7px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="note-shell">
+    <header class="note-header">
+      <a href="intothem-today-preview.html#story-weekly">← 인투뎀 투데이</a>
+      <span>ARTIST'S WORK NOTE</span>
+    </header>
+    <h1>다이어리의 그림 작업 노트</h1>
+    <figure class="note-page" data-note-page="1">
+      <img src="assets/artist-diary-start-note-minguk-torn-edge.png" width="1057" height="1488" alt="다이어리의 그림 작업 시작을 적은 찢어진 도화지 첫 페이지" decoding="async">
+      <figcaption><a href="assets/artist-diary-start-note-minguk-torn-edge.png" target="_blank" rel="noopener noreferrer">원본 크기로 보기 ↗</a></figcaption>
+    </figure>
+    <figure class="note-page" data-note-page="2" hidden>
+      <img src="assets/artist-diary-work-note-page-2.png" width="1057" height="1488" alt="도화지 위에 선으로 그린 다이어리와 색이 살아 있는 캔버스 그림, 바닥과 책상" decoding="async">
+      <div class="note-copy">
+        <p>유화 작업은 천천히 진행되고 있어요. 겹겹이 쌓아올린 물감을 통해 거친 질감을 표현하고 있어요.</p>
+        <p>그 위에 얹을 전구사람의 이미지를 열심히 고심하고 있어요. 다이어리는 물감과 폰을 모두 사용하여 다채로운 이미지를 만들어 보려고 해요.</p>
+        <p>조금씩 색을 입어가고 있는 캔버스가 빛을 찾아 가는 전구사람의 변화처럼 천천히 천천히 진행되고 있답니다.</p>
+      </div>
+      <figcaption><a href="assets/artist-diary-work-note-page-2.png" target="_blank" rel="noopener noreferrer">원본 크기로 보기 ↗</a></figcaption>
+    </figure>
+    <nav class="page-nav" aria-label="그림 작업 노트 페이지 이동">
+      <a href="#1" id="previous-page" hidden>← 1. 이전 페이지</a>
+      <span id="page-number" aria-live="polite">01 / 02</span>
+      <a href="#2" id="next-page">2. 다음 페이지 →</a>
+    </nav>
+  </main>
+  <script>
+    function showNotePage() {
+      const second = location.hash === '#2';
+      document.querySelector('[data-note-page="1"]').hidden = second;
+      document.querySelector('[data-note-page="2"]').hidden = !second;
+      document.getElementById('previous-page').hidden = !second;
+      document.getElementById('next-page').hidden = second;
+      document.getElementById('page-number').textContent = second ? '02 / 02' : '01 / 02';
+    }
+    window.addEventListener('hashchange', showNotePage);
+    showNotePage();
+  </script>
+</body>
+</html>
