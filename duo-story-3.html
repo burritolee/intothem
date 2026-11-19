@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="둘이 만드는 이야기 세 번째 기록. 서로의 그림과 잉크, 카페에서 찾은 작은 행복을 담았습니다.">
+  <title>둘이 만드는 이야기 3. | 인투뎀 투데이</title>
+  <link rel="preload" href="assets/YoonChildfundkoreaMinGuk.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    @font-face { font-family:"YoonChildfundkoreaMinGuk"; src:url("assets/YoonChildfundkoreaMinGuk.woff2") format("woff2"); font-style:normal; font-weight:400; font-display:block; }
+    :root { color-scheme:light; --ink:#3c3932; }
+    * { box-sizing:border-box; }
+    body { min-height:100vh; min-height:100dvh; margin:0; display:grid; place-items:center; background:#0e0e0e; color:var(--ink); font-family:"YoonChildfundkoreaMinGuk",cursive; }
+    .paper-shell { width:min(1057px,100vw,71.035vh); aspect-ratio:1057 / 1488; margin:0; }
+    .sheet { position:relative; width:100%; height:100%; container-type:inline-size; background:#f0f1f0 url("assets/duo-story-paper-rough.png") center / 100% 100% no-repeat; }
+    .page-head { position:absolute; top:8.3%; left:11.5%; margin:0; }
+    h1 { margin:0; font:400 4.2cqw/1.15 "YoonChildfundkoreaMinGuk",cursive; letter-spacing:.01em; transform:rotate(-3deg); }
+    .story-row { position:absolute; left:11.5%; right:7.5%; display:grid; grid-template-columns:24% minmax(0,1fr); column-gap:6%; align-items:center; }
+    .story-row:nth-of-type(1) { top:15%; height:18%; --tilt:-2deg; --tape:#e8d6b6; --tape-angle:-7deg; }
+    .story-row:nth-of-type(2) { top:33.5%; height:24%; --tilt:2deg; --tape:#d7d8bc; --tape-angle:5deg; }
+    .story-row:nth-of-type(3) { top:58%; height:17%; --tilt:-1.8deg; --tape:#e5cfc6; --tape-angle:-4deg; }
+    .story-row:nth-of-type(4) { top:75.5%; height:16.5%; --tilt:2deg; --tape:#d6dbd0; --tape-angle:7deg; }
+    .story-row--right { grid-template-columns:minmax(0,1fr) 31%; }
+    .story-row--right .photo-print,.story-row--right .photo-stack { grid-column:2; grid-row:1; }
+    .story-row--right .story-space { grid-column:1; grid-row:1; }
+    .story-row--wide-photo { grid-template-columns:22% minmax(0,1fr); }
+    .story-row--portrait-right { grid-template-columns:minmax(0,1fr) 22%; }
+    .story-row--pair { grid-template-columns:minmax(0,1fr) 47%; column-gap:4%; }
+    .story-space { min-width:0; }
+    .story-copy { font:400 1.7cqw/1.38 "YoonChildfundkoreaMinGuk",cursive; overflow-wrap:break-word; word-break:keep-all; transform:rotate(-.6deg); }
+    .story-row--right .story-copy { text-align:right; transform:rotate(.6deg); }
+    .story-copy p { margin:0 0 .55em; }
+    .story-copy p:last-child { margin-bottom:0; }
+    .story-label { display:inline-block; min-width:42%; padding:0 0 .3em; border-bottom:1px solid rgba(60,57,50,.4); font-size:1.25em; }
+    .photo-print { position:relative; width:100%; margin:0; transform:rotate(var(--tilt)); filter:drop-shadow(0 .8cqw 1.2cqw rgba(61,51,40,.2)); }
+    .photo-paper { padding:1cqw 1cqw 2.25cqw; background:linear-gradient(145deg,#fffdf8 0%,#f5efe3 100%); clip-path:polygon(.4% .5%,9% 0,19% .35%,30% .1%,42% .45%,53% .08%,65% .4%,77% .05%,88% .35%,99.5% .1%,100% 12%,99.65% 25%,100% 37%,99.7% 52%,100% 68%,99.6% 83%,100% 99.5%,88% 100%,75% 99.68%,62% 100%,49% 99.7%,36% 99.98%,22% 99.64%,10% 100%,.3% 99.5%,0 83%,.3% 67%,0 49%,.4% 31%,0 15%); }
+    .photo-print img { display:block; width:100%; height:auto; aspect-ratio:3 / 4; object-fit:cover; clip-path:polygon(.5% .3%,10% 0,22% .4%,36% .1%,49% .4%,63% 0,77% .3%,90% 0,99.6% .4%,100% 17%,99.7% 34%,100% 53%,99.6% 73%,100% 99.5%,83% 100%,66% 99.7%,49% 100%,32% 99.6%,16% 100%,.4% 99.5%,0 81%,.3% 60%,0 40%,.4% 20%); }
+    .photo-print--ink img { object-position:50% 100%; }
+    .tape { position:absolute; z-index:2; top:-1.2cqw; left:50%; display:block; width:9cqw; height:2.5cqw; opacity:.81; background:repeating-linear-gradient(92deg,rgba(255,255,255,.24) 0 2px,rgba(85,68,42,.04) 3px 4px),var(--tape); box-shadow:0 2px 5px rgba(54,44,31,.15); clip-path:polygon(0 7%,4% 0,95% 2%,100% 10%,98% 91%,94% 100%,5% 96%,0 89%); transform:translateX(-50%) rotate(var(--tape-angle)); }
+    .photo-stack { position:relative; width:100%; height:100%; }
+    .photo-stack .photo-print { position:absolute; width:56%; }
+    .photo-stack .photo-print:first-child { top:0; left:0; --tilt:-5deg; --tape:#dfd4ba; --tape-angle:-5deg; }
+    .photo-stack .photo-print:last-child { top:12%; right:0; z-index:1; --tilt:5deg; --tape:#e8d2c9; --tape-angle:5deg; }
+    .photo-stack .tape { width:7cqw; }
+    .page-foot { position:absolute; left:11.5%; right:7.5%; bottom:4.3%; display:flex; align-items:center; justify-content:space-between; gap:2cqw; }
+    .page-foot a { color:inherit; font:400 2.75cqw/1.2 "YoonChildfundkoreaMinGuk",cursive; text-decoration:none; }
+    .page-foot a:hover,.page-foot a:focus-visible { color:#805b4a; text-decoration:underline; text-underline-offset:.2em; }
+    .page-count { font:400 2cqw/1 "YoonChildfundkoreaMinGuk",cursive; opacity:.6; }
+    @media (max-width:600px) {
+      body { display:block; background:#f0eee8; }
+      .paper-shell { width:100%; aspect-ratio:auto; }
+      .sheet { height:auto; min-height:100vh; padding:9% 9% 12% 13%; background-size:100% 100%; }
+      .page-head,.story-row,.page-foot { position:static; }
+      .page-head { margin:0 0 8%; }
+      h1 { font-size:clamp(23px,6vw,36px); }
+      .story-row,.story-row--right,.story-row--pair,.story-row--wide-photo,.story-row--portrait-right { display:flex; flex-direction:column; align-items:stretch; gap:5%; height:auto; margin:0 0 11%; }
+      .story-row--right .photo-print,.story-row--right .photo-stack,.story-row--right .story-space { grid-column:auto; grid-row:auto; }
+      .photo-print { width:65%; align-self:flex-start; }
+      .story-row--right > .photo-print { align-self:flex-end; }
+      .photo-stack { width:88%; aspect-ratio:1.15; height:auto; align-self:flex-end; }
+      .photo-stack .photo-print { width:52%; }
+      .story-copy { padding-top:5%; font-size:clamp(14px,3.5vw,19px); line-height:1.5; }
+      .page-foot { margin-top:12%; }
+      .page-foot a { font-size:clamp(13px,3.3vw,19px); }
+      .page-count { font-size:clamp(11px,2.5vw,15px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="paper-shell">
+    <main class="sheet">
+      <header class="page-head"><h1>둘이 만드는 이야기 3.</h1></header>
+      <section class="story-row story-row--left" aria-label="그림 그리는 다이어리">
+        <figure class="photo-print"><span class="tape" aria-hidden="true"></span><div class="photo-paper"><img src="assets/duo-story-3-sketch.jpg" width="3024" height="4032" alt="브리또가 그린, 그림을 그리는 다이어리의 크로키" loading="eager" decoding="async"></div></figure>
+        <div class="story-space"><div class="story-copy"><p class="story-label">01 / 그림 그리는 다이어리</p><p>다이어리가 그림 작업을 하는 동안 저는 그림 그리는 다이어리를 그려 봤어요. 아직 크로키가 익숙하지 않아 오래 걸리다 보니, 나중에는 모델을 보지 않고 그렸다는… ㅎㅎ</p></div></div>
+      </section>
+      <section class="story-row story-row--right story-row--pair" aria-label="서로 그린 수험표 그림">
+        <div class="photo-stack" role="group" aria-label="서로를 그린 수험표 그림 두 장">
+          <figure class="photo-print"><span class="tape" aria-hidden="true"></span><div class="photo-paper"><img src="assets/duo-story-3-diary-card.jpg" width="1979" height="2639" alt="브리또가 수험표에 그린 다이어리" loading="lazy" decoding="async"></div></figure>
+          <figure class="photo-print"><span class="tape" aria-hidden="true"></span><div class="photo-paper"><img src="assets/duo-story-3-burrito-card.jpg" width="1554" height="2080" alt="다이어리가 수험표에 그린 브리또" loading="lazy" decoding="async"></div></figure>
+        </div>
+        <div class="story-space"><div class="story-copy"><p class="story-label">02 / 서로의 얼굴</p><p>수능 날 이벤트로 수험표를 만들면 할인을 해 주고 있었어요. 그래서 서로를 그려 줬죠. 제가 그린 다이어리와 다이어리가 그린 브리또예요. 다이어리, 미안! ㅎㅎㅎ</p><p>오늘도 우리의 잉크 사랑은 계속되고 있어요. ㅎㅎ</p></div></div>
+      </section>
+      <section class="story-row story-row--left story-row--wide-photo" aria-label="새로 고른 잉크">
+        <figure class="photo-print photo-print--ink"><span class="tape" aria-hidden="true"></span><div class="photo-paper"><img src="assets/duo-story-3-ink.jpg" width="4032" height="3024" alt="작은 페르세포네 잉크병" loading="lazy" decoding="async"></div></figure>
+        <div class="story-space"><div class="story-copy"><p class="story-label">03 / 작은 채집</p><p>참새가 방앗간을 그냥 못 지나가듯 다시 잉크숍에 들러 작은 잉크를 하나 겟했어요. 행복해하는 제게 다이어리가 이런 이야기를 들려줬어요.</p><p>“인간의 뇌는 원시인의 뇌로부터 그다지 진화하지 않은 상태여서, 낯선 곳에서 무언가를 수집하는 활동에 행복감을 느낀대요. 수렵과 채집의 본능을 만족시키는 행위이기 때문이죠.” 오호~!</p></div></div>
+      </section>
+      <section class="story-row story-row--right story-row--portrait-right" aria-label="카페에서의 시간">
+        <figure class="photo-print"><span class="tape" aria-hidden="true"></span><div class="photo-paper"><img src="assets/duo-story-3-cafe.jpg" width="2598" height="3464" alt="카페에서 함께한 라테 아트와 케이크" loading="lazy" decoding="async"></div></figure>
+        <div class="story-space"><div class="story-copy"><p class="story-label">04 / 소소한 행복</p><p>카페에서는 예술 같은 라테 아트와 함께 새로 채집한 녀석들을 테스트하며 행복해했어요.</p><p>인생 뭐 있어요? 이런 소소한 행복으로 삶의 질을 높이는 거죠. 여러분도 한 번 해 보세요.</p></div></div>
+      </section>
+      <footer class="page-foot"><a href="duo-story-2.html">← 2. 이전 이야기</a><span class="page-count">03 / 03</span><a href="intothem-today-preview.html?v=20261119">신문으로 →</a></footer>
+    </main>
+  </div>
+</body>
+</html>

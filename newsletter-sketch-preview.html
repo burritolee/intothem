@@ -3,74 +3,92 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="전구사람 프로젝트 제작 노트 표지">
-  <title>전구사람 프로젝트 · 제작 노트</title>
+  <meta name="description" content="다이어리의 전구사람 그림 작업 노트">
+  <title>다이어리의 그림 작업 노트 | 전구사람</title>
+  <link rel="preload" href="assets/YoonChildfundkoreaMinGuk.woff2" as="font" type="font/woff2" crossorigin>
   <style>
+    @font-face { font-family: "MinGuk"; src: url("assets/YoonChildfundkoreaMinGuk.woff2") format("woff2"); font-weight: 400; font-display: block; }
     :root { color-scheme: light; }
     * { box-sizing: border-box; }
     body {
       min-height: 100vh;
       margin: 0;
       padding: 24px 22px 48px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
       background: #faf9f7;
     }
-    @font-face { font-family:"YoonChildfundkoreaMinGuk"; src:url("assets/YoonChildfundkoreaMinGuk.otf") format("opentype"); font-style:normal; font-weight:400; font-display:swap; }
-    .poster {
-      position: relative;
-      container-type: inline-size;
-      width: min(760px, 100%);
-      aspect-ratio: 1057 / 1488;
-      flex: none;
-      background: url("assets/duo-story-paper-rough.png") center / 100% 100% no-repeat;
-      filter: drop-shadow(0 7px 12px rgba(65,52,37,.15));
-    }
-    .poster > img {
+    .notebook { width: min(760px, 100%); margin: 0 auto; }
+    .notebook-page[hidden] { display: none; }
+    .notebook-art {
       display: block;
       width: 100%;
-      height: 100%;
+      aspect-ratio: 1057 / 1488;
       object-fit: fill;
-      filter: url(#newsletter-paper-tone);
-      -webkit-mask-image: linear-gradient(to right,transparent,#000 5%,#000 98%,transparent),linear-gradient(to bottom,transparent,#000 3%,#000 98%,transparent);
-      mask-image: linear-gradient(to right,transparent,#000 5%,#000 98%,transparent),linear-gradient(to bottom,transparent,#000 3%,#000 98%,transparent);
-      -webkit-mask-composite: source-in;
-      mask-composite: intersect;
+      filter: drop-shadow(0 7px 12px rgba(65,52,37,.15));
     }
-    .diary-about-note {
-      position:absolute;
-      z-index:3;
-      top:17%;
-      left:1%;
-      display:block;
-      width:44%;
-      aspect-ratio:2172 / 724;
-      background:url("assets/diary-about-sticky-handwritten.png") center / contain no-repeat;
-      transform:rotate(16deg);
-      transform-origin:center;
-      filter:drop-shadow(0 .15cqw .15cqw rgba(60,45,30,.17)) drop-shadow(.2cqw .65cqw .65cqw rgba(70,50,32,.23));
+    .note-copy {
+      width: calc(100% - 34px);
+      margin: 17px auto 0;
+      padding: clamp(25px, 4vw, 42px);
+      background: #f8eedf;
+      box-shadow: 0 8px 17px rgba(55,46,33,.12);
+      color: #514336;
+      font: 400 clamp(18px, 2.3vw, 24px)/1.7 "MinGuk", sans-serif;
+      word-break: keep-all;
     }
-    .diary-about-note:focus-visible { outline: 2px solid #654c3b; outline-offset: 3px; }
-    .note-link { position: absolute; z-index: 1; display: block; touch-action: manipulation; }
-    .note-link:focus-visible { outline: 2px solid #7c3e37; outline-offset: 3px; }
-    .note-link--story { top: 7.5%; left: 59%; width: 37%; height: 12%; }
-    .note-link--diary { top: 70%; left: 6.5%; width: 39%; height: 12%; }
+    .note-copy p { margin: 0 0 1em; }
+    .note-copy p:last-child { margin-bottom: 0; }
+    .page-nav { display: flex; align-items: center; gap: 20px; min-height: 52px; padding: 15px 4px 0; color: #61594d; font: 14px/1.3 system-ui, sans-serif; }
+    .page-nav a { color: #39362f; text-decoration: none; }
+    .page-nav a:hover, .page-nav a:focus-visible { text-decoration: underline; text-underline-offset: 4px; }
+    .page-nav .page-count { margin: 0 auto; font-size: 12px; letter-spacing: .12em; }
+    .page-nav .next-page { margin-left: auto; }
     .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
   </style>
 </head>
 <body>
-  <svg aria-hidden="true" focusable="false" width="0" height="0" style="position:absolute;overflow:hidden">
-    <filter id="newsletter-paper-tone" color-interpolation-filters="sRGB">
-      <feColorMatrix type="matrix" values="1 0 0 0 -0.019608  0 1 0 0 -0.031373  0 0 1 0 -0.054902  0 0 0 1 0" />
-    </filter>
-  </svg>
-  <main class="poster" aria-label="전구사람 프로젝트 제작 노트 표지">
-    <h1 class="visually-hidden">전구사람 프로젝트 제작 노트</h1>
-    <img src="assets/jeongu-weekly-cover-project-repositioned.png" width="1049" height="1500" alt="찢은 노트 종이에 두 사람의 사진과 손글씨 메모가 붙어 있는 전구사람 프로젝트 제작 노트 표지">
-    <a class="diary-about-note" href="diary-about.html" aria-label="다이어리에 대하여 읽기"></a>
-    <a class="note-link note-link--story" href="duo-story.html" aria-label="둘이 만드는 이야기 사진 페이지 보기"></a>
-    <a class="note-link note-link--diary" href="assets/artist-diary-start-note-minguk-torn-edge.png" aria-label="매주 한 번, 작업실에서 — 다이어리의 그림 작업 시작 이미지 보기"></a>
+  <main class="notebook" aria-label="다이어리의 그림 작업 노트">
+    <section class="notebook-page" id="page-1" aria-label="다이어리의 그림 작업 시작">
+      <h1 class="visually-hidden">다이어리의 그림 작업 노트</h1>
+      <img class="notebook-art" src="assets/artist-diary-start-note-minguk-torn-edge.png" width="1057" height="1488" alt="찢은 노트에 다이어리의 그림 작업 시작과 첫 작업 기록을 담은 그림">
+      <nav class="page-nav" aria-label="페이지 이동"><span class="page-count">01 / 03</span><a class="next-page" href="#page-2">다음 페이지 →</a></nav>
+    </section>
+    <section class="notebook-page" id="page-2" aria-label="다이어리의 두 번째 그림 작업" hidden>
+      <img class="notebook-art" src="assets/artist-diary-work-note-page-2.png" width="1057" height="1488" alt="뜯어 낸 노트 위에서 다이어리가 작은 그림을 그리고, 테이블의 푸른 캔버스를 바라보는 장면">
+      <div class="note-copy">
+        <p>유화 작업은 천천히 진행되고 있어요. 겹겹이 쌓아올린 물감을 통해 거친 질감을 표현하고 있어요.</p>
+        <p>그 위에 얹을 전구사람의 이미지를 열심히 고심하고 있어요. 다이어리는 물감과 폰을 모두 사용하여 다채로운 이미지를 만들어 보려고 해요.</p>
+        <p>조금씩 색을 입어가고 있는 캔버스가 빛을 찾아 가는 전구사람의 변화처럼 천천히 천천히 진행되고 있답니다.</p>
+      </div>
+      <nav class="page-nav" aria-label="페이지 이동"><a href="#page-1">← 이전 페이지</a><span class="page-count">02 / 03</span><a href="#page-3">다음 페이지 →</a></nav>
+    </section>
+    <section class="notebook-page" id="page-3" aria-label="다이어리의 캔버스 작업" hidden>
+      <img class="notebook-art" src="assets/diary-painting-poem.png" width="1086" height="1448" alt="다이어리가 그림을 그리는 모습과 전구사람에 관한 글을 담은 찢은 도화지">
+      <nav class="page-nav" aria-label="페이지 이동"><a href="#page-2">← 이전 페이지</a><span class="page-count">03 / 03</span></nav>
+    </section>
   </main>
+  <script>
+    (() => {
+      const pages = [...document.querySelectorAll('.notebook-page')];
+      const pageIndex = () => {
+        const match = /^#page-([1-3])$/.exec(location.hash);
+        return match ? Number(match[1]) - 1 : 0;
+      };
+      const showPage = () => {
+        const current = pageIndex();
+        pages.forEach((page, index) => { page.hidden = index !== current; });
+        window.scrollTo(0, 0);
+      };
+      document.querySelectorAll('a[href^="#page-"]').forEach(link => {
+        link.addEventListener('click', event => {
+          event.preventDefault();
+          history.pushState(null, '', link.getAttribute('href'));
+          showPage();
+        });
+      });
+      window.addEventListener('popstate', showPage);
+      window.addEventListener('hashchange', showPage);
+      showPage();
+    })();
+  </script>
 </body>
 </html>
