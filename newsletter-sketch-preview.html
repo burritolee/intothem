@@ -20,9 +20,13 @@
     .notebook-page[hidden] { display: none; }
     .notebook-art {
       display: block;
-      width: 100%;
-      aspect-ratio: 1057 / 1488;
-      object-fit: fill;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: calc(100vh - 124px);
+      max-height: calc(100dvh - 124px);
+      margin: 0 auto;
+      object-fit: contain;
       filter: drop-shadow(0 7px 12px rgba(65,52,37,.15));
     }
     .note-copy {
