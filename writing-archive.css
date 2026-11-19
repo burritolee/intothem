@@ -1,0 +1,23 @@
+.writing-archive { width:min(920px,calc(100% - 44px)); margin:0 auto; padding:clamp(86px,12vw,150px) 0 clamp(96px,12vw,150px); }
+.writing-archive-header>p:first-child { margin:0 0 28px; color:#68764d; font:10px/1.5 var(--mono); letter-spacing:.14em; }
+.writing-archive-header h1 { margin:0; font:400 clamp(48px,7vw,96px)/1.13 var(--serif); letter-spacing:-.11em; }
+.writing-archive-intro { margin:30px 0 0; color:#59665d; font:400 clamp(16px,1.65vw,20px)/1.8 var(--serif); word-break:keep-all; }
+.writing-archive-list { margin:clamp(72px,11vw,130px) 0 0; padding:0; list-style:none; border-top:1px solid rgba(32,49,40,.26); }
+.writing-archive-list li { border-bottom:1px solid rgba(32,49,40,.26); }
+.writing-archive-list a { display:grid; grid-template-columns:130px minmax(0,1fr) 26px; align-items:start; gap:24px; padding:34px 0 40px; color:inherit; text-decoration:none; }
+.writing-archive-list a:hover,.writing-archive-list a:focus-visible { color:#68764d; }
+.writing-archive-list a:focus-visible { outline:2px solid currentColor; outline-offset:4px; }
+.writing-archive-list time { padding-top:8px; color:#68764d; font:10px/1.5 var(--mono); letter-spacing:.08em; white-space:nowrap; }
+.writing-archive-copy { display:flex; flex-direction:column; gap:14px; min-width:0; }
+.writing-archive-copy strong { font:400 clamp(27px,3.2vw,42px)/1.35 var(--serif); letter-spacing:-.08em; word-break:keep-all; }
+.writing-archive-copy>span { color:#677269; font:400 14px/1.7 var(--serif); word-break:keep-all; }
+.writing-archive-arrow { padding-top:3px; font:18px/1 var(--sans); transition:transform .25s ease; }
+.writing-archive-list a:hover .writing-archive-arrow,.writing-archive-list a:focus-visible .writing-archive-arrow { transform:translate(3px,-3px); }
+@media (max-width:650px) {
+  .writing-archive { padding-top:88px; }
+  .writing-archive-list { margin-top:70px; }
+  .writing-archive-list a { grid-template-columns:minmax(0,1fr) 24px; gap:12px; padding:28px 0 32px; }
+  .writing-archive-list time { grid-column:1 / -1; padding-top:0; }
+  .writing-archive-copy { gap:10px; }
+  .writing-archive-arrow { grid-column:2; grid-row:2; }
+}

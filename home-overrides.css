@@ -44,6 +44,9 @@
 .home-writing-heading h2 { font-size:clamp(26px,3.3vw,42px); }
 .home-writing-feature strong { font-size:clamp(31px,4.1vw,52px); line-height:1.18; }
 .home-writing-feature p { align-self:start; font-size:clamp(14px,1.15vw,17px); line-height:1.8; }
+.home-writing-archive-link { display:flex; align-items:center; gap:18px; width:max-content; margin:20px 0 0 auto; padding:4px 0 7px; border-bottom:1px solid var(--home-line); color:#536157; font:500 11px/1.4 var(--sans); text-decoration:none; }
+.home-writing-archive-link span { font-size:16px; line-height:1; }
+.home-writing-archive-link:hover,.home-writing-archive-link:focus-visible { border-color:currentColor; color:#203128; }
 @media (max-width:650px) {
   .home-introduction > p:last-child { font-size:16px; line-height:1.65; }
   .home-writing-feature p { font-size:15px; line-height:1.82; }

@@ -24,3 +24,8 @@
 @media(max-width:620px){.studio-welcome{padding:78px 24px 52px}.studio-overview{width:calc(100% - 36px);grid-template-columns:1fr}.studio-overview>div,.studio-overview>p{min-height:auto;border-right:0;border-bottom:1px solid var(--line)}.preview-writing-area,.preview-note-library{width:calc(100% - 36px);padding:76px 0}.preview-writing-heading{display:block}.preview-writing-heading>span{display:block;margin:-10px 0 24px}.preview-tabs{margin-bottom:22px}.studio-preview-page .my-note-actions{flex-direction:row;justify-content:flex-start}}
 @media(max-width:620px){.note-reader-bar{padding:18px}.note-reader-article{width:calc(100% - 36px);padding:62px 0 100px}.note-reader-article h2{margin-bottom:50px;font-size:38px}.note-reader-content{font-size:16px;line-height:2}}
 @media(max-width:620px){.open-writing-paper{min-height:150px;padding:24px;grid-template-columns:1fr}.open-writing-paper span{top:22px;left:24px}.open-writing-paper strong{grid-column:1;font-size:26px}.writing-paper-bar{grid-template-columns:1fr auto;padding:14px 16px}.writing-paper-bar>span{display:none}.writing-paper-actions{gap:12px}.writing-paper-actions fieldset{gap:8px}.writing-paper-actions>button{padding:9px 12px}.writing-sheet{width:100%;min-height:calc(100dvh - 58px);margin:0;padding:55px 24px}.writing-title{font-size:38px}.writing-content{margin-top:35px;font-size:17px;min-height:65vh}}
+
+/* The reader opens on its title, without the browser's blue focus rectangle. */
+.note-reader-article h2:focus{outline:none}
+.note-reader-bar button:focus{outline:none}
+.note-reader-bar button:focus-visible{text-decoration:underline;text-underline-offset:.3em}

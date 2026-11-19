@@ -122,6 +122,7 @@
     noteReaderMeta.textContent = `${authorName(note)} · ${formatDate(publicDate(note))}`;
     noteReaderContent.textContent = note.content.replace(/\n{3,}/g, "\n\n");
     if (!noteReader.open) noteReader.showModal();
+    noteReaderTitle.focus({ preventScroll: true });
     document.body.classList.add("is-reading-note");
     if (updateAddress) {
       const url = new URL(window.location.href);
