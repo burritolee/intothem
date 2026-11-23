@@ -2,6 +2,25 @@
    첫 표제와 홈페이지의 기사 제목은 이 목록의 첫 항목을 사용합니다. */
 window.INTOTHEM_TODAY_POSTS = [
   {
+    title: "히브리서의 이름과 그 사람들",
+    featureTitle: "히브리서를 읽기 전, 편지가 향한 사람들을 만납니다",
+    category: "제프리 장로님의 매일묵상",
+    navLabel: "매일묵상",
+    summary: "제프리 장로님의 오늘의 묵상은 히브리서의 이름과 처음 이 편지를 읽은 사람들을 살피며 다음 공부를 준비합니다.",
+    storySummary: "히브리서의 이름과 수신자, 성경 속 여러 호칭을 따라가며 다음 공부의 배경을 짚는 편지입니다.",
+    featureImage: "assets/intothem-today-meditation-photo-line.png",
+    featureImageAlt: "호숫가 풍경을 배경으로 제프리 장로님을 선화로 표현한 사진",
+    href: "today-jeffrey-hebrews-02.html",
+    storyId: "story-hebrews-names",
+    leadParagraphs: [
+      "히브리서를 펼치기 전에 이 편지가 처음 누구를 향해 있었는지 살펴봅니다.",
+      "이름과 수신자를 따라가면 당시 성도들이 서 있던 자리가 조금 더 선명해집니다.",
+      "성경에 등장하는 여러 이름은 역사와 언어가 만나는 지점이기도 합니다.",
+      "이번 글은 그 배경을 차근차근 정리하고 다음 묵상에서 이어질 질문을 준비합니다.",
+      "오늘의 독자도 이 오래된 편지 앞에서 자신의 삶에 닿는 물음을 발견할 수 있기를 바랍니다."
+    ]
+  },
+  {
     title: "로마서에서 히브리서로",
     featureTitle: "히브리서 매일묵상을 시작합니다",
     category: "제프리 장로님의 매일묵상",
