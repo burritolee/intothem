@@ -1,0 +1,165 @@
+:root {
+  color-scheme: light;
+  --ink: #3b3a34;
+  --muted: #726d60;
+  --forest: #4e665b;
+  --paper: #f8f3e7;
+  --line: #c8bfa9;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 12% 20%, rgba(255,255,255,.55), transparent 38%),
+    radial-gradient(circle at 82% 10%, rgba(145,118,75,.1), transparent 30%),
+    #dfd4bd;
+  font-family: "Noto Serif KR", "Nanum Myeongjo", serif;
+}
+
+a { color: inherit; }
+
+.site-header {
+  max-width: 1010px;
+  margin: 0 auto;
+  padding: 28px 32px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  color: var(--forest);
+  font-family: "Nanum Myeongjo", serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .2em;
+}
+
+.site-home { text-decoration: none; }
+.site-home:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+.page-wrap { max-width: 1010px; margin: 0 auto; padding: 0 28px 72px; }
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  padding: 14px 5px 20px;
+  color: var(--forest);
+  border-top: 1px solid rgba(78,102,91,.35);
+}
+.section-heading p {
+  margin: 0;
+  font-family: "Nanum Myeongjo", serif;
+  font-size: 23px;
+  font-weight: 800;
+}
+.section-heading span { font-size: 14px; letter-spacing: .1em; }
+
+.letter {
+  position: relative;
+  padding: clamp(34px, 7vw, 78px) clamp(26px, 8vw, 96px) 50px;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, transparent 0 49px, rgba(143,100,75,.09) 49px 50px, transparent 50px),
+    repeating-linear-gradient(180deg, transparent 0 43px, rgba(133,119,91,.045) 44px 45px),
+    radial-gradient(circle at 84% 12%, rgba(166,140,88,.08), transparent 40%),
+    var(--paper);
+  border: 1px solid #d0c4ad;
+  box-shadow: 0 4px 0 rgba(122,104,72,.11), 0 22px 60px rgba(65,52,31,.18);
+}
+.letter::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 62px;
+  height: 62px;
+  background: linear-gradient(225deg, #d7c9ad 0 49%, #e9dfc9 50%, transparent 51%);
+  box-shadow: -2px 2px 5px rgba(72,60,43,.1);
+}
+.letter-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 22px;
+  min-height: 83px;
+}
+.letter-series {
+  margin: 6px 0 0;
+  color: var(--forest);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+.letter-seal {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-content: center;
+  border: 1px solid rgba(78,102,91,.5);
+  border-radius: 50%;
+  color: var(--forest);
+  font: 700 11px/1.3 "Nanum Myeongjo", serif;
+  text-align: center;
+  letter-spacing: .08em;
+  transform: rotate(11deg);
+}
+h1 {
+  margin: 5px 0 25px;
+  font-family: "Nanum Myeongjo", serif;
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.3;
+  letter-spacing: -.045em;
+}
+.letter-rule { width: 92px; height: 2px; background: var(--forest); margin-bottom: 44px; }
+.letter-body { font-size: 18px; line-height: 2.02; word-break: keep-all; }
+.letter-body p { margin: 0 0 27px; }
+.letter-body .salutation { font-size: 21px; font-weight: 700; margin-bottom: 34px; }
+.letter-body .closing { margin: 38px 0 0; font-size: 21px; font-weight: 700; }
+.letter-foot {
+  margin-top: 56px;
+  padding-top: 17px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: .06em;
+}
+.back-link {
+  display: inline-block;
+  margin-top: 32px;
+  padding-bottom: 7px;
+  color: var(--forest);
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+.back-link:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--forest); outline-offset: 4px; }
+
+@media (max-width: 640px) {
+  .site-header { padding: 22px 18px 14px; font-size: 12px; letter-spacing: .08em; }
+  .page-wrap { padding: 0 14px 48px; }
+  .section-heading { align-items: start; gap: 6px; flex-direction: column; }
+  .section-heading p { font-size: 20px; }
+  .letter { padding: 32px 24px 36px; }
+  .letter::before { width: 42px; height: 42px; }
+  .letter-head { min-height: 74px; }
+  .letter-body { font-size: 16px; line-height: 1.95; }
+  .letter-body p { margin-bottom: 24px; }
+  .letter-foot { flex-direction: column; }
+}
+
+@media print {
+  body { background: white; }
+  .site-header, .section-heading, .back-link { display: none; }
+  .page-wrap { padding: 0; max-width: none; }
+  .letter { border: none; box-shadow: none; }
+}

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="인투뎀 투데이 신문형 소식지 디자인 시안">
-  <title>인투뎀 투데이 · 신문형 소식지 시안</title>
+  <meta name="description" content="인투뎀 투데이: 책과 사람, 배움과 묵상을 담는 소식">
+  <title>히브리서 매일묵상을 시작합니다 · 인투뎀 투데이</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Nanum+Myeongjo:wght@400;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
@@ -423,14 +423,46 @@
       .paper-footer { font-size:8px; }
     }
     @media(max-width:380px) { .lead-copy { column-count:1; } .story { grid-template-columns:1fr; } .story .story-figure,.story .topic-mark,.story .story-copy { grid-column:1; grid-row:auto; } .story .story-figure,.story .topic-mark { width:min(78%,250px); margin:0 auto 15px; } }
+    .new-badge { display:inline-block; margin-left:8px; padding:2px 6px; background:var(--ink); color:var(--paper); font:500 10px/1.4 var(--mono); letter-spacing:.08em; vertical-align:middle; }
+    .lead { padding-bottom: 60px; }
+    .story .story-figure { align-self: start; }
+    .story-figure img,
+    .story-figure.article-photo img,
+    .story-figure.parenting-illustration img,
+    .story-figure.meditation-illustration img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: auto;
+      object-fit: contain;
+      object-position: center;
+    }
+    .stories { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 22px; align-items: start; }
+    .story-column { display: flex; min-width: 0; flex-direction: column; }
+    .stories .story,
+    .stories .story:nth-child(even),
+    .stories .story:nth-child(n+3) {
+      grid-column: auto;
+      grid-template-rows: auto auto auto;
+      width: 100%;
+      padding: 20px 0 22px;
+      border: 0;
+      border-bottom: 1px solid var(--ink);
+    }
+    .story-column .story:last-child { border-bottom: 0; }
+    @media (max-width: 760px) {
+      .stories { display: block; }
+      .stories .story { border-bottom: 1px solid var(--ink); }
+      .stories .story:last-child { border-bottom: 0; }
+    }
   </style>
 </head>
 <body>
   <main class="paper" id="top">
     <div class="utility">
-      <a href="index.html?v=20261119" aria-label="인투뎀 홈페이지로 돌아가기">← INTOTHEM</a>
+      <a href="index.html" aria-label="인투뎀 홈페이지로 돌아가기">← INTOTHEM</a>
       <span>인투뎀에서 전하는 한 주의 이야기</span>
-      <span class="issue">DESIGN PREVIEW</span>
+      <span class="issue">INTOTHEM TODAY</span>
     </div>
 
     <header class="masthead">
@@ -439,38 +471,49 @@
       <p class="tagline">책과 사람, 배움과 묵상을 담는 인투뎀의 주간 신문</p>
     </header>
 
-    <div class="edition" aria-label="시안 정보">
+    <div class="edition" aria-label="이번 호 정보">
       <strong>제 01 호 · 인투뎀의 한 주</strong>
       <span>책 작업 · 사람들 · 부모교육 · 묵상</span>
-      <span>2026. 11. · 시안</span>
+      <span>2026. 11.</span>
     </div>
     <nav class="section-index" aria-label="이번 호의 꼭지">
       <a href="#lead-title">이번 주 표지</a>
+      <a id="latest-nav" href="#story-meditation">매일묵상 · NEW</a>
       <a href="#story-duo">둘이 만드는 이야기</a>
       <a href="#story-weekly">매주 한 번, 작업실에서</a>
       <a href="#story-parenting">부모교육 · 월간</a>
-      <a href="#story-meditation">매일묵상</a>
     </nav>
 
     <article class="lead" aria-labelledby="lead-title">
       <div class="lead-heading">
-        <div><p class="kicker">THIS WEEK / 이번 주의 표지</p><h2 id="lead-title">전구사람의 그림을 다시 그립니다</h2></div>
-        <p class="standfirst">인투뎀에서 작업 중인 두 권의 책 가운데 하나, 『전구사람』. 그림 작가 다이어리가 새 그림을 작업하고 있습니다.</p>
+        <div><p class="kicker">THIS WEEK / 이번 주의 표지</p><h2 id="lead-title">히브리서 매일묵상을 시작합니다</h2></div>
+        <p class="standfirst">제프리 장로님의 매일묵상에서 히브리서 공부를 시작하며 예수 그리스도를 더 깊이 알아갑니다.</p>
       </div>
       <div class="lead-body">
         <div class="lead-copy">
-          <p>『전구사람』의 그림을 다시 작업하고 있어요. 이번 그림을 맡은 사람은 다이어리입니다. 전구사람의 이야기를 읽고 그림 작업을 시작했지요.</p>
-          <p>어떤 느낌인지 묻는 질문에 “좋았어요.”라고 짧게 답했지만, 그녀의 그림은 얕지 않아요. 어떤 전구사람이 새롭게 그려질지 궁금합니다.</p>
-          <p>이번 호에는 그 시작을 담았습니다. 앞으로는 작업 중인 두 권의 책과 인투뎀에서 일어나는 여러 이야기가 매주 표지의 주인공이 됩니다.</p>
+          <p>히브리서는 저자를 명시하지 않지만 예수 그리스도를 중심으로 구약의 약속을 다시 읽게 합니다.</p>
+          <p>하나님이 아들을 통해 말씀하셨다는 선언으로 시작합니다.</p>
+          <p>예수님을 우리를 위한 대제사장과 온전한 제물로 설명합니다.</p>
+          <p>믿음의 선진들을 통해 약속을 바라보며 걷는 삶을 보여 줍니다.</p>
+          <p>그래서 독자에게 끝까지 견디고 사랑과 선행으로 서로 격려하라고 권합니다.</p>
+          <a class="read-link" href="today-jeffrey-hebrews.html">첫 기사 읽기</a>
         </div>
       </div>
     </article>
 
-    <section aria-label="이번 호의 기사">
-      <div class="section-heading"><h2>이번 호의 기사들</h2><span>BOOKS · PEOPLE · LEARNING · REFLECTION</span></div>
+    <section aria-label="기사 목록">
       <div class="stories">
+        <article class="story" aria-labelledby="story-meditation">
+          <p class="kicker">01 / 매일묵상 · 제프리 장로 <span class="new-badge">NEW</span></p>
+          <h3 id="story-meditation">로마서에서 히브리서로</h3>
+          <figure class="story-figure meditation-illustration"><img src="assets/intothem-today-meditation-photo-line.png" width="1451" height="1084" alt="호숫가 풍경을 배경으로 제프리 장로님을 러프한 선화로 표현한 사진" loading="lazy" decoding="async"></figure>
+          <div class="story-copy">
+            <p>로마서에서 배운 은혜와 믿음을 돌아본 뒤, 히브리서의 배경과 이름을 탐구하자는 제프리 장로님의 편지입니다.</p>
+            <a class="read-link" href="today-jeffrey-hebrews.html">로마서에서 히브리서로 읽기</a>
+          </div>
+        </article>
         <article class="story" aria-labelledby="story-duo">
-          <p class="kicker">01 / 함께 만드는 이야기</p>
+          <p class="kicker">02 / 함께 만드는 이야기</p>
           <h3 id="story-duo">둘이 만드는 이야기 3.</h3>
           <figure class="story-figure article-photo article-photo--duo"><img src="assets/duo-story-3-sketch.jpg" width="3024" height="4032" alt="브리또가 그린 다이어리의 크로키" loading="lazy" decoding="async"></figure>
           <div class="story-copy">
@@ -480,7 +523,7 @@
           </div>
         </article>
         <article class="story" aria-labelledby="story-weekly">
-          <p class="kicker">02 / 그림 작업 기록</p>
+          <p class="kicker">03 / 그림 작업 기록</p>
           <h3 id="story-weekly">매주 한 번, 작업실에서</h3>
           <figure class="story-figure article-photo article-photo--art"><img src="assets/intothem-today-art-photo.jpg" width="4284" height="5712" alt="캔버스 위에 물감을 바르며 그림을 작업하는 모습" loading="lazy" decoding="async"></figure>
           <div class="story-copy">
@@ -490,7 +533,7 @@
           </div>
         </article>
         <article class="story" aria-labelledby="story-snake">
-          <p class="kicker">03 / 책 만드는 중</p>
+          <p class="kicker">04 / 책 만드는 중</p>
           <h3 id="story-snake">일과 신앙이 분리된 당신에게</h3>
           <figure class="story-figure book-cover">
             <img src="assets/work-faith-cover.png" width="1256" height="1820" alt="『일과 신앙이 분리된 당신에게』 책 표지" decoding="async">
@@ -503,7 +546,7 @@
           </div>
         </article>
         <article class="story" aria-labelledby="story-diary">
-          <p class="kicker">04 / 작업실 사람들</p>
+          <p class="kicker">05 / 작업실 사람들</p>
           <h3 id="story-diary">다이어리를 소개합니다</h3>
           <figure class="story-figure diary">
             <img src="assets/diary-about-line-photo-clean.png" width="992" height="1586" alt="작업실 사진을 배경으로 선화로 그려진 다이어리" decoding="async">
@@ -516,7 +559,7 @@
           </div>
         </article>
         <article class="story" aria-labelledby="story-parenting">
-          <p class="kicker">05 / 한 달에 한 번 · 부모교육</p>
+          <p class="kicker">06 / 한 달에 한 번 · 부모교육</p>
           <h3 id="story-parenting">부모와 아이 사이의 질문들</h3>
           <figure class="story-figure parenting-illustration"><img src="assets/intothem-today-parenting-photo-line.png" width="1448" height="1086" alt="우산 아래 유모차에 앉은 아이를 선 그림으로 표현한 사진" loading="lazy" decoding="async"></figure>
           <div class="story-copy">
@@ -525,23 +568,17 @@
             <span class="pending">월간 기사 자리 · 원고 준비 중</span>
           </div>
         </article>
-        <article class="story" aria-labelledby="story-meditation">
-          <p class="kicker">06 / 매일묵상</p>
-          <h3 id="story-meditation">제프리장로님의 매일묵상</h3>
-          <figure class="story-figure meditation-illustration"><img src="assets/intothem-today-meditation-photo-line.png" width="1451" height="1084" alt="호숫가 풍경을 배경으로 제프리 장로님을 러프한 선화로 표현한 사진" loading="lazy" decoding="async"></figure>
-          <div class="story-copy">
-            <p>제프리 장로님의 매일묵상에서 한 주 동안 마음에 남은 문장과 질문을 함께 읽습니다.</p>
-            <p>첫 묵상 원고가 들어오면 이 칸에서 함께 읽겠습니다.</p>
-            <span class="pending">첫 묵상 원고 준비 중</span>
-          </div>
-        </article>
+
       </div>
     </section>
 
     <footer class="paper-footer">
-      <span>INTOTHEM TODAY · DESIGN PREVIEW</span>
+      <span>INTOTHEM TODAY · INTOTHEM TODAY</span>
       <span>인투뎀의 한 주를 전합니다</span>
     </footer>
   </main>
+  <script src="today-posts.js"></script>
+  <script src="today-headlines.js"></script>
+  <script src="today-layout.js"></script>
 </body>
 </html>

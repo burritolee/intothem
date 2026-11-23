@@ -1,0 +1,106 @@
+(() => {
+  const latest = window.INTOTHEM_TODAY_POSTS?.[0];
+  if (!latest) return;
+
+  const setText = (selector, value) => {
+    const node = document.querySelector(selector);
+    if (node) node.textContent = value;
+  };
+  const setHref = (selector, value) => {
+    const node = document.querySelector(selector);
+    if (node) node.href = value;
+  };
+
+  // 로컬 홈페이지의 인투뎀 투데이 진입 영역.
+  setText(".today-feature-series", latest.category);
+  setText(".today-feature-title", latest.featureTitle || latest.title);
+  setText(".today-feature-desc", latest.summary);
+  setHref(".today-feature-link", latest.href);
+  setText(".now-today-feature strong", latest.featureTitle || latest.title);
+  const homeImage = document.querySelector(".now-today-image");
+  if (homeImage && latest.featureImage) {
+    homeImage.src = latest.featureImage;
+    homeImage.alt = latest.featureImageAlt || latest.title;
+  }
+
+  // 인투뎀 투데이의 첫 표제와 기사 소개를 한 기록에서 함께 갱신합니다.
+  const leadTitle = document.getElementById("lead-title");
+  if (!leadTitle) return;
+  leadTitle.textContent = latest.featureTitle || latest.title;
+  setText(".lead-heading .standfirst", latest.summary);
+
+  const leadCopy = document.querySelector(".lead-copy");
+  if (leadCopy) {
+    const paragraphs = (latest.leadParagraphs || []).map((text) => {
+      const p = document.createElement("p");
+      p.textContent = text;
+      return p;
+    });
+    const link = document.createElement("a");
+    link.className = "read-link";
+    link.href = latest.href;
+    link.textContent = "첫 기사 읽기";
+    leadCopy.replaceChildren(...paragraphs, link);
+  }
+
+  // 최신 기사를 첫 번째 카드로 올리고, NEW 표시는 그 카드에만 붙입니다.
+  const stories = document.querySelector(".stories");
+  if (stories) {
+    let story = latest.storyId && document.getElementById(latest.storyId)?.closest(".story");
+    if (!story) {
+      story = document.createElement("article");
+      story.className = "story";
+      story.id = latest.storyId || "story-latest";
+      const kicker = document.createElement("p");
+      kicker.className = "kicker";
+      kicker.textContent = latest.category;
+      const heading = document.createElement("h3");
+      heading.textContent = latest.title;
+      const mark = document.createElement("div");
+      mark.className = "topic-mark meditation";
+      mark.textContent = latest.category;
+      const copy = document.createElement("div");
+      copy.className = "story-copy";
+      const description = document.createElement("p");
+      description.textContent = latest.summary;
+      const link = document.createElement("a");
+      link.className = "read-link";
+      link.href = latest.href;
+      link.textContent = "기사 읽기";
+      copy.append(description, link);
+      story.append(kicker, heading, mark, copy);
+    }
+    const latestNav = document.getElementById("latest-nav");
+    if (latestNav) {
+      latestNav.href = `#${latest.storyId || story.id}`;
+      latestNav.textContent = `${latest.navLabel || latest.category} · NEW`;
+    }
+    const heading = story.querySelector("h3");
+    if (heading) heading.textContent = latest.title;
+    const storyCopy = story.querySelector(".story-copy");
+    if (storyCopy) {
+      const description = document.createElement("p");
+      description.textContent = latest.storySummary || latest.summary;
+      const link = document.createElement("a");
+      link.className = "read-link";
+      link.href = latest.href;
+      link.textContent = "기사 읽기";
+      storyCopy.replaceChildren(description, link);
+    }
+    stories.prepend(story);
+    stories.querySelectorAll(".new-badge").forEach((badge) => badge.remove());
+    [...stories.children].filter((child) => child.classList.contains("story")).forEach((item, index) => {
+      const kicker = item.querySelector(".kicker");
+      if (!kicker) return;
+      const category = kicker.textContent.replace(/^\d{2}\s*\/\s*/, "").trim();
+      kicker.textContent = `${String(index + 1).padStart(2, "0")} / ${category}`;
+      if (index === 0) {
+        const badge = document.createElement("span");
+        badge.className = "new-badge";
+        badge.textContent = "NEW";
+        kicker.append(" ", badge);
+      }
+    });
+  }
+  document.title = `${latest.featureTitle || latest.title} · 인투뎀 투데이`;
+})();
