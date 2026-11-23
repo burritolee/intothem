@@ -142,6 +142,20 @@ h1 {
   border-bottom: 1px solid currentColor;
 }
 .back-link:hover { color: var(--ink); }
+.previous-meditation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-top: 28px;
+  padding: 18px 24px;
+  border: 1px solid var(--line);
+  background: rgba(248, 243, 231, .76);
+  color: var(--forest);
+  font-size: 15px;
+}
+.previous-meditation a { flex: none; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+.previous-meditation a:hover { color: var(--ink); }
 :focus-visible { outline: 2px solid var(--forest); outline-offset: 4px; }
 
 @media (max-width: 640px) {
@@ -155,6 +169,7 @@ h1 {
   .letter-body { font-size: 16px; line-height: 1.95; }
   .letter-body p { margin-bottom: 24px; }
   .letter-foot { flex-direction: column; }
+  .previous-meditation { align-items: flex-start; flex-direction: column; padding: 16px 20px; font-size: 14px; }
 }
 
 @media print {

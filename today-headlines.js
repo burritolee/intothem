@@ -1,6 +1,10 @@
 (() => {
-  const latest = window.INTOTHEM_TODAY_POSTS?.[0];
+  const posts = window.INTOTHEM_TODAY_POSTS || [];
+  const latest = posts[0];
   if (!latest) return;
+  const previousMeditation = latest.series
+    ? posts.slice(1).find((post) => post.series === latest.series)
+    : null;
 
   const setText = (selector, value) => {
     const node = document.querySelector(selector);
@@ -70,6 +74,12 @@
       copy.append(description, link);
       story.append(kicker, heading, mark, copy);
     }
+    if (latest.series) {
+      story.dataset.series = latest.series;
+      stories.querySelectorAll(`.story[data-series="${latest.series}"]`).forEach((item) => {
+        if (item !== story) item.remove();
+      });
+    }
     const latestNav = document.getElementById("latest-nav");
     if (latestNav) {
       latestNav.href = `#${latest.storyId || story.id}`;
@@ -85,7 +95,15 @@
       link.className = "read-link";
       link.href = latest.href;
       link.textContent = "기사 읽기";
-      storyCopy.replaceChildren(description, link);
+      const links = [description, link];
+      if (previousMeditation) {
+        const previousLink = document.createElement("a");
+        previousLink.className = "previous-meditation-link";
+        previousLink.href = previousMeditation.href;
+        previousLink.textContent = `전 묵상보기 · ${previousMeditation.title}`;
+        links.push(previousLink);
+      }
+      storyCopy.replaceChildren(...links);
     }
     stories.prepend(story);
     stories.querySelectorAll(".new-badge").forEach((badge) => badge.remove());
