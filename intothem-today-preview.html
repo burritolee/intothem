@@ -424,8 +424,8 @@
     }
     @media(max-width:380px) { .lead-copy { column-count:1; } .story { grid-template-columns:1fr; } .story .story-figure,.story .topic-mark,.story .story-copy { grid-column:1; grid-row:auto; } .story .story-figure,.story .topic-mark { width:min(78%,250px); margin:0 auto 15px; } }
     .new-badge { display:inline-block; margin-left:8px; padding:2px 6px; background:var(--ink); color:var(--paper); font:500 10px/1.4 var(--mono); letter-spacing:.08em; vertical-align:middle; }
-    .story .previous-meditation-link { display:block; width:fit-content; margin-top:12px; padding-bottom:3px; border-bottom:1px solid currentColor; color:var(--muted); font:500 11px/1.6 var(--sans); text-decoration:none; }
-    .story .previous-meditation-link:hover { color:var(--ink); }
+    .story .previous-article-link { display:block; width:fit-content; margin-top:12px; padding-bottom:3px; border-bottom:1px solid currentColor; color:var(--muted); font:500 11px/1.6 var(--sans); text-decoration:none; }
+    .story .previous-article-link:hover { color:var(--ink); }
     .lead { padding-bottom: 60px; }
     .story .story-figure { align-self: start; }
     .story-figure img,
@@ -512,10 +512,10 @@
           <div class="story-copy">
             <p>히브리서의 이름과 수신자, 성경 속 여러 호칭을 따라가며 다음 공부의 배경을 짚는 편지입니다.</p>
             <a class="read-link" href="today-jeffrey-hebrews-02.html">기사 읽기</a>
-            <a class="previous-meditation-link" href="today-jeffrey-hebrews.html">전 묵상보기 · 로마서에서 히브리서로</a>
+            <a class="previous-article-link" href="today-jeffrey-hebrews.html">전 묵상보기 · 로마서에서 히브리서로</a>
           </div>
         </article>
-        <article class="story" aria-labelledby="story-duo">
+        <article class="story" data-series="duo-story" aria-labelledby="story-duo">
           <p class="kicker">02 / 함께 만드는 이야기</p>
           <h3 id="story-duo">둘이 만드는 이야기 3.</h3>
           <figure class="story-figure article-photo article-photo--duo"><img src="assets/duo-story-3-sketch.jpg" width="3024" height="4032" alt="브리또가 그린 다이어리의 크로키" loading="lazy" decoding="async"></figure>
@@ -525,7 +525,7 @@
             <a class="read-link" href="duo-story-3.html">둘이 만드는 이야기 3. 읽기 <span aria-hidden="true">→</span></a>
           </div>
         </article>
-        <article class="story" aria-labelledby="story-weekly">
+        <article class="story" data-series="studio-art" aria-labelledby="story-weekly">
           <p class="kicker">03 / 그림 작업 기록</p>
           <h3 id="story-weekly">매주 한 번, 작업실에서</h3>
           <figure class="story-figure article-photo article-photo--art"><img src="assets/intothem-today-art-photo.jpg" width="4284" height="5712" alt="캔버스 위에 물감을 바르며 그림을 작업하는 모습" loading="lazy" decoding="async"></figure>
@@ -535,7 +535,7 @@
             <a class="read-link" href="newsletter-sketch-preview.html">그림 작업 노트 보기 <span aria-hidden="true">→</span></a>
           </div>
         </article>
-        <article class="story" aria-labelledby="story-snake">
+        <article class="story" data-series="work-faith" aria-labelledby="story-snake">
           <p class="kicker">04 / 책 만드는 중</p>
           <h3 id="story-snake">일과 신앙이 분리된 당신에게</h3>
           <figure class="story-figure book-cover">
@@ -548,7 +548,7 @@
             <span class="pending">기사 준비 중</span>
           </div>
         </article>
-        <article class="story" aria-labelledby="story-diary">
+        <article class="story" data-series="studio-people" aria-labelledby="story-diary">
           <p class="kicker">05 / 작업실 사람들</p>
           <h3 id="story-diary">다이어리를 소개합니다</h3>
           <figure class="story-figure diary">
@@ -561,7 +561,7 @@
             <a class="read-link" href="diary-about.html">다이어리 이야기 읽기 <span aria-hidden="true">→</span></a>
           </div>
         </article>
-        <article class="story" aria-labelledby="story-parenting">
+        <article class="story" data-series="parenting" aria-labelledby="story-parenting">
           <p class="kicker">06 / 한 달에 한 번 · 부모교육</p>
           <h3 id="story-parenting">부모와 아이 사이의 질문들</h3>
           <figure class="story-figure parenting-illustration"><img src="assets/intothem-today-parenting-photo-line.png" width="1448" height="1086" alt="우산 아래 유모차에 앉은 아이를 선 그림으로 표현한 사진" loading="lazy" decoding="async"></figure>

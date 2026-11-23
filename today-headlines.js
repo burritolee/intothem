@@ -2,7 +2,7 @@
   const posts = window.INTOTHEM_TODAY_POSTS || [];
   const latest = posts[0];
   if (!latest) return;
-  const previousMeditation = latest.series
+  const previousInSeries = latest.series
     ? posts.slice(1).find((post) => post.series === latest.series)
     : null;
 
@@ -61,7 +61,7 @@
       const heading = document.createElement("h3");
       heading.textContent = latest.title;
       const mark = document.createElement("div");
-      mark.className = "topic-mark meditation";
+      mark.className = "topic-mark";
       mark.textContent = latest.category;
       const copy = document.createElement("div");
       copy.className = "story-copy";
@@ -74,14 +74,28 @@
       copy.append(description, link);
       story.append(kicker, heading, mark, copy);
     }
+    let replacedStoryId = null;
     if (latest.series) {
       story.dataset.series = latest.series;
       stories.querySelectorAll(`.story[data-series="${latest.series}"]`).forEach((item) => {
-        if (item !== story) item.remove();
+        if (item !== story) {
+          replacedStoryId ||= item.querySelector("h3")?.id || item.id;
+          item.remove();
+        }
       });
     }
     const latestNav = document.getElementById("latest-nav");
     if (latestNav) {
+      const oldLatestHref = latestNav.getAttribute("href");
+      const oldLatestText = latestNav.textContent.replace(/\s*·\s*NEW\s*$/, "");
+      const replacedNav = replacedStoryId
+        ? [...document.querySelectorAll(".section-index a")].find((anchor) =>
+            anchor !== latestNav && anchor.getAttribute("href") === `#${replacedStoryId}`)
+        : null;
+      if (replacedNav) {
+        replacedNav.href = oldLatestHref;
+        replacedNav.textContent = oldLatestText;
+      }
       latestNav.href = `#${latest.storyId || story.id}`;
       latestNav.textContent = `${latest.navLabel || latest.category} · NEW`;
     }
@@ -96,11 +110,12 @@
       link.href = latest.href;
       link.textContent = "기사 읽기";
       const links = [description, link];
-      if (previousMeditation) {
+      if (previousInSeries) {
         const previousLink = document.createElement("a");
-        previousLink.className = "previous-meditation-link";
-        previousLink.href = previousMeditation.href;
-        previousLink.textContent = `전 묵상보기 · ${previousMeditation.title}`;
+        previousLink.className = "previous-article-link";
+        previousLink.href = previousInSeries.href;
+        const previousLabel = latest.series === "jeffrey-meditation" ? "전 묵상보기" : "전 기사보기";
+        previousLink.textContent = `${previousLabel} · ${previousInSeries.title}`;
         links.push(previousLink);
       }
       storyCopy.replaceChildren(...links);

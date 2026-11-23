@@ -1,5 +1,6 @@
-/* 인투뎀 투데이의 최신 기사를 맨 앞에 추가합니다.
-   첫 표제와 홈페이지의 기사 제목은 이 목록의 첫 항목을 사용합니다. */
+/* 새 기사를 맨 앞에 추가합니다. 같은 꼭지는 같은 series를 사용합니다.
+   각 꼭지의 최신 기사만 신문에 보이고 이전 기사는 "전 기사보기"로 연결됩니다.
+   새로운 꼭지는 새 series를 사용하면 신문에 새 칸이 생깁니다. */
 window.INTOTHEM_TODAY_POSTS = [
   {
     title: "히브리서의 이름과 그 사람들",
@@ -40,5 +41,26 @@ window.INTOTHEM_TODAY_POSTS = [
       "믿음의 선진들을 통해 약속을 바라보며 걷는 삶을 보여 줍니다.",
       "그래서 독자에게 끝까지 견디고 사랑과 선행으로 서로 격려하라고 권합니다."
     ]
+  },
+  {
+    title: "둘이 만드는 이야기 3.",
+    category: "함께 만드는 이야기",
+    series: "duo-story",
+    href: "duo-story-3.html",
+    storyId: "story-duo"
+  },
+  {
+    title: "매주 한 번, 작업실에서",
+    category: "그림 작업 기록",
+    series: "studio-art",
+    href: "newsletter-sketch-preview.html",
+    storyId: "story-weekly"
+  },
+  {
+    title: "다이어리를 소개합니다",
+    category: "작업실 사람들",
+    series: "studio-people",
+    href: "diary-about.html",
+    storyId: "story-diary"
   }
 ];
