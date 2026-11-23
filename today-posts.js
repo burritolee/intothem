@@ -10,8 +10,8 @@ window.INTOTHEM_TODAY_POSTS = [
     navLabel: "매일묵상",
     summary: "제프리 장로님의 오늘의 묵상은 히브리서의 이름과 처음 이 편지를 읽은 사람들을 살피며 다음 공부를 준비합니다.",
     storySummary: "히브리서의 이름과 수신자, 성경 속 여러 호칭을 따라가며 다음 공부의 배경을 짚는 편지입니다.",
-    featureImage: "assets/intothem-today-meditation-photo-line.png",
-    featureImageAlt: "호숫가 풍경을 배경으로 제프리 장로님을 선화로 표현한 사진",
+    storyImage: "assets/intothem-today-meditation-photo-line.png",
+    storyImageAlt: "호숫가 풍경을 배경으로 제프리 장로님을 선화로 표현한 사진",
     href: "today-jeffrey-hebrews-02.html",
     storyId: "story-hebrews-names",
     leadParagraphs: [
@@ -30,8 +30,8 @@ window.INTOTHEM_TODAY_POSTS = [
     navLabel: "매일묵상",
     summary: "제프리 장로님의 매일묵상에서 히브리서 공부를 시작하며 예수 그리스도를 더 깊이 알아갑니다.",
     storySummary: "로마서에서 배운 은혜와 믿음을 돌아본 뒤, 히브리서의 배경과 이름을 탐구하자는 제프리 장로님의 편지입니다.",
-    featureImage: "assets/intothem-today-meditation-photo-line.png",
-    featureImageAlt: "호숫가 풍경을 배경으로 제프리 장로님을 선화로 표현한 사진",
+    storyImage: "assets/intothem-today-meditation-photo-line.png",
+    storyImageAlt: "호숫가 풍경을 배경으로 제프리 장로님을 선화로 표현한 사진",
     href: "today-jeffrey-hebrews.html",
     storyId: "story-meditation",
     leadParagraphs: [

@@ -89,29 +89,24 @@
 /* 인투뎀 투데이 홈페이지 신문 배너 */
 .now-community-row { align-items:stretch; }
 .now-community-row .now-counseling { height:100%; min-height:0; }
-.now-today { display:grid; grid-template-columns:53% 47%; min-width:0; min-height:535px; overflow:hidden; background:#2b4840; color:#f7f5ee; text-decoration:none; }
+.now-today { display:block; min-width:0; overflow:hidden; background:linear-gradient(135deg,#2b4840,#203a33); color:#f7f5ee; text-decoration:none; }
 .now-today:focus-visible { outline:3px solid #2b4840; outline-offset:5px; }
-.now-today-image { display:block; grid-column:2; grid-row:1; width:100%; height:100%; min-height:0; object-fit:cover; object-position:center 50%; transition:transform .5s ease; }
-.now-today:hover .now-today-image { transform:scale(1.035); }
-.now-today-content { position:relative; z-index:1; display:flex; flex-direction:column; grid-column:1; grid-row:1; min-width:0; padding:clamp(26px,3.1vw,43px); }
+.now-today-content { display:flex; flex-direction:column; min-width:0; min-height:430px; padding:clamp(26px,3.1vw,43px); }
 .now-today-edition { display:flex; flex-wrap:wrap; justify-content:space-between; gap:6px 14px; padding-bottom:12px; border-bottom:1px solid rgba(247,245,238,.64); font:500 9px/1.4 "DM Mono",monospace; letter-spacing:.08em; }
-.now-today-masthead { display:block; margin:clamp(28px,3vw,43px) 0 10px; font:400 clamp(44px,4.6vw,64px)/1.11 "Nanum Myeongjo",Georgia,serif; letter-spacing:-.105em; }
+.now-today-masthead { display:block; margin:clamp(28px,3vw,43px) 0 10px; font:400 clamp(55px,6vw,82px)/1.11 "Nanum Myeongjo",Georgia,serif; letter-spacing:-.105em; }
 .now-today-feature { display:block; margin-top:auto; padding-top:18px; border-top:1px solid rgba(247,245,238,.64); }
 .now-today-kicker { display:block; color:#d6e3d7; font:500 10px/1.5 "DM Mono",monospace; letter-spacing:.08em; }
-.now-today-feature strong { display:block; margin-top:12px; font:700 clamp(24px,2.7vw,36px)/1.35 "Nanum Myeongjo",Georgia,serif; letter-spacing:-.065em; word-break:keep-all; }
+.now-today-feature strong { display:block; max-width:900px; margin-top:12px; font:700 clamp(27px,3.3vw,42px)/1.35 "Nanum Myeongjo",Georgia,serif; letter-spacing:-.065em; word-break:keep-all; }
 .now-today-cta { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:24px; padding-top:13px; border-top:1px solid rgba(247,245,238,.64); font:500 12px/1.4 "Noto Sans KR",sans-serif; }
 .now-today-cta span { font-size:21px; line-height:1; transition:transform .25s ease; }
 .now-today:hover .now-today-cta span { transform:translate(3px,-3px); }
 @media(max-width:900px) {
-  .now-today { display:flex; flex-direction:column; min-height:0; }
-  .now-today-image { width:100%; height:250px; flex:none; object-position:center 50%; }
   .now-today-content { min-height:330px; padding:27px; }
   .now-today-masthead { margin:20px 0 7px; font-size:45px; }
   .now-today-feature strong { font-size:27px; }
 }
 @media(max-width:650px) {
   .now-community-row .now-counseling { height:240px; min-height:240px; }
-  .now-today-image { height:240px; }
   .now-today-content { min-height:330px; padding:25px; }
   .now-today-masthead { font-size:clamp(42px,10vw,55px); }
 }

@@ -21,11 +21,6 @@
   setText(".today-feature-desc", latest.summary);
   setHref(".today-feature-link", latest.href);
   setText(".now-today-feature strong", latest.featureTitle || latest.title);
-  const homeImage = document.querySelector(".now-today-image");
-  if (homeImage && latest.featureImage) {
-    homeImage.src = latest.featureImage;
-    homeImage.alt = latest.featureImageAlt || latest.title;
-  }
 
   // 인투뎀 투데이의 첫 표제와 기사 소개를 한 기록에서 함께 갱신합니다.
   const leadTitle = document.getElementById("lead-title");
@@ -60,9 +55,24 @@
       kicker.textContent = latest.category;
       const heading = document.createElement("h3");
       heading.textContent = latest.title;
-      const mark = document.createElement("div");
-      mark.className = "topic-mark";
-      mark.textContent = latest.category;
+      let visual;
+      const imageSource = latest.storyImage || (latest.series === "jeffrey-meditation"
+        ? "assets/intothem-today-meditation-photo-line.png"
+        : null);
+      if (imageSource) {
+        visual = document.createElement("figure");
+        visual.className = `story-figure${latest.series === "jeffrey-meditation" ? " meditation-illustration" : ""}`;
+        const img = document.createElement("img");
+        img.src = imageSource;
+        img.alt = latest.storyImageAlt || latest.title;
+        img.loading = "lazy";
+        img.decoding = "async";
+        visual.append(img);
+      } else {
+        visual = document.createElement("div");
+        visual.className = "topic-mark";
+        visual.textContent = latest.category;
+      }
       const copy = document.createElement("div");
       copy.className = "story-copy";
       const description = document.createElement("p");
@@ -72,7 +82,7 @@
       link.href = latest.href;
       link.textContent = "기사 읽기";
       copy.append(description, link);
-      story.append(kicker, heading, mark, copy);
+      story.append(kicker, heading, visual, copy);
     }
     let replacedStoryId = null;
     if (latest.series) {
