@@ -143,10 +143,6 @@ h1 {
 }
 .back-link:hover { color: var(--ink); }
 .previous-meditation {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px 24px;
   margin-top: 28px;
   padding: 18px 24px;
   border: 1px solid var(--line);
@@ -154,7 +150,11 @@ h1 {
   color: var(--forest);
   font-size: 15px;
 }
-.previous-meditation a { flex: none; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+.previous-meditation strong { display: block; margin-bottom: 6px; font-weight: 700; }
+.previous-meditation ol { margin: 0; padding: 0; list-style: none; }
+.previous-meditation li + li { border-top: 1px solid var(--line); }
+.previous-meditation a { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 0; color: inherit; font-weight: 700; text-decoration: none; }
+.previous-meditation a span { flex: none; font-size: 20px; line-height: 1; }
 .previous-meditation a:hover { color: var(--ink); }
 :focus-visible { outline: 2px solid var(--forest); outline-offset: 4px; }
 
@@ -169,7 +169,7 @@ h1 {
   .letter-body { font-size: 16px; line-height: 1.95; }
   .letter-body p { margin-bottom: 24px; }
   .letter-foot { flex-direction: column; }
-  .previous-meditation { align-items: flex-start; flex-direction: column; padding: 16px 20px; font-size: 14px; }
+  .previous-meditation { padding: 16px 20px; font-size: 14px; }
 }
 
 @media print {

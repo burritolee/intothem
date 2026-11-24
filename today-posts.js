@@ -3,6 +3,26 @@
    새로운 꼭지는 새 series를 사용하면 신문에 새 칸이 생깁니다. */
 window.INTOTHEM_TODAY_POSTS = [
   {
+    title: "히브리서는 우리에게도 말씀입니다",
+    featureTitle: "히브리서는 우리에게도 말씀입니다",
+    category: "제프리 장로님의 매일묵상",
+    series: "jeffrey-meditation",
+    navLabel: "매일묵상",
+    summary: "유대인 성도들을 위한 서신인 히브리서가 오늘 우리에게도 중요한 다섯 가지 이유를 살펴봅니다.",
+    storySummary: "아브라함의 믿음부터 그리스도의 탁월함과 믿음의 선배들, 고난 속의 권면까지 우리에게 닿는 히브리서의 말씀을 생각합니다.",
+    storyImage: "assets/intothem-today-meditation-photo-line.png",
+    storyImageAlt: "호숫가 풍경을 배경으로 제프리 장로님을 선화로 표현한 사진",
+    href: "today-jeffrey-hebrews-03.html",
+    storyId: "story-hebrews-for-us",
+    leadParagraphs: [
+      "히브리서는 초대교회 시대 유대인 성도들을 향한 서신입니다.",
+      "그렇다면 유대인이 아닌 우리 성도는 왜 이 말씀을 읽고 삶에 적용할 수 있을까요?",
+      "아브라함의 믿음의 자손이라는 자리에서 예수 그리스도의 탁월함과 믿음의 선배들이 보여 준 삶을 돌아봅니다.",
+      "고난 속에서도 소망을 붙들고 믿음의 경주를 완주하라는 권면은 오늘 우리에게도 닿습니다.",
+      "다섯 가지 이유를 따라 히브리서가 주는 깨달음과 도전, 은혜를 함께 생각합니다."
+    ]
+  },
+  {
     title: "히브리서의 이름과 그 사람들",
     featureTitle: "히브리서를 읽기 전, 편지가 향한 사람들을 만납니다",
     category: "제프리 장로님의 매일묵상",

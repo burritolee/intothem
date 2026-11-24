@@ -3,8 +3,8 @@
   const latest = posts[0];
   if (!latest) return;
   const previousInSeries = latest.series
-    ? posts.slice(1).find((post) => post.series === latest.series)
-    : null;
+    ? posts.slice(1).filter((post) => post.series === latest.series)
+    : [];
 
   const setText = (selector, value) => {
     const node = document.querySelector(selector);
@@ -120,14 +120,14 @@
       link.href = latest.href;
       link.textContent = "기사 읽기";
       const links = [description, link];
-      if (previousInSeries) {
+      previousInSeries.forEach((previousPost) => {
         const previousLink = document.createElement("a");
         previousLink.className = "previous-article-link";
-        previousLink.href = previousInSeries.href;
+        previousLink.href = previousPost.href;
         const previousLabel = latest.series === "jeffrey-meditation" ? "전 묵상보기" : "전 기사보기";
-        previousLink.textContent = `${previousLabel} · ${previousInSeries.title}`;
+        previousLink.textContent = `${previousLabel} · ${previousPost.title} →`;
         links.push(previousLink);
-      }
+      });
       storyCopy.replaceChildren(...links);
     }
     stories.prepend(story);
