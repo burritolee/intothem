@@ -3,6 +3,26 @@
    새로운 꼭지는 새 series를 사용하면 신문에 새 칸이 생깁니다. */
 window.INTOTHEM_TODAY_POSTS = [
   {
+    title: "취소할 수 없는 부르심",
+    featureTitle: "취소할 수 없는 부르심",
+    category: "제프리 장로님의 매일묵상",
+    series: "jeffrey-meditation",
+    navLabel: "매일묵상",
+    summary: "로마서 11장 29절을 따라 이스라엘을 향한 하나님의 부르심을 생각하고, 현대 유대인의 다양한 삶을 살펴봅니다.",
+    storySummary: "참감람나무와 돌감람나무의 비유, 그리고 취소할 수 없는 하나님의 부르심을 따라 유대인 이웃을 알아가는 묵상입니다.",
+    storyImage: "assets/intothem-today-meditation-photo-line.png",
+    storyImageAlt: "호숫가 풍경을 배경으로 제프리 장로님을 선화로 표현한 사진",
+    href: "today-jeffrey-hebrews-04.html",
+    storyId: "story-irrevocable-calling",
+    leadParagraphs: [
+      "하나님의 은사와 부르심에는 후회하심이 없느니라. 로마서 11장 29절의 말씀입니다.",
+      "바울은 참감람나무와 돌감람나무의 비유로 이스라엘과 이방인의 구원을 설명합니다.",
+      "하나님의 부르심은 취소할 수 없기에, 이스라엘을 향한 약속도 하나님의 때에 이루어질 것을 믿습니다.",
+      "현대 유대인의 다양한 삶을 살피는 일은 그들을 이해하고 관계를 맺는 첫걸음이 됩니다.",
+      "다음에 시작할 히브리서 공부를 앞두고, 오늘 받은 교훈과 은혜를 함께 나눕니다."
+    ]
+  },
+  {
     title: "히브리서는 우리에게도 말씀입니다",
     featureTitle: "히브리서는 우리에게도 말씀입니다",
     category: "제프리 장로님의 매일묵상",
@@ -21,6 +41,14 @@ window.INTOTHEM_TODAY_POSTS = [
       "고난 속에서도 소망을 붙들고 믿음의 경주를 완주하라는 권면은 오늘 우리에게도 닿습니다.",
       "다섯 가지 이유를 따라 히브리서가 주는 깨달음과 도전, 은혜를 함께 생각합니다."
     ]
+  },
+  {
+    title: "일과 신앙이 분리된 당신에게",
+    category: "책 만드는 중 · 여무름북",
+    series: "work-faith",
+    summary: "독자의 생각과 기록이 더해져 한 권의 책으로 여물어 가는 여무름북의 첫 작업을 소개합니다.",
+    href: "today-yeomureum-book.html",
+    storyId: "story-snake"
   },
   {
     title: "히브리서의 이름과 그 사람들",

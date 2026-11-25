@@ -67,7 +67,10 @@
         img.alt = latest.storyImageAlt || latest.title;
         img.loading = "lazy";
         img.decoding = "async";
-        visual.append(img);
+        const photoMotion = document.createElement("span");
+        photoMotion.className = "photo-motion";
+        photoMotion.append(img);
+        visual.append(photoMotion);
       } else {
         visual = document.createElement("div");
         visual.className = "topic-mark";
@@ -125,7 +128,7 @@
         previousLink.className = "previous-article-link";
         previousLink.href = previousPost.href;
         const previousLabel = latest.series === "jeffrey-meditation" ? "전 묵상보기" : "전 기사보기";
-        previousLink.textContent = `${previousLabel} · ${previousPost.title} →`;
+        previousLink.textContent = `${previousLabel} · ${previousPost.title}`;
         links.push(previousLink);
       });
       storyCopy.replaceChildren(...links);

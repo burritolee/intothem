@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="인투뎀 투데이: 책과 사람, 배움과 묵상을 담는 소식">
-  <title>히브리서는 우리에게도 말씀입니다 · 인투뎀 투데이</title>
+  <title>취소할 수 없는 부르심 · 인투뎀 투데이</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Nanum+Myeongjo:wght@400;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
@@ -345,7 +345,7 @@
     .masthead h1 span { display:inline; color:var(--ink); font:inherit; letter-spacing:inherit; transform:none; }
     .masthead .tagline { margin:8px 0 0; color:var(--ink); font:400 12px/1.6 var(--sans); letter-spacing:.12em; }
     .edition { padding:9px 0; border-top:5px double var(--ink); border-bottom:1px solid var(--ink); color:var(--ink); font:500 10px/1.5 var(--mono); }
-    .section-index { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:0; padding:0; border-bottom:1px solid var(--ink); color:var(--ink); font:700 12px/1.4 var(--serif); letter-spacing:-.03em; }
+    .section-index { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:0; padding:0; border-bottom:1px solid var(--ink); color:var(--ink); font:700 12px/1.4 var(--serif); letter-spacing:-.03em; }
     .section-index a { display:block; min-width:0; padding:13px 6px; text-align:center; }
     .section-index a+a { border-left:1px solid var(--ink); }
     .section-index a:hover { background:#e9e8df; text-decoration:none; }
@@ -388,8 +388,10 @@
       body { padding:0; background:var(--paper); }
       .paper { padding:0 22px 28px; box-shadow:none; }
       .masthead h1 { font-size:clamp(44px,9.2vw,70px); }
-      .section-index { grid-template-columns:repeat(5,minmax(0,1fr)); font-size:10px; }
+      .section-index { grid-template-columns:repeat(3,minmax(0,1fr)); font-size:10px; }
       .section-index a { padding:11px 3px; }
+      .section-index a:nth-child(4) { border-left:0; }
+      .section-index a:nth-child(n+4) { border-top:1px solid var(--ink); }
       .lead-heading { grid-template-columns:1fr; gap:12px; }
       .lead .standfirst { padding:0; border:0; font-size:13px; }
       .lead-copy { column-count:2; }
@@ -457,6 +459,55 @@
       .stories .story { border-bottom: 1px solid var(--ink); }
       .stories .story:last-child { border-bottom: 0; }
     }
+    /* 흑백 신문 사진을 조금 더 뚜렷하게 이동합니다. 표지 이미지는 정지된 채로 둡니다. */
+    .story-figure .photo-motion { display:block; overflow:hidden; padding:4px; border:1px solid var(--ink); background:#e7e5dc; }
+    .story-figure .photo-motion img,
+    .story-figure.book-cover .photo-motion img { display:block; width:100%; height:auto; padding:0; border:0; background:transparent; box-shadow:none; filter:grayscale(1) contrast(1.12); }
+    .story-figure:not(.book-cover) .photo-motion img { animation:newspaper-photo 6s ease-in-out infinite alternate; }
+    .story-column:nth-child(2) .story-figure .photo-motion img { animation-duration:7.5s; animation-direction:alternate-reverse; }
+    @keyframes newspaper-photo {
+      from { transform:scale(1.05) translate(-1.4%, .6%); filter:grayscale(1) contrast(1.11) brightness(.94); }
+      to { transform:scale(1.14) translate(1.4%, -.7%); filter:grayscale(1) contrast(1.21) brightness(1.04); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .story-figure .photo-motion img { animation:none !important; transform:none; }
+    }
+    /* 기사 링크는 밑줄 대신 작은 원형 화살표로 표시합니다. */
+    .lead .read-link,
+    .story .read-link,
+    .story .previous-article-link {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      width:fit-content;
+      max-width:100%;
+      padding:2px 0;
+      border:0;
+      text-decoration:none;
+    }
+    .story .previous-article-link { margin-top:10px; color:var(--muted); }
+    .lead .read-link::after,
+    .story .read-link::after,
+    .story .previous-article-link::after {
+      content:"▶";
+      display:inline-grid;
+      flex:none;
+      place-items:center;
+      width:19px;
+      height:19px;
+      padding-left:1px;
+      border:1px solid #92998f;
+      border-radius:50%;
+      color:#59635b;
+      font:8px/1 var(--sans);
+      transition:background-color .2s ease,border-color .2s ease,transform .2s ease;
+    }
+    .lead .read-link:hover::after,
+    .story .read-link:hover::after,
+    .story .previous-article-link:hover::after,
+    .lead .read-link:focus-visible::after,
+    .story .read-link:focus-visible::after,
+    .story .previous-article-link:focus-visible::after { background:#e5e8df; border-color:var(--ink); transform:translateX(2px); }
   </style>
 </head>
 <body>
@@ -480,92 +531,94 @@
     </div>
     <nav class="section-index" aria-label="이번 호의 꼭지">
       <a href="#lead-title">이번 주 표지</a>
-      <a id="latest-nav" href="#story-hebrews-for-us">매일묵상 · NEW</a>
+      <a id="latest-nav" href="#story-irrevocable-calling">매일묵상 · NEW</a>
       <a href="#story-duo">둘이 만드는 이야기</a>
       <a href="#story-weekly">매주 한 번, 작업실에서</a>
+      <a href="#story-snake">책 만드는 중</a>
       <a href="#story-parenting">부모교육 · 월간</a>
     </nav>
 
     <article class="lead" aria-labelledby="lead-title">
       <div class="lead-heading">
-        <div><p class="kicker">THIS WEEK / 이번 주의 표지</p><h2 id="lead-title">히브리서는 우리에게도 말씀입니다</h2></div>
-        <p class="standfirst">유대인 성도들을 위한 서신인 히브리서가 오늘 우리에게도 중요한 다섯 가지 이유를 살펴봅니다.</p>
+        <div><p class="kicker">THIS WEEK / 이번 주의 표지</p><h2 id="lead-title">취소할 수 없는 부르심</h2></div>
+        <p class="standfirst">로마서 11장 29절을 따라 이스라엘을 향한 하나님의 부르심을 생각하고, 현대 유대인의 다양한 삶을 살펴봅니다.</p>
       </div>
       <div class="lead-body">
         <div class="lead-copy">
-          <p>히브리서는 초대교회 시대 유대인 성도들을 향한 서신입니다.</p>
-          <p>그렇다면 유대인이 아닌 우리 성도는 왜 이 말씀을 읽고 삶에 적용할 수 있을까요?</p>
-          <p>아브라함의 믿음의 자손이라는 자리에서 예수 그리스도의 탁월함과 믿음의 선배들이 보여 준 삶을 돌아봅니다.</p>
-          <p>고난 속에서도 소망을 붙들고 믿음의 경주를 완주하라는 권면은 오늘 우리에게도 닿습니다.</p>
-          <p>다섯 가지 이유를 따라 히브리서가 주는 깨달음과 도전, 은혜를 함께 생각합니다.</p>
-          <a class="read-link" href="today-jeffrey-hebrews-03.html">첫 기사 읽기</a>
+          <p>하나님의 은사와 부르심에는 후회하심이 없느니라. 로마서 11장 29절의 말씀입니다.</p>
+          <p>바울은 참감람나무와 돌감람나무의 비유로 이스라엘과 이방인의 구원을 설명합니다.</p>
+          <p>하나님의 부르심은 취소할 수 없기에, 이스라엘을 향한 약속도 하나님의 때에 이루어질 것을 믿습니다.</p>
+          <p>현대 유대인의 다양한 삶을 살피는 일은 그들을 이해하고 관계를 맺는 첫걸음이 됩니다.</p>
+          <p>다음에 시작할 히브리서 공부를 앞두고, 오늘 받은 교훈과 은혜를 함께 나눕니다.</p>
+          <a class="read-link" href="today-jeffrey-hebrews-04.html">첫 기사 읽기</a>
         </div>
       </div>
     </article>
 
     <section aria-label="기사 목록">
       <div class="stories">
-        <article class="story" data-series="jeffrey-meditation" aria-labelledby="story-hebrews-for-us">
+        <article class="story" data-series="jeffrey-meditation" aria-labelledby="story-irrevocable-calling">
           <p class="kicker">01 / 매일묵상 · 제프리 장로 <span class="new-badge">NEW</span></p>
-          <h3 id="story-hebrews-for-us">히브리서는 우리에게도 말씀입니다</h3>
-          <figure class="story-figure meditation-illustration"><img src="assets/intothem-today-meditation-photo-line.png" width="1451" height="1084" alt="호숫가 풍경을 배경으로 제프리 장로님을 선화로 표현한 사진" loading="lazy" decoding="async"></figure>
+          <h3 id="story-irrevocable-calling">취소할 수 없는 부르심</h3>
+          <figure class="story-figure meditation-illustration"><span class="photo-motion"><img src="assets/intothem-today-meditation-photo-line.png" width="1451" height="1084" alt="호숫가 풍경을 배경으로 제프리 장로님을 선화로 표현한 사진" loading="lazy" decoding="async"></span></figure>
           <div class="story-copy">
-            <p>아브라함의 믿음부터 그리스도의 탁월함과 믿음의 선배들, 고난 속의 권면까지 우리에게 닿는 히브리서의 말씀을 생각합니다.</p>
-            <a class="read-link" href="today-jeffrey-hebrews-03.html">기사 읽기</a>
-            <a class="previous-article-link" href="today-jeffrey-hebrews-02.html">전 묵상보기 · 히브리서의 이름과 그 사람들 →</a>
-            <a class="previous-article-link" href="today-jeffrey-hebrews.html">전 묵상보기 · 로마서에서 히브리서로 →</a>
+            <p>참감람나무와 돌감람나무의 비유, 그리고 취소할 수 없는 하나님의 부르심을 따라 유대인 이웃을 알아가는 묵상입니다.</p>
+            <a class="read-link" href="today-jeffrey-hebrews-04.html">기사 읽기</a>
+            <a class="previous-article-link" href="today-jeffrey-hebrews-03.html">전 묵상보기 · 히브리서는 우리에게도 말씀입니다</a>
+            <a class="previous-article-link" href="today-jeffrey-hebrews-02.html">전 묵상보기 · 히브리서의 이름과 그 사람들</a>
+            <a class="previous-article-link" href="today-jeffrey-hebrews.html">전 묵상보기 · 로마서에서 히브리서로</a>
           </div>
         </article>
         <article class="story" data-series="duo-story" aria-labelledby="story-duo">
           <p class="kicker">02 / 함께 만드는 이야기</p>
           <h3 id="story-duo">둘이 만드는 이야기 3.</h3>
-          <figure class="story-figure article-photo article-photo--duo"><img src="assets/duo-story-3-sketch.jpg" width="3024" height="4032" alt="브리또가 그린 다이어리의 크로키" loading="lazy" decoding="async"></figure>
+          <figure class="story-figure article-photo article-photo--duo"><span class="photo-motion"><img src="assets/duo-story-3-sketch.jpg" width="3024" height="4032" alt="브리또가 그린 다이어리의 크로키" loading="lazy" decoding="async"></span></figure>
           <div class="story-copy">
             <p>다이어리가 그림을 그리는 동안 브리또도 다이어리를 그렸어요. 수험표에는 서로의 얼굴을 담았습니다.</p>
             <p>작은 잉크를 하나 더 모으고, 카페에서 새 색을 써 본 둘의 세 번째 기록을 펼쳐 보세요.</p>
-            <a class="read-link" href="duo-story-3.html">둘이 만드는 이야기 3. 읽기 <span aria-hidden="true">→</span></a>
+            <a class="read-link" href="duo-story-3.html">둘이 만드는 이야기 3. 읽기</a>
           </div>
         </article>
         <article class="story" data-series="studio-art" aria-labelledby="story-weekly">
           <p class="kicker">03 / 그림 작업 기록</p>
           <h3 id="story-weekly">매주 한 번, 작업실에서</h3>
-          <figure class="story-figure article-photo article-photo--art"><img src="assets/intothem-today-art-photo.jpg" width="4284" height="5712" alt="캔버스 위에 물감을 바르며 그림을 작업하는 모습" loading="lazy" decoding="async"></figure>
+          <figure class="story-figure article-photo article-photo--art"><span class="photo-motion"><img src="assets/intothem-today-art-photo.jpg" width="4284" height="5712" alt="캔버스 위에 물감을 바르며 그림을 작업하는 모습" loading="lazy" decoding="async"></span></figure>
           <div class="story-copy">
             <p>『전구사람』의 이야기를 읽고 다이어리의 그림 작업이 시작되었어요. 어떤 느낌인지 묻는 질문에 “좋았어요.”라고 짧게 답했지만, 그녀의 그림은 얕지 않네요.</p>
             <p>이 배경 위에 어떤 전구사람이 그려질지 궁금합니다. 그림을 그릴 때 가장 진지한 다이어리의 첫 작업 기록을 펼쳐 보세요.</p>
-            <a class="read-link" href="newsletter-sketch-preview.html">그림 작업 노트 보기 <span aria-hidden="true">→</span></a>
+            <a class="read-link" href="newsletter-sketch-preview.html">그림 작업 노트 보기</a>
           </div>
         </article>
         <article class="story" data-series="work-faith" aria-labelledby="story-snake">
-          <p class="kicker">04 / 책 만드는 중</p>
+          <p class="kicker">04 / 책 만드는 중 · 여무름북</p>
           <h3 id="story-snake">일과 신앙이 분리된 당신에게</h3>
           <figure class="story-figure book-cover">
-            <img src="assets/work-faith-cover.png" width="1256" height="1820" alt="『일과 신앙이 분리된 당신에게』 책 표지" decoding="async">
-            <figcaption>『일과 신앙이 분리된 당신에게』 표지</figcaption>
+            <span class="photo-motion"><img src="assets/work-faith-cover.png" width="1256" height="1820" alt="『일과 신앙이 분리된 당신에게』 책 표지" decoding="async"></span>
+            <figcaption>첫 번째 여무름북 · 집필 중</figcaption>
           </figure>
           <div class="story-copy">
-            <p>『전구사람』과 함께 작업 중인 또 한 권의 책은 『일과 신앙이 분리된 당신에게』입니다. 뱀에 관한 이 책의 작업 과정도 신문의 한 꼭지로 전하려고 해요.</p>
-            <p>어떤 이야기와 이미지가 책을 채워 갈지, 다음 호부터 작업 기록을 하나씩 담을 자리입니다.</p>
-            <span class="pending">기사 준비 중</span>
+            <p>인투뎀은 저자의 글을 읽고 끝내지 않고, 독자의 생각과 경험이 더해지는 ‘여무름북’을 만들고 있습니다.</p>
+            <p>첫 번째 책 『일과 신앙이 분리된 당신에게』는 일과 신앙을 잇는 질문으로 시작합니다. 읽고, 기록하고, 나만의 한 권으로 여미는 과정을 전합니다.</p>
+            <a class="read-link" href="today-yeomureum-book.html">여무름북 이야기 읽기</a>
           </div>
         </article>
         <article class="story" data-series="studio-people" aria-labelledby="story-diary">
           <p class="kicker">05 / 작업실 사람들</p>
           <h3 id="story-diary">다이어리를 소개합니다</h3>
           <figure class="story-figure diary">
-            <img src="assets/diary-about-line-photo-clean.png" width="992" height="1586" alt="작업실 사진을 배경으로 선화로 그려진 다이어리" decoding="async">
+            <span class="photo-motion"><img src="assets/diary-about-line-photo-clean.png" width="992" height="1586" alt="작업실 사진을 배경으로 선화로 그려진 다이어리" decoding="async"></span>
             <figcaption>다이어리 / 첫 만남의 기록</figcaption>
           </figure>
           <div class="story-copy">
             <p>“아빠의 닉네임이 미스터리니까… 전 다이어리?” 엉뚱하고 재미있는 대답에서 다이어리와의 첫 만남이 시작됐어요.</p>
             <p>스스로를 이제 막 인간계에 적응한 모글리에 비유하는 친구. 진지한 눈빛과 웃을 때 살짝 패는 보조개가 오래 기억에 남았습니다. 다이어리가 보여 줄 자기만의 세계가 궁금해요.</p>
-            <a class="read-link" href="diary-about.html">다이어리 이야기 읽기 <span aria-hidden="true">→</span></a>
+            <a class="read-link" href="diary-about.html">다이어리 이야기 읽기</a>
           </div>
         </article>
         <article class="story" data-series="parenting" aria-labelledby="story-parenting">
           <p class="kicker">06 / 한 달에 한 번 · 부모교육</p>
           <h3 id="story-parenting">부모와 아이 사이의 질문들</h3>
-          <figure class="story-figure parenting-illustration"><img src="assets/intothem-today-parenting-photo-line.png" width="1448" height="1086" alt="우산 아래 유모차에 앉은 아이를 선 그림으로 표현한 사진" loading="lazy" decoding="async"></figure>
+          <figure class="story-figure parenting-illustration"><span class="photo-motion"><img src="assets/intothem-today-parenting-photo-line.png" width="1448" height="1086" alt="우산 아래 유모차에 앉은 아이를 선 그림으로 표현한 사진" loading="lazy" decoding="async"></span></figure>
           <div class="story-copy">
             <p>한 달에 한 번 열리는 부모교육의 이야기도 담습니다. 그날 다룬 주제와 함께 남은 질문을 신문에서 다시 읽을 수 있게 하려고 해요.</p>
             <p>모임의 내용이 준비되면 이 자리에 그달의 기사를 싣겠습니다.</p>
@@ -581,8 +634,8 @@
       <span>인투뎀의 한 주를 전합니다</span>
     </footer>
   </main>
-  <script src="today-posts.js?v=20261125-1"></script>
-  <script src="today-headlines.js?v=20261125-2"></script>
+  <script src="today-posts.js?v=20261126-1"></script>
+  <script src="today-headlines.js?v=20261125-3"></script>
   <script src="today-layout.js"></script>
 </body>
 </html>
