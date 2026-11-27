@@ -123,14 +123,39 @@
       link.href = latest.href;
       link.textContent = "기사 읽기";
       const links = [description, link];
-      previousInSeries.forEach((previousPost) => {
-        const previousLink = document.createElement("a");
-        previousLink.className = "previous-article-link";
-        previousLink.href = previousPost.href;
-        const previousLabel = latest.series === "jeffrey-meditation" ? "전 묵상보기" : "전 기사보기";
-        previousLink.textContent = `${previousLabel} · ${previousPost.title}`;
-        links.push(previousLink);
-      });
+      story.querySelector(".meditation-archive")?.remove();
+      if (latest.series === "jeffrey-meditation" && previousInSeries.length) {
+        const archive = document.createElement("nav");
+        archive.className = "meditation-archive";
+        archive.setAttribute("aria-label", "이전 묵상 목록");
+        const heading = document.createElement("h4");
+        heading.textContent = "이전 묵상";
+        const list = document.createElement("ol");
+        previousInSeries.forEach((previousPost) => {
+          const item = document.createElement("li");
+          const previousLink = document.createElement("a");
+          previousLink.href = previousPost.href;
+          const title = document.createElement("span");
+          title.textContent = previousPost.title;
+          const arrow = document.createElement("span");
+          arrow.className = "meditation-archive-arrow";
+          arrow.setAttribute("aria-hidden", "true");
+          arrow.textContent = "→";
+          previousLink.append(title, arrow);
+          item.append(previousLink);
+          list.append(item);
+        });
+        archive.append(heading, list);
+        story.append(archive);
+      } else {
+        previousInSeries.forEach((previousPost) => {
+          const previousLink = document.createElement("a");
+          previousLink.className = "previous-article-link";
+          previousLink.href = previousPost.href;
+          previousLink.textContent = `전 기사보기 · ${previousPost.title}`;
+          links.push(previousLink);
+        });
+      }
       storyCopy.replaceChildren(...links);
     }
     stories.prepend(story);

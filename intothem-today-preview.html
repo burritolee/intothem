@@ -508,6 +508,16 @@
     .lead .read-link:focus-visible::after,
     .story .read-link:focus-visible::after,
     .story .previous-article-link:focus-visible::after { background:#e5e8df; border-color:var(--ink); transform:translateX(2px); }
+    /* 이전 묵상은 사진 아래 전체 폭에서 차분하게 이어집니다. */
+    .story .meditation-archive { grid-column:1 / -1; grid-row:auto; width:100%; margin-top:22px; border-top:1px solid var(--rule); }
+    .meditation-archive h4 { margin:0; padding:14px 0 9px; color:var(--muted); font:600 12px/1.5 var(--sans); letter-spacing:.04em; }
+    .meditation-archive ol { list-style:none; margin:0; padding:0; }
+    .meditation-archive li + li { border-top:1px solid rgba(65,65,55,.14); }
+    .meditation-archive a { display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:44px; padding:10px 0; color:var(--ink); font:400 14px/1.65 var(--sans); text-decoration:none; word-break:keep-all; }
+    .meditation-archive-arrow { flex:none; font-size:17px; color:var(--muted); }
+    .meditation-archive a:hover, .meditation-archive a:focus-visible { color:#59725f; }
+    .meditation-archive a:focus-visible { outline:2px solid #59725f; outline-offset:3px; }
+    @media(max-width:600px) { .story .meditation-archive { margin-top:18px; } .meditation-archive a { font-size:14px; } }
   </style>
 </head>
 <body>
@@ -635,7 +645,7 @@
     </footer>
   </main>
   <script src="today-posts.js?v=hebrews-overview-1"></script>
-  <script src="today-headlines.js?v=20261125-3"></script>
+  <script src="today-headlines.js?v=meditation-list-1"></script>
   <script src="today-layout.js"></script>
 </body>
 </html>
