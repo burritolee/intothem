@@ -113,7 +113,9 @@
       latestNav.textContent = `${latest.navLabel || latest.category} · NEW`;
     }
     const heading = story.querySelector("h3");
-    if (heading) heading.textContent = latest.title;
+    if (heading) heading.textContent = latest.series === "jeffrey-meditation"
+      ? `${String(previousInSeries.length + 1).padStart(2, "0")} · ${latest.title}`
+      : latest.title;
     const storyCopy = story.querySelector(".story-copy");
     if (storyCopy) {
       const description = document.createElement("p");
@@ -131,12 +133,12 @@
         const heading = document.createElement("h4");
         heading.textContent = "이전 묵상";
         const list = document.createElement("ol");
-        previousInSeries.forEach((previousPost) => {
+        previousInSeries.forEach((previousPost, index) => {
           const item = document.createElement("li");
           const previousLink = document.createElement("a");
           previousLink.href = previousPost.href;
           const title = document.createElement("span");
-          title.textContent = previousPost.title;
+          title.textContent = `${String(previousInSeries.length - index).padStart(2, "0")} · ${previousPost.title}`;
           const arrow = document.createElement("span");
           arrow.className = "meditation-archive-arrow";
           arrow.setAttribute("aria-hidden", "true");
