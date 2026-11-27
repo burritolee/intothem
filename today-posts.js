@@ -3,6 +3,25 @@
    새로운 꼭지는 새 series를 사용하면 신문에 새 칸이 생깁니다. */
 window.INTOTHEM_TODAY_POSTS = [
   {
+    "title": "히브리서를 함께 살펴보며",
+    "featureTitle": "히브리서를 함께 살펴보며",
+    "category": "제프리 장로님의 매일묵상",
+    "series": "jeffrey-meditation",
+    "navLabel": "매일묵상",
+    "summary": "히브리서의 흐름을 함께 살펴보고, 추수감사절의 은혜와 믿음의 경주를 생각합니다.",
+    "storySummary": "예수 그리스도의 탁월함을 설명하는 히브리서의 흐름을 살피고, 가족과 함께하는 추수감사절의 은혜를 나눕니다.",
+    "storyImage": "assets/intothem-today-meditation-photo-line.png",
+    "storyImageAlt": "호숫가 풍경을 배경으로 제프리 장로님을 선화로 표현한 사진",
+    "href": "today-jeffrey-hebrews-05.html",
+    "storyId": "story-hebrews-overview",
+    "leadParagraphs": [
+      "히브리서의 흐름을 따라 예수 그리스도가 누구이신지 함께 살펴봅니다.",
+      "믿음의 선배들과 믿음의 경주, 구체적인 삶에 관한 권면을 돌아봅니다.",
+      "가족과 함께하는 추수감사절에 하나님의 은혜를 기억하며 감사를 나눕니다.",
+      "다음 주부터 이어질 히브리서 공부를 기다리며 함께 묵상합니다."
+    ]
+  },
+  {
     title: "취소할 수 없는 부르심",
     featureTitle: "취소할 수 없는 부르심",
     category: "제프리 장로님의 매일묵상",

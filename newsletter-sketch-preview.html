@@ -17,6 +17,10 @@
       background: #faf9f7;
     }
     .notebook { width: min(760px, 100%); margin: 0 auto; }
+    .today-return { width: min(760px, 100%); margin: 0 auto 16px; font: 14px/1.5 system-ui, sans-serif; }
+    .today-return a { display: inline-flex; align-items: center; min-height: 44px; color: #61594d; text-decoration: none; }
+    .today-return a:hover, .today-return a:focus-visible { text-decoration: underline; text-underline-offset: 4px; }
+    .today-return--bottom { margin: 24px auto 0; border-top: 1px solid #e2ddd5; padding-top: 12px; }
     .notebook-page[hidden] { display: none; }
     .notebook-art {
       display: block;
@@ -50,6 +54,7 @@
   </style>
 </head>
 <body>
+  <nav class="today-return" aria-label="인투뎀 투데이로 돌아가기"><a href="intothem-today-preview.html">← 인투뎀 투데이로</a></nav>
   <main class="notebook" aria-label="다이어리의 그림 작업 노트">
     <section class="notebook-page" id="page-1" aria-label="다이어리의 그림 작업 시작">
       <h1 class="visually-hidden">다이어리의 그림 작업 노트</h1>
@@ -75,6 +80,7 @@
       <nav class="page-nav" aria-label="페이지 이동"><a href="#page-2">← 이전 페이지</a><span class="page-count">03 / 03</span></nav>
     </section>
   </main>
+  <nav class="today-return today-return--bottom" aria-label="인투뎀 투데이로 돌아가기"><a href="intothem-today-preview.html">← 인투뎀 투데이로</a></nav>
   <script>
     (() => {
       const pages = [...document.querySelectorAll('.notebook-page')];
